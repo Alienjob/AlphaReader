@@ -1,21 +1,76 @@
+import 'dart:convert';
+
 import 'package:AlphaReader/domain/entities/book.dart';
-import 'package:AlphaReader/features/book_list/data/embedded/books/little_prince/ibook.dart';
-import 'package:AlphaReader/features/book_list/data/embedded/books/the_causal_angel/ibook.dart';
+import 'package:AlphaReader/features/book_list/data/embedded/books/little_prince.dart';
+import 'package:AlphaReader/features/book_list/data/embedded/books/the_causal_angel.dart';
+import 'package:AlphaReader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:AlphaReader/features/book_list/data/models/book_list_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IBookSource {
   Future<BookListModel> bookList();
 }
 
 class BookSourceEmbedded implements IBookSource {
+  final List<IBook> _books;
+  BookSourceEmbedded._(List<IBook> books) : _books = books;
+
+  static Future<BookSourceEmbedded> init() async {
+    List<IBook> books = [];
+    books.add(await LittlePrinceBook.init());
+    books.add(await TheCausalAngelBook.init());
+
+    return BookSourceEmbedded._(books);
+  }
+
   @override
   Future<BookListModel> bookList() {
-    List<IBook> books = [];
-    books.add(LittlePrinceBook());
-    books.add(TheCausalAngelBook());
-
-    BookListModel result = BookListModel(books);
-
+    BookListModel result = BookListModel(_books);
     return Future.value(result);
+  }
+}
+
+class BookSourceFB2 implements IBookSource {
+  final SharedPreferences sharedPreferences;
+  final List<IBook> _books;
+
+  BookSourceFB2._({
+    required List<IBook> books,
+    required this.sharedPreferences,
+  }) : _books = books;
+
+  static Future<BookSourceFB2> init(
+      {required SharedPreferences sharedPreferences}) async {
+    List<IBook> books = [];
+
+    List<String> savedBookData =
+        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    for (var stringData in savedBookData) {
+      Map<String, dynamic> data = json.decode(stringData);
+      books.add(await FB2Book.ofPath(path: data['path']));
+    }
+
+    return BookSourceFB2._(books: books, sharedPreferences: sharedPreferences);
+  }
+
+  @override
+  Future<BookListModel> bookList() async {
+    BookListModel result = BookListModel(_books);
+    return Future.value(result);
+  }
+
+  Future<void> addBook({required String path}) async {
+    List<String> savedBookData =
+        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    savedBookData.add(json.encode({'path': path}));
+    savedBookData = savedBookData.toSet().toList();
+    await sharedPreferences.setStringList('FB2_BOOKS', savedBookData);
+
+    _books.clear();
+    for (var stringData in savedBookData) {
+      Map<String, dynamic> data = json.decode(stringData);
+      FB2Book newBook = await FB2Book.ofPath(path: data['path']);
+      _books.add(newBook);
+    }
   }
 }

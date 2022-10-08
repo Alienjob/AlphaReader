@@ -29,8 +29,8 @@ class BookListLoaded extends BookListState {
     return books.books[bookIndex].description;
   }
 
-  String get imagePath {
-    return books.books[bookIndex].imagePath;
+  Uint8List get imageData {
+    return books.books[bookIndex].imageData;
   }
 
   String get key {

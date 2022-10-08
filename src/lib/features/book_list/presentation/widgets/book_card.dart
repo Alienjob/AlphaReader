@@ -2,16 +2,17 @@ import 'package:AlphaReader/features/book_list/presentation/bloc/book_list_bloc.
 import 'package:AlphaReader/features/book_list/presentation/widgets/inner_shadow.dart';
 import 'package:AlphaReader/injection_container.dart';
 import 'package:AlphaReader/pages/read.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
   const BookCard({
     Key? key,
-    required this.imagePath,
+    required this.imageData,
     required this.bookKey,
   }) : super(key: key);
 
-  final String imagePath;
+  final Uint8List imageData;
   final String bookKey;
 
   @override
@@ -37,7 +38,7 @@ class BookCard extends StatelessWidget {
               InnerShadow(
                 blur: 14,
                 color: Colors.black,
-                child: Image.asset(imagePath),
+                child: Image.memory(imageData),
               ),
             ],
           ),
