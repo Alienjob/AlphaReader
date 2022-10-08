@@ -63,13 +63,14 @@ class BookSourceFB2 implements IBookSource {
     List<String> savedBookData =
         sharedPreferences.getStringList('FB2_BOOKS') ?? [];
     savedBookData.add(json.encode({'path': path}));
-
+    savedBookData = savedBookData.toSet().toList();
     await sharedPreferences.setStringList('FB2_BOOKS', savedBookData);
 
     _books.clear();
     for (var stringData in savedBookData) {
       Map<String, dynamic> data = json.decode(stringData);
-      _books.add(await FB2Book.ofPath(path: data['path']));
+      FB2Book newBook = await FB2Book.ofPath(path: data['path']);
+      _books.add(newBook);
     }
   }
 }

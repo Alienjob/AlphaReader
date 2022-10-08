@@ -38,3 +38,17 @@ class BookListEventOpenBook implements BookListEvent {
     required this.bookKey,
   });
 }
+
+class BookListEventAddFB2Book implements BookListEvent {
+  @override
+  List<Object?> get props => [path];
+
+  @override
+  bool? get stringify => false;
+
+  final String path;
+
+  BookListEventAddFB2Book({
+    required this.path,
+  });
+}

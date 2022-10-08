@@ -1,5 +1,7 @@
 import 'package:AlphaReader/domain/repositories/books_repository.dart';
+import 'package:AlphaReader/domain/usecases/add_fb2_book.dart';
 import 'package:AlphaReader/domain/usecases/change_sub.dart';
+import 'package:AlphaReader/domain/usecases/choose_book.dart';
 import 'package:AlphaReader/domain/usecases/get_books.dart';
 import 'package:AlphaReader/domain/usecases/open_book.dart';
 import 'package:AlphaReader/domain/usecases/select_page.dart';
@@ -47,6 +49,7 @@ Future<void> init() async {
   sl.registerLazySingleton<BookListBloc>(() => BookListBloc(
         getBooks: sl(),
         openBook: sl(),
+        addFB2Book: sl(),
       ));
 
   sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
@@ -64,5 +67,12 @@ Future<void> init() async {
       ));
   sl.registerLazySingleton<ChangeSub>(() => ChangeSub(
         repository: sl(),
+      ));
+  sl.registerLazySingleton<ChooseBook>(() => ChooseBook(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<AddFB2Book>(() => AddFB2Book(
+        bookRepository: sl(),
+        userDatarepository: sl(),
       ));
 }

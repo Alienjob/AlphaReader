@@ -46,7 +46,7 @@ class FB2Book implements IBook {
   }
 
   Uint8List dataFromBase64String(String base64String) {
-    return base64Decode(base64String);
+    return base64Decode(base64String.replaceAll(RegExp(r'\s+'), ''));
   }
 
   String base64String(Uint8List data) {
