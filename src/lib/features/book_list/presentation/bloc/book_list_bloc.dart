@@ -4,7 +4,7 @@ import 'package:AlphaReader/domain/usecases/get_books.dart';
 import 'package:AlphaReader/domain/usecases/open_book.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'book_list_event.dart';
 part 'book_list_state.dart';
@@ -30,7 +30,8 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     Emitter<BookListState> emit,
   ) async {
     emit(BookListLoading());
-    List<IBook> books = await getBooks();
+    var bookMap = await getBooks();
+    List<IBook> books = bookMap.values.toList();
     emit(BookListLoaded(
       books: BookList(books),
       bookIndex: 0,
@@ -47,7 +48,8 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
         bookIndex: event.bookIndex,
       ));
     } else {
-      List<IBook> books = await getBooks();
+      var bookMap = await getBooks();
+      List<IBook> books = bookMap.values.toList();
       emit(BookListLoaded(
         books: BookList(books),
         bookIndex: event.bookIndex,

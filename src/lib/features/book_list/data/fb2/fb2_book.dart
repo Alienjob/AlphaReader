@@ -1,8 +1,11 @@
 import 'package:AlphaReader/domain/entities/book.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
+import 'package:flutter/foundation.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class FB2Book implements IBook {
-  fb2_parse.FB2Book _souce;
+  final fb2_parse.FB2Book _souce;
 
   FB2Book._(this._souce);
 
@@ -28,8 +31,8 @@ class FB2Book implements IBook {
   }
 
   @override
-  String get imageData {
-    return _souce.images[0].bytes;
+  Uint8List get imageData {
+    return dataFromBase64String(_souce.images[0].bytes);
   }
 
   @override
@@ -40,5 +43,13 @@ class FB2Book implements IBook {
   @override
   String pageText(int pageIndex) {
     return _souce.body.sections![pageIndex].content ?? '';
+  }
+
+  Uint8List dataFromBase64String(String base64String) {
+    return base64Decode(base64String);
+  }
+
+  String base64String(Uint8List data) {
+    return base64Encode(data);
   }
 }

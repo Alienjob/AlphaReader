@@ -32,7 +32,7 @@ class BooksRepository implements IBooksRepository {
   @override
   Future<Map<String, IBook>> addBook(IBook book) async {
     if (book is FB2Book) {
-      bookSourceFB2.addBook(book.path);
+      bookSourceFB2.addBook(path: book.key);
     } else {
       throw UnimplementedError();
     }

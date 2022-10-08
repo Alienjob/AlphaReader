@@ -39,7 +39,8 @@ class BookSourceFB2 implements IBookSource {
     required this.sharedPreferences,
   }) : _books = books;
 
-  static Future<BookSourceFB2> init(sharedPreferences) async {
+  static Future<BookSourceFB2> init(
+      {required SharedPreferences sharedPreferences}) async {
     List<IBook> books = [];
 
     List<String> savedBookData =
@@ -58,7 +59,7 @@ class BookSourceFB2 implements IBookSource {
     return Future.value(result);
   }
 
-  Future<void> addBook(String path) async {
+  Future<void> addBook({required String path}) async {
     List<String> savedBookData =
         sharedPreferences.getStringList('FB2_BOOKS') ?? [];
     savedBookData.add(json.encode({'path': path}));

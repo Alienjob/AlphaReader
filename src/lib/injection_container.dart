@@ -39,15 +39,29 @@ Future<void> init() async {
       ));
 
   //! DATA SOURCE
-  sl.registerLazySingleton<BookSourceEmbedded>(() => BookSourceEmbedded());
-  sl.registerLazySingleton<BooksRepository>(
-      () => BooksRepositoryImpl(bookSources: [sl.get<BookSourceEmbedded>()]));
+
+  //! DATA SOURCE - BOOK
+
+  sl.registerLazySingleton<IBooksRepository>(() => BooksRepository(
+        bookSourceEmbedded: sl(),
+        bookSourceFB2: sl(),
+      ));
+
+  var bookSourceEmbedded = await BookSourceEmbedded.init();
+  sl.registerLazySingleton<BookSourceEmbedded>(() => bookSourceEmbedded);
+
+  var bookSourceFB2 = await BookSourceFB2.init(sharedPreferences: sl());
+  sl.registerLazySingleton<BookSourceFB2>(() => bookSourceFB2);
 
   sl.registerLazySingleton<IReaderRepository>(
-      () => ReaderRepository(bookSources: [sl.get<BookSourceEmbedded>()]));
+      () => ReaderRepository(booksRepository: sl()));
+
+  //! DATA SOURCE - USER DATA
 
   sl.registerLazySingleton<IUserDataRepository>(
       () => UserDataRepository(sharedPreferences: sl()));
+
+  //! SERVICE
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);

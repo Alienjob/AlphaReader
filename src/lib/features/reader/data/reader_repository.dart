@@ -1,12 +1,12 @@
 import 'package:AlphaReader/domain/entities/book.dart';
-import 'package:AlphaReader/features/book_list/data/repositories/books_repository.dart';
+import 'package:AlphaReader/domain/repositories/books_repository.dart';
 
 abstract class IReaderRepository {
   Future<IBook> getBook(String key);
 }
 
 class ReaderRepository implements IReaderRepository {
-  BooksRepository booksRepository;
+  IBooksRepository booksRepository;
 
   ReaderRepository({required this.booksRepository});
 

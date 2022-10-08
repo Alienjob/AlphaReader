@@ -1,17 +1,16 @@
-import 'dart:html';
-
 import 'package:AlphaReader/domain/entities/book.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class TheCausalAngelBook implements IBook {
-  final String _imageData;
+  final Uint8List _imageData;
 
   TheCausalAngelBook._(this._imageData);
 
   static Future<TheCausalAngelBook> init() async {
-    var imageDataString =
-        (await rootBundle.load('assets/TheCausalAngel.png')).toString();
-    return TheCausalAngelBook._(imageDataString);
+    ByteData imageDataString =
+        await rootBundle.load('assets/TheCausalAngel.png');
+    return TheCausalAngelBook._(imageDataString.buffer.asUint8List());
   }
 
   @override
@@ -30,7 +29,7 @@ class TheCausalAngelBook implements IBook {
   }
 
   @override
-  String get imageData {
+  Uint8List get imageData {
     return _imageData;
   }
 

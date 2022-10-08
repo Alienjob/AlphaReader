@@ -1,15 +1,15 @@
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:AlphaReader/domain/entities/book.dart';
+import 'package:flutter/foundation.dart';
 
 class LittlePrinceBook implements IBook {
-  final String _imageData;
+  final Uint8List _imageData;
 
   LittlePrinceBook._(this._imageData);
 
   static Future<LittlePrinceBook> init() async {
-    var imageDataString =
-        (await rootBundle.load('assets/LittlePrince.png')).toString();
-    return LittlePrinceBook._(imageDataString);
+    ByteData imageDataString = await rootBundle.load('assets/LittlePrince.png');
+    return LittlePrinceBook._(imageDataString.buffer.asUint8List());
   }
 
   @override
@@ -28,7 +28,7 @@ class LittlePrinceBook implements IBook {
   }
 
   @override
-  String get imageData {
+  Uint8List get imageData {
     return _imageData;
   }
 
