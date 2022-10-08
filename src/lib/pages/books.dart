@@ -21,11 +21,10 @@ PreferredSizeWidget _buildAppBar(BookListLoaded state) {
         icon: const Icon(Icons.add),
         tooltip: 'Open fb2 book',
         onPressed: () async {
-          var testPath =
-              '/data/user/0/com.example.hello_world/cache/file_picker/impieriia-nie-viedavshaia-porazhienii-glien-charlz-kuk.fb2';
-          sl<BookListBloc>().add(BookListEventAddFB2Book(path: testPath));
+          // var testPath =
+          //     '/data/user/0/com.example.hello_world/cache/file_picker/impieriia-nie-viedavshaia-porazhienii-glien-charlz-kuk.fb2';
+          // sl<BookListBloc>().add(BookListEventAddFB2Book(path: testPath));
 
-          /*
           FilePickerResult? result = await FilePicker.platform.pickFiles(
             lockParentWindow: true,
           );
@@ -48,8 +47,6 @@ PreferredSizeWidget _buildAppBar(BookListLoaded state) {
           }
 
           sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
-
-          */
         },
       ),
     ],
