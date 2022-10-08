@@ -15,28 +15,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! BLOC
-  sl.registerLazySingleton<BookListBloc>(() => BookListBloc(
-        getBooks: sl(),
-        openBook: sl(),
-      ));
+  //! SERVICE
 
-  sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
-
-  //! USE CASES
-  sl.registerLazySingleton<GetBooks>(() => GetBooks(
-        repository: sl(),
-      ));
-  sl.registerLazySingleton<OpenBook>(() => OpenBook(
-        repository: sl(),
-        readerBloc: sl(),
-      ));
-  sl.registerLazySingleton<SelectPage>(() => SelectPage(
-        repository: sl(),
-      ));
-  sl.registerLazySingleton<ChangeSub>(() => ChangeSub(
-        repository: sl(),
-      ));
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   //! DATA SOURCE
 
@@ -61,8 +43,26 @@ Future<void> init() async {
   sl.registerLazySingleton<IUserDataRepository>(
       () => UserDataRepository(sharedPreferences: sl()));
 
-  //! SERVICE
+  //! BLOC
+  sl.registerLazySingleton<BookListBloc>(() => BookListBloc(
+        getBooks: sl(),
+        openBook: sl(),
+      ));
 
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
+
+  //! USE CASES
+  sl.registerLazySingleton<GetBooks>(() => GetBooks(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<OpenBook>(() => OpenBook(
+        repository: sl(),
+        readerBloc: sl(),
+      ));
+  sl.registerLazySingleton<SelectPage>(() => SelectPage(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<ChangeSub>(() => ChangeSub(
+        repository: sl(),
+      ));
 }

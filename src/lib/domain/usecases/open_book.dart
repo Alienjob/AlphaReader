@@ -14,6 +14,6 @@ class OpenBook {
     ));
 
     // save user choose for book
-    repository.setBook(bookKey);
+    repository.setBook(bookKey: bookKey);
   }
 }

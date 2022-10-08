@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class IUserDataRepository {
   //book
   Future<String> book();
-  Future<void> setBook(bookKey);
+  Future<void> setBook({required String bookKey});
 
   //page
   Future<int> pageIndex(String bookKey);
@@ -26,7 +26,7 @@ class UserDataRepository implements IUserDataRepository {
   }
 
   @override
-  Future<void> setBook(bookKey) async {
+  Future<void> setBook({required String bookKey}) async {
     await sharedPreferences.setString('CURRENT_BOOK', bookKey);
   }
 
