@@ -3,7 +3,7 @@ import 'package:AlphaReader/features/book_list/presentation/widgets/book_descrip
 import 'package:AlphaReader/injection_container.dart';
 import 'package:AlphaReader/domain/entities/substitutions.dart';
 import 'package:flutter/material.dart';
-import 'package:AlphaReader/features/book_list/data/embedded/books/books.dart';
+import 'package:AlphaReader/features/book_list/data/embedded/books.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:AlphaReader/features/book_list/presentation/bloc/book_list_bloc.dart';
