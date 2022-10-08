@@ -1,6 +1,17 @@
-import 'package:AlphaReader/features/book_list/data/embedded/books/embedded_book.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:AlphaReader/domain/entities/book.dart';
 
-class LittlePrinceBook extends EmbeddedBook {
+class LittlePrinceBook implements IBook {
+  final String _imageData;
+
+  LittlePrinceBook._(this._imageData);
+
+  static Future<LittlePrinceBook> init() async {
+    var imageDataString =
+        (await rootBundle.load('assets/LittlePrince.png')).toString();
+    return LittlePrinceBook._(imageDataString);
+  }
+
   @override
   String get key {
     return 'LittlePrince';
@@ -17,8 +28,8 @@ class LittlePrinceBook extends EmbeddedBook {
   }
 
   @override
-  String get imagePath {
-    return 'assets/LittlePrince.png';
+  String get imageData {
+    return _imageData;
   }
 
   @override

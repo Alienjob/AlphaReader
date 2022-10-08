@@ -4,7 +4,7 @@ import 'package:AlphaReader/domain/usecases/get_books.dart';
 import 'package:AlphaReader/domain/usecases/open_book.dart';
 import 'package:AlphaReader/domain/usecases/select_page.dart';
 import 'package:AlphaReader/features/book_list/data/datasources/book_source.dart';
-import 'package:AlphaReader/features/book_list/data/repositories/books_repository_impl.dart';
+import 'package:AlphaReader/features/book_list/data/repositories/books_repository.dart';
 import 'package:AlphaReader/features/book_list/presentation/bloc/book_list_bloc.dart';
 import 'package:AlphaReader/features/core/data/user_data_repository.dart';
 import 'package:AlphaReader/features/reader/data/reader_repository.dart';

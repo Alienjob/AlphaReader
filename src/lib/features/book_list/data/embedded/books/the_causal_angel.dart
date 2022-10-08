@@ -1,6 +1,19 @@
+import 'dart:html';
+
 import 'package:AlphaReader/domain/entities/book.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class TheCausalAngelBook implements IBook {
+  final String _imageData;
+
+  TheCausalAngelBook._(this._imageData);
+
+  static Future<TheCausalAngelBook> init() async {
+    var imageDataString =
+        (await rootBundle.load('assets/TheCausalAngel.png')).toString();
+    return TheCausalAngelBook._(imageDataString);
+  }
+
   @override
   String get key {
     return 'TheCausalAngel';
@@ -17,8 +30,8 @@ class TheCausalAngelBook implements IBook {
   }
 
   @override
-  String get imagePath {
-    return 'assets/TheCausalAngel.png';
+  String get imageData {
+    return _imageData;
   }
 
   @override

@@ -31,7 +31,10 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
   ) async {
     emit(BookListLoading());
     List<IBook> books = await getBooks();
-    emit(BookListLoaded(books: BookList(books), bookIndex: 0));
+    emit(BookListLoaded(
+      books: BookList(books),
+      bookIndex: 0,
+    ));
   }
 
   void _onBookListEventChangeBook(
@@ -40,10 +43,15 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
   ) async {
     if (state is BookListLoaded) {
       emit(BookListLoaded(
-          books: (state as BookListLoaded).books, bookIndex: event.bookIndex));
+        books: (state as BookListLoaded).books,
+        bookIndex: event.bookIndex,
+      ));
     } else {
       List<IBook> books = await getBooks();
-      emit(BookListLoaded(books: BookList(books), bookIndex: event.bookIndex));
+      emit(BookListLoaded(
+        books: BookList(books),
+        bookIndex: event.bookIndex,
+      ));
     }
   }
 

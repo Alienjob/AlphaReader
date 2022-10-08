@@ -1,5 +1,6 @@
 import 'package:AlphaReader/domain/entities/book.dart';
 
-abstract class BooksRepository {
-  Future<List<IBook>> getList();
+abstract class IBooksRepository {
+  Future<Map<String, IBook>> getBooks();
+  Future<Map<String, IBook>> addBook(IBook book);
 }
