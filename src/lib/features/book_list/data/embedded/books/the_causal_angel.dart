@@ -1,6 +1,9 @@
 import 'package:AlphaReader/domain/entities/book.dart';
+import 'package:AlphaReader/injection_container.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:AlphaReader/alpha_image_cache.dart';
 
 class TheCausalAngelBook implements IBook {
   final Uint8List _imageData;
@@ -31,6 +34,18 @@ class TheCausalAngelBook implements IBook {
   @override
   Uint8List get imageData {
     return _imageData;
+  }
+
+  @override
+  Image get imageObject {
+    var cache = sl<AlphaImageCache>();
+    var img = cache.get(key: key);
+    if (img == null) {
+      cache.addUint8List(key: key, value: imageData);
+      img = cache.get(key: key);
+    }
+
+    return img!;
   }
 
   @override

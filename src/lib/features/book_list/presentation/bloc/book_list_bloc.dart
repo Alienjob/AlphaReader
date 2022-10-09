@@ -3,9 +3,12 @@ import 'package:AlphaReader/domain/entities/book_list.dart';
 import 'package:AlphaReader/domain/usecases/add_fb2_book.dart';
 import 'package:AlphaReader/domain/usecases/get_books.dart';
 import 'package:AlphaReader/domain/usecases/open_book.dart';
+import 'package:AlphaReader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:AlphaReader/alpha_image_cache.dart';
+import 'package:flutter/material.dart' as m;
 
 part 'book_list_event.dart';
 part 'book_list_state.dart';
@@ -48,6 +51,12 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEventChangeBook event,
     Emitter<BookListState> emit,
   ) async {
+    emit(BookListSwich(
+      books: (state as BookListLoaded).books,
+      oldBookIndex: (state as BookListLoaded).bookIndex,
+      bookIndex: event.bookIndex,
+    ));
+    await Future.delayed(const Duration(milliseconds: 500));
     if (state is BookListLoaded) {
       emit(BookListLoaded(
         books: (state as BookListLoaded).books,
@@ -67,7 +76,6 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEventOpenBook event,
     Emitter<BookListState> emit,
   ) async {
-    print('_onBookListEventOpenBook');
     openBook(event.bookKey);
   }
 
@@ -75,7 +83,7 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEventAddFB2Book event,
     Emitter<BookListState> emit,
   ) async {
-    print('_onBookListEventAddFB2Book');
+    emit(BookListLoading());
     Map<String, IBook> bookMap = await addFB2Book(event.path);
 
     List<IBook> books = bookMap.values.toList();

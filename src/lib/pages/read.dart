@@ -91,9 +91,7 @@ class ReadPage extends StatelessWidget {
                       onTap: (() =>
                           sl<ReaderBloc>().add(ReaderEventShowHideUI())),
                       child: Html(
-                        data:
-                            //style: Theme.of(context).textTheme.bodyMedium,
-                            state.pageText,
+                        data: state.pageText,
                       ),
                     ),
                   ),

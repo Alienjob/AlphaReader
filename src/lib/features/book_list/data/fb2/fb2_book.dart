@@ -1,8 +1,12 @@
 import 'package:AlphaReader/domain/entities/book.dart';
+import 'package:AlphaReader/injection_container.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:AlphaReader/alpha_image_cache.dart';
+
+import 'package:flutter/material.dart';
 
 class FB2Book implements IBook {
   final fb2_parse.FB2Book _souce;
@@ -33,6 +37,18 @@ class FB2Book implements IBook {
   @override
   Uint8List get imageData {
     return dataFromBase64String(_souce.images[0].bytes);
+  }
+
+  @override
+  Image get imageObject {
+    var cache = sl<AlphaImageCache>();
+    var img = cache.get(key: key);
+    if (img == null) {
+      cache.addUint8List(key: key, value: imageData);
+      img = cache.get(key: key);
+    }
+
+    return img!;
   }
 
   @override

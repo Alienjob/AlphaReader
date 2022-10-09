@@ -1,3 +1,4 @@
+import 'package:AlphaReader/alpha_image_cache.dart';
 import 'package:AlphaReader/domain/repositories/books_repository.dart';
 import 'package:AlphaReader/domain/usecases/add_fb2_book.dart';
 import 'package:AlphaReader/domain/usecases/change_sub.dart';
@@ -18,6 +19,8 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   //! SERVICE
+
+  sl.registerSingleton<AlphaImageCache>(AlphaImageCache());
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);

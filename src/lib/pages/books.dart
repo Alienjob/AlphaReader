@@ -1,3 +1,4 @@
+import 'package:AlphaReader/domain/entities/book_list.dart';
 import 'package:AlphaReader/features/book_list/presentation/widgets/book_card.dart';
 import 'package:AlphaReader/features/book_list/presentation/widgets/book_description.dart';
 import 'package:AlphaReader/features/core/presentation/Loading.dart';
@@ -13,40 +14,53 @@ import 'package:archive/archive_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-PreferredSizeWidget _buildAppBar(BookListLoaded state) {
+Future<String?> pickFile() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    lockParentWindow: true,
+  );
+  if (result == null) return null;
+  if (result.files.first.extension != 'fb2' &&
+      result.files.first.extension != 'zip') return null;
+
+  /// path to the picked file
+  String path = result.paths.first!;
+
+  /// encode zip
+  if (result.files.first.extension == 'zip') {
+    final bytes = File(result.files.first.path!).readAsBytesSync();
+    final archive = ZipDecoder().decodeBytes(bytes);
+    String pathOut = (await getApplicationDocumentsDirectory()).path;
+    File file = File(pathOut + archive.first.name)
+      ..createSync()
+      ..writeAsBytesSync(archive.first.content);
+    path = file.path;
+  }
+
+  return path;
+}
+
+PreferredSizeWidget _buildAppBar(BookListState state) {
+  final String title = (state is BookListLoaded)
+      ? (state.title)
+      : (state as BookListSwich).title;
+  final double opacity = (state is BookListLoaded) ? 1 : 0;
   return AppBar(
-    title: Text(state.title),
+    title: AnimatedOpacity(
+      opacity: opacity,
+      duration: const Duration(milliseconds: 500),
+      child: Text(title),
+    ),
     actions: <Widget>[
       IconButton(
         icon: const Icon(Icons.add),
         tooltip: 'Open fb2 book',
         onPressed: () async {
-          // var testPath =
-          //     '/data/user/0/com.example.hello_world/cache/file_picker/impieriia-nie-viedavshaia-porazhienii-glien-charlz-kuk.fb2';
-          // sl<BookListBloc>().add(BookListEventAddFB2Book(path: testPath));
-
-          FilePickerResult? result = await FilePicker.platform.pickFiles(
-            lockParentWindow: true,
-          );
-          if (result == null) return;
-          if (result.files.first.extension != 'fb2' &&
-              result.files.first.extension != 'zip') return;
-
-          /// path to the picked file
-          String path = result.paths.first!;
-
-          /// encode zip
-          if (result.files.first.extension == 'zip') {
-            final bytes = File(result.files.first.path!).readAsBytesSync();
-            final archive = ZipDecoder().decodeBytes(bytes);
-            String pathOut = (await getApplicationDocumentsDirectory()).path;
-            File file = File(pathOut + archive.first.name)
-              ..createSync()
-              ..writeAsBytesSync(archive.first.content);
-            path = file.path;
+          String? path = await pickFile();
+          if (path == null) {
+            print("parse error");
+          } else {
+            sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
           }
-
-          sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
         },
       ),
     ],
@@ -66,7 +80,7 @@ class BooksPage extends StatelessWidget {
           sl<BookListBloc>().add(BookListEventStartApp());
         }
         return Scaffold(
-          appBar: (state is BookListLoaded)
+          appBar: ((state is BookListLoaded) || (state is BookListSwich))
               ? _buildAppBar(state)
               : (const LoadingAppBar()),
           body: Container(
@@ -74,14 +88,31 @@ class BooksPage extends StatelessWidget {
                 ? const Center(child: CircularProgressIndicator())
                 : (state is BookListLoading)
                     ? const Center(child: CircularProgressIndicator())
-                    : (state is BookListLoaded)
+                    : ((state is BookListLoaded) || (state is BookListSwich))
                         ? Column(
                             children: [
                               const SizedBox(
                                 height: 16,
                               ),
                               _buildBookList(context, sub, state),
-                              BookDescription(description: state.description),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: AnimatedSize(
+                                    duration: const Duration(microseconds: 100),
+                                    child: AnimatedOpacity(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      opacity:
+                                          (state is BookListLoaded) ? 1 : 0,
+                                      child: BookDescription(
+                                          description: (state is BookListLoaded)
+                                              ? (state.description)
+                                              : (state as BookListSwich)
+                                                  .description),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           )
                         : const Center(child: Text('Ошибка')),
@@ -96,15 +127,18 @@ class BooksPage extends StatelessWidget {
   }
 
   Widget _buildBookList(
-      BuildContext context, Substitutions sub, BookListLoaded state) {
+      BuildContext context, Substitutions sub, BookListState state) {
+    final BookList books = (state is BookListLoaded)
+        ? (state.books)
+        : (state as BookListSwich).books;
     return CarouselSlider(
       options: CarouselOptions(
         height: 280,
         onPageChanged: onPageChange,
       ),
       items: [
-        ...(state.books.books.map((e) => BookCard(
-              imageData: e.imageData,
+        ...(books.books.map((e) => BookCard(
+              image: e.imageObject,
               bookKey: e.key,
             )))
       ],

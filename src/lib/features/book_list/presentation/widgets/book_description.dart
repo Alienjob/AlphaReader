@@ -9,22 +9,17 @@ class BookDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Theme.of(context).backgroundColor),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Theme.of(context).backgroundColor),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                description,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
+          child: Text(
+            description,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),
