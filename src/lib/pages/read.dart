@@ -9,8 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 //import 'package:flutter/services.dart';
 
-class ReadPage extends StatelessWidget {
-  const ReadPage({super.key});
+class ReadPageUI extends StatelessWidget {
+  const ReadPageUI({super.key, required this.state});
+
+  final ReaderLoaded state;
 
   Widget _buildSubList(BuildContext context, Substitutions substitutions) {
     return Container(
@@ -53,30 +55,51 @@ class ReadPage extends StatelessWidget {
     );
   }
 
-  Widget _buildUI(BuildContext context, state) {
-    return Column(
-      children: [
-        Container(
-          height: 80,
-          decoration: BoxDecoration(
-            color: Theme.of(context).dialogBackgroundColor,
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          ReaderUITopPanel(state: state),
+          const Spacer(),
+          SizedBox(
+            height: 420,
+            child: _buildSubList(context, state.sub),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: PageSlider(
-              pageCount: state.pageCount,
-              pageIndex: state.pageIndex,
-            ),
-          ),
-        ),
-        const Spacer(),
-        SizedBox(
-          height: 420,
-          child: _buildSubList(context, state.sub),
-        ),
-      ],
+        ],
+      ),
     );
   }
+}
+
+class ReaderUITopPanel extends StatelessWidget {
+  const ReaderUITopPanel({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  final ReaderLoaded state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80,
+      decoration: BoxDecoration(
+        color: Theme.of(context).dialogBackgroundColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PageSlider(
+          pageCount: state.pageCount,
+          pageIndex: state.pageIndex,
+        ),
+      ),
+    );
+  }
+}
+
+class ReadPage extends StatelessWidget {
+  const ReadPage({super.key});
 
   Widget _buildLoadedBody(BuildContext context, ReaderLoaded state) {
     return SafeArea(
@@ -97,7 +120,13 @@ class ReadPage extends StatelessWidget {
                   ),
                 ),
               ),
-              ...((state.showUI) ? [_buildUI(context, state)] : []),
+              ...((state.showUI)
+                  ? [
+                      ReadPageUI(
+                        state: state,
+                      )
+                    ]
+                  : []),
             ],
           ),
         ),

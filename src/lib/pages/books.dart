@@ -97,19 +97,14 @@ class BooksPage extends StatelessWidget {
                               _buildBookList(context, sub, state),
                               Expanded(
                                 child: SingleChildScrollView(
-                                  child: AnimatedSize(
-                                    duration: const Duration(microseconds: 100),
-                                    child: AnimatedOpacity(
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      opacity:
-                                          (state is BookListLoaded) ? 1 : 0,
-                                      child: BookDescription(
-                                          description: (state is BookListLoaded)
-                                              ? (state.description)
-                                              : (state as BookListSwich)
-                                                  .description),
-                                    ),
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 500),
+                                    opacity: (state is BookListLoaded) ? 1 : 0,
+                                    child: BookDescription(
+                                        description: (state is BookListLoaded)
+                                            ? (state.description)
+                                            : (state as BookListSwich)
+                                                .description),
                                   ),
                                 ),
                               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class BookDescription extends StatelessWidget {
   const BookDescription({super.key, required this.description});
@@ -17,13 +18,12 @@ class BookDescription extends StatelessWidget {
             color: Theme.of(context).backgroundColor),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            description,
-            style: Theme.of(context).textTheme.bodyLarge,
+          child: Html(
+            data: description,
+            //style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),
     );
-    ;
   }
 }
