@@ -6,6 +6,7 @@ import 'package:AlphaReader/injection_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 //import 'package:flutter/services.dart';
 
 class ReadPage extends StatelessWidget {
@@ -89,9 +90,10 @@ class ReadPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: (() =>
                           sl<ReaderBloc>().add(ReaderEventShowHideUI())),
-                      child: Text(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        state.pageText,
+                      child: Html(
+                        data:
+                            //style: Theme.of(context).textTheme.bodyMedium,
+                            state.pageText,
                       ),
                     ),
                   ),
