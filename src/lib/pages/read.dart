@@ -10,7 +10,7 @@ import 'package:flutter_html/flutter_html.dart';
 class ReadPage extends StatelessWidget {
   const ReadPage({super.key});
 
-  Widget _buildLoadedBody(BuildContext context, ReaderLoaded state) {
+  Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: Center(
         child: SizedBox(
@@ -20,22 +20,23 @@ class ReadPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: SizedBox(
                     child: GestureDetector(
-                      onTap: (() =>
-                          sl<ReaderBloc>().add(ReaderEventShowHideUI())),
-                      child: Html(
-                        data: state.pageText,
+                      onTap: (() => sl<ReaderBloc>().add(
+                            ReaderEventShowHideUI(),
+                          )),
+                      child: BlocBuilder<ReaderBloc, ReaderState>(
+                        builder: (context, state) {
+                          return (state is ReaderLoaded)
+                              ? Html(
+                                  data: state.pageText,
+                                )
+                              : Container();
+                        },
                       ),
                     ),
                   ),
                 ),
               ),
-              ...((state.showUI)
-                  ? [
-                      ReadPageUI(
-                        state: state,
-                      )
-                    ]
-                  : []),
+              ...([const ReadPageUI()]),
             ],
           ),
         ),
@@ -43,38 +44,34 @@ class ReadPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, ReaderState state) {
-    switch (state.runtimeType) {
-      case ReaderLoaded:
-        return _buildLoadedBody(context, (state as ReaderLoaded));
-      default:
-        return const LoadingBody();
-    }
-  }
-
-  PreferredSizeWidget _buildAppBar(ReaderState state) {
-    switch (state.runtimeType) {
-      case ReaderLoaded:
-        return AppBar(
-            title: Text(
-          (state as ReaderLoaded).title,
-        ));
-      default:
-        return const LoadingAppBar();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
-    return BlocBuilder<ReaderBloc, ReaderState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: _buildAppBar(state),
-          body: _buildBody(context, state),
-        );
-      },
+    return Scaffold(
+      appBar: const ReaderAppBar(),
+      body: _buildBody(context),
     );
   }
+}
+
+class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
+  const ReaderAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReaderBloc, ReaderState>(builder: (context, state) {
+      if (state is ReaderLoaded) {
+        return AppBar(
+            title: Text(
+          state.title,
+        ));
+      } else {
+        return const LoadingAppBar();
+      }
+    });
+  }
+
+  @override
+  Size get preferredSize => AppBar().preferredSize;
 }

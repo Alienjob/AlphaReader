@@ -43,8 +43,9 @@ class BookSourceFB2 implements IBookSource {
       {required SharedPreferences sharedPreferences}) async {
     List<IBook> books = [];
 
-    List<String> savedBookData =
-        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    List<String> savedBookData = [];
+    //List<String> savedBookData =
+    //    sharedPreferences.getStringList('FB2_BOOKS') ?? [];
     for (var stringData in savedBookData) {
       Map<String, dynamic> data = json.decode(stringData);
       books.add(await FB2Book.ofPath(path: data['path']));
@@ -60,8 +61,8 @@ class BookSourceFB2 implements IBookSource {
   }
 
   Future<void> addBook({required String path}) async {
-    List<String> savedBookData =
-        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    List<String> savedBookData = [];
+    //sharedPreferences.getStringList('FB2_BOOKS') ?? [];
     savedBookData.add(json.encode({'path': path}));
     savedBookData = savedBookData.toSet().toList();
     await sharedPreferences.setStringList('FB2_BOOKS', savedBookData);
