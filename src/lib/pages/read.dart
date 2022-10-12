@@ -16,25 +16,68 @@ class ReadPage extends StatelessWidget {
         child: SizedBox(
           child: Stack(
             children: <Widget>[
-              Expanded(
+              GestureDetector(
+                //onPanUpdate: ((details) {}),
+                onHorizontalDragEnd: (details) {
+                  if (details.velocity.pixelsPerSecond.dx > 100) {
+                    sl<ReaderBloc>().add(
+                      ReaderEventPreviousPage(),
+                    );
+                  } else if (details.velocity.pixelsPerSecond.dx < -100) {
+                    sl<ReaderBloc>().add(
+                      ReaderEventNextPage(),
+                    );
+                  }
+                },
                 child: SingleChildScrollView(
-                  child: SizedBox(
-                    child: GestureDetector(
-                      onTap: (() => sl<ReaderBloc>().add(
-                            ReaderEventShowHideUI(),
-                          )),
-                      child: BlocBuilder<ReaderBloc, ReaderState>(
-                        builder: (context, state) {
-                          return (state is ReaderLoaded)
-                              ? Html(
-                                  data: state.pageText,
-                                )
-                              : Container();
-                        },
-                      ),
-                    ),
+                  child: BlocBuilder<ReaderBloc, ReaderState>(
+                    builder: (context, state) {
+                      return (state is ReaderLoaded)
+                          ? Html(
+                              data: state.pageText,
+                            )
+                          : Container();
+                    },
                   ),
                 ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: (() {
+                        sl<ReaderBloc>().add(
+                          ReaderEventPreviousPage(),
+                        );
+                      }),
+                      child: Container(),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: (() {
+                        sl<ReaderBloc>().add(
+                          ReaderEventShowHideUI(),
+                        );
+                      }),
+                      child: Container(),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: (() {
+                        sl<ReaderBloc>().add(
+                          ReaderEventNextPage(),
+                        );
+                      }),
+                      child: Container(),
+                    ),
+                  ),
+                ],
               ),
               ...([const ReadPageUI()]),
             ],

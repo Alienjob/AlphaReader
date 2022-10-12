@@ -1,6 +1,7 @@
 import 'package:AlphaReader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:AlphaReader/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PageSlider extends StatefulWidget {
   const PageSlider({
@@ -29,23 +30,30 @@ class _PageSliderState extends State<PageSlider> {
     return Column(
       children: [
         Text('page ${pageIndex + 1} / $pageCount'),
-        Slider(
-          divisions: pageCount,
-          value: pageIndex.toDouble(),
-          onChanged: ((value) {
+        BlocListener<ReaderBloc, ReaderState>(
+          listener: (context, state) {
             setState(() {
-              pageIndex = value.toInt();
+              pageIndex = (state as ReaderLoaded).pageIndex;
             });
-          }),
-          min: 0,
-          max: pageCount.toDouble() - 1,
-          onChangeEnd: ((value) {
-            sl<ReaderBloc>().add(
-              ReaderEventChoosePage(
-                pageIndex: value.toInt(),
-              ),
-            );
-          }),
+          },
+          child: Slider(
+            divisions: pageCount,
+            value: pageIndex.toDouble(),
+            onChanged: ((value) {
+              setState(() {
+                pageIndex = value.toInt();
+              });
+            }),
+            min: 0,
+            max: pageCount.toDouble() - 1,
+            onChangeEnd: ((value) {
+              sl<ReaderBloc>().add(
+                ReaderEventChoosePage(
+                  pageIndex: value.toInt(),
+                ),
+              );
+            }),
+          ),
         )
       ],
     );

@@ -19,6 +19,8 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventChoosePage>(_onReaderEventChoosePage);
     on<ReaderEventShowHideUI>(_onReaderEventShowHideUI);
     on<ReaderEventOnOffSubstitution>(_onReaderEventOnOffSubstitution);
+    on<ReaderEventNextPage>(_onReaderEventNextPage);
+    on<ReaderEventPreviousPage>(_onReaderEventPreviousPage);
   }
 
   void _onReaderEventOpenBook(
@@ -93,6 +95,58 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
 
       var newState = (state as ReaderLoaded).copyWith(
         sub: newSub,
+        pageText: displayText,
+      );
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventNextPage(
+    ReaderEventNextPage event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      int newPageIndex = (state as ReaderLoaded).pageIndex + 1;
+
+      // last page assert
+      if (newPageIndex == (state as ReaderLoaded).pageCount) {
+        return;
+      }
+
+      String displayText = Mixer(
+        (state as ReaderLoaded).sub,
+      ).mix((state as ReaderLoaded).book.pageText(
+            newPageIndex,
+          ));
+
+      var newState = (state as ReaderLoaded).copyWith(
+        pageIndex: newPageIndex,
+        pageText: displayText,
+      );
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventPreviousPage(
+    ReaderEventPreviousPage event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      int newPageIndex = (state as ReaderLoaded).pageIndex - 1;
+
+      // first page assert
+      if (newPageIndex < 0) {
+        return;
+      }
+
+      String displayText = Mixer(
+        (state as ReaderLoaded).sub,
+      ).mix((state as ReaderLoaded).book.pageText(
+            newPageIndex,
+          ));
+
+      var newState = (state as ReaderLoaded).copyWith(
+        pageIndex: newPageIndex,
         pageText: displayText,
       );
       emit(newState);
