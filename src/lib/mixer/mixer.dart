@@ -1,9 +1,11 @@
 import 'package:AlphaReader/domain/entities/substitutions.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
+import 'dart:math';
 
 class Mixer {
   Map<String, List<String>> subMap = {};
+  Random rand = Random();
 
   Mixer(Substitutions substitutions) {
     subMap = {};
@@ -65,7 +67,12 @@ class Mixer {
   String _transliterate(match, subMap) {
     String from = match?.group(0);
     List<String> to = subMap[from] ?? [];
-    String result = (to.isNotEmpty) ? to[0] : from;
+    if (to.isEmpty) {
+      return from;
+    }
+
+    int r = rand.nextInt(to.length);
+    String result = (to.isNotEmpty) ? to[r] : from;
     return result;
   }
 }

@@ -139,6 +139,7 @@ class LiquidTheme {
         ),
         primarySwatch: MaterialColor(darkColor.shade500.value, mDark),
         scaffoldBackgroundColor: darkColor.shade800,
+        shadowColor: darkColor.shade700,
         highlightColor: darkColor.shade100,
         focusColor: mFocus[500]);
   }

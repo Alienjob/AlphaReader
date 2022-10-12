@@ -89,26 +89,37 @@ class BooksPage extends StatelessWidget {
                 : (state is BookListLoading)
                     ? const Center(child: CircularProgressIndicator())
                     : ((state is BookListLoaded) || (state is BookListSwich))
-                        ? Column(
-                            children: [
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              _buildBookList(context, sub, state),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 500),
-                                    opacity: (state is BookListLoaded) ? 1 : 0,
-                                    child: BookDescription(
-                                        description: (state is BookListLoaded)
-                                            ? (state.description)
-                                            : (state as BookListSwich)
-                                                .description),
+                        ? SafeArea(
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                _buildBookList(context, sub, state),
+                                const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Аннотация:',
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                    child: AnimatedOpacity(
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        opacity:
+                                            (state is BookListLoaded) ? 1 : 0,
+                                        child: BookDescription(
+                                            description:
+                                                (state is BookListLoaded)
+                                                    ? (state.description)
+                                                    : (state as BookListSwich)
+                                                        .description))),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
                           )
                         : const Center(child: Text('Ошибка')),
           ),

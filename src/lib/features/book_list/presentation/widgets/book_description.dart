@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class BookDescription extends StatelessWidget {
@@ -12,17 +10,25 @@ class BookDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Theme.of(context).backgroundColor),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Html(
-            data: description,
-            //style: Theme.of(context).textTheme.bodyLarge,
+      child: Column(
+        children: [
+          Flexible(
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Theme.of(context).backgroundColor),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Html(
+                    data: description,
+                    //style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
