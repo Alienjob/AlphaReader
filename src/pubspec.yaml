@@ -74,6 +74,7 @@ flutter:
   assets:
     - assets/LittlePrince.png
     - assets/TheCausalAngel.png
+    - assets/TheSevenMadmenBook.jpg
     
     - assets/fonts/3d_unicode.ttf
     - assets/fonts/alk-katerina.ttf

@@ -21,32 +21,23 @@ class Mixer {
   }
 
   String mix(String text) {
-    Map<Object, String> readableElements = {};
     var document = parse(text);
-    collectElementsWithoutChildrens(
-      readableElements,
+    replaseSubElementsWithoutChildrens(
       document,
     );
-    readableElements.forEach(
-      (node, text) {
-        (node as Node).text = _mix(text);
-      },
-    );
-    return _mix(document.outerHtml);
+    return document.outerHtml;
   }
 
-  void collectElementsWithoutChildrens(
-    Map<Object, String> readableElements,
+  void replaseSubElementsWithoutChildrens(
     Node node,
   ) {
     if (node.hasChildNodes()) {
-      for (var child in node.children) {
-        collectElementsWithoutChildrens(readableElements, child);
-      }
-    } else {
       if (node.text != null) {
-        readableElements[node] = node.text!;
+        node.text = _mix(node.text!);
       }
+    }
+    for (var child in node.children) {
+      replaseSubElementsWithoutChildrens(child);
     }
   }
 

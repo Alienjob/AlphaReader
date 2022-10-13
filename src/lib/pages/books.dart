@@ -99,7 +99,7 @@ class BooksPage extends StatelessWidget {
                                 const Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    'Аннотация:',
+                                    'Desription:',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
