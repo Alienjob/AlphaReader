@@ -1,13 +1,13 @@
-import 'package:AlphaReader/domain/entities/book.dart';
-import 'package:AlphaReader/domain/entities/book_list.dart';
-import 'package:AlphaReader/domain/usecases/add_fb2_book.dart';
-import 'package:AlphaReader/domain/usecases/get_books.dart';
-import 'package:AlphaReader/domain/usecases/open_book.dart';
-import 'package:AlphaReader/injection_container.dart';
+import 'package:alpha_reader/domain/entities/book.dart';
+import 'package:alpha_reader/domain/entities/book_list.dart';
+import 'package:alpha_reader/domain/usecases/add_fb2_book.dart';
+import 'package:alpha_reader/domain/usecases/get_books.dart';
+import 'package:alpha_reader/domain/usecases/open_book.dart';
+import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:AlphaReader/alpha_image_cache.dart';
+import 'package:alpha_reader/alpha_image_cache.dart';
 import 'package:flutter/material.dart' as m;
 
 part 'book_list_event.dart';

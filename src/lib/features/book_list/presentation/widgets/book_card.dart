@@ -1,7 +1,7 @@
-import 'package:AlphaReader/features/book_list/presentation/bloc/book_list_bloc.dart';
-import 'package:AlphaReader/features/book_list/presentation/widgets/inner_shadow.dart';
-import 'package:AlphaReader/injection_container.dart';
-import 'package:AlphaReader/pages/read.dart';
+import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
+import 'package:alpha_reader/features/book_list/presentation/widgets/inner_shadow.dart';
+import 'package:alpha_reader/injection_container.dart';
+import 'package:alpha_reader/pages/read.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {

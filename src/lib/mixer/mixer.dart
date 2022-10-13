@@ -1,4 +1,4 @@
-import 'package:AlphaReader/domain/entities/substitutions.dart';
+import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 import 'dart:math';

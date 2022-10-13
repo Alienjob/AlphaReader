@@ -1,4 +1,4 @@
-import 'package:AlphaReader/domain/entities/substitutions.dart';
+import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IUserDataRepository {

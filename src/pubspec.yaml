@@ -1,4 +1,4 @@
-name: AlphaReader
+name: alpha_reader
 description: Reader for learn georgian alphabet
 
 # The following line prevents the package from being accidentally published to
@@ -74,6 +74,13 @@ flutter:
   assets:
     - assets/LittlePrince.png
     - assets/TheCausalAngel.png
+    
+    - assets/fonts/3d_unicode.ttf
+    - assets/fonts/alk-katerina.ttf
+    - assets/fonts/datebashvili-2.0.ttf
+    - assets/fonts/ar-archy-regular.ttf
+    - assets/fonts/bolnisi_mtavruli.ttf
+    - assets/fonts/bpg_nuskha_modern.ttf
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -87,17 +94,27 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: 3DUnicode
+      fonts:
+        - asset: assets/fonts/3d_unicode.ttf
+
+    - family: ALKKaterina
+      fonts:
+        - asset: assets/fonts/alk-katerina.ttf
+
+    - family: Datebashvili
+      fonts:
+        - asset: assets/fonts/datebashvili-2.0.ttf
+
+    - family: ARArchy
+      fonts:
+        - asset: assets/fonts/ar-archy-regular.ttf
+
+    - family: 	BolnisiMtavruli
+      fonts:
+        - asset: assets/fonts/bolnisi_mtavruli.ttf
+
+    - family: BPGNuskhaModern
+      fonts:
+        - asset: assets/fonts/bpg_nuskha_modern.ttf

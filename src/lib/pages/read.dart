@@ -1,7 +1,7 @@
-import 'package:AlphaReader/features/core/presentation/Loading.dart';
-import 'package:AlphaReader/features/reader/presentation/bloc/reader_bloc.dart';
-import 'package:AlphaReader/features/reader/presentation/widgets/reader_page_ui.dart';
-import 'package:AlphaReader/injection_container.dart';
+import 'package:alpha_reader/features/core/presentation/Loading.dart';
+import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/presentation/widgets/reader_page_ui.dart';
+import 'package:alpha_reader/injection_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,6 @@ class ReadPage extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               GestureDetector(
-                //onPanUpdate: ((details) {}),
                 onHorizontalDragEnd: (details) {
                   if (details.velocity.pixelsPerSecond.dx > 100) {
                     sl<ReaderBloc>().add(
@@ -29,17 +28,7 @@ class ReadPage extends StatelessWidget {
                     );
                   }
                 },
-                child: SingleChildScrollView(
-                  child: BlocBuilder<ReaderBloc, ReaderState>(
-                    builder: (context, state) {
-                      return (state is ReaderLoaded)
-                          ? Html(
-                              data: state.pageText,
-                            )
-                          : Container();
-                    },
-                  ),
-                ),
+                child: ReaderBody(),
               ),
               Row(
                 children: [
@@ -89,11 +78,45 @@ class ReadPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-
     return Scaffold(
       appBar: const ReaderAppBar(),
       body: _buildBody(context),
+    );
+  }
+}
+
+class ReaderBody extends StatelessWidget {
+  const ReaderBody({
+    Key? key,
+  }) : super(key: key);
+
+  String _style(String html) {
+    return '''
+      <body>
+          $html
+      <body/>''';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: BlocBuilder<ReaderBloc, ReaderState>(
+        builder: (context, state) {
+          return (state is ReaderLoaded)
+              ? Html(
+                  style: {
+                    "body": Style(
+                      padding: const EdgeInsets.all(8),
+                      fontSize: state.fontSize,
+                      fontFamily: state.font.family,
+                      //fontFamily: "3DUnicode",
+                    )
+                  },
+                  data: _style(state.pageText),
+                )
+              : Container();
+        },
+      ),
     );
   }
 }

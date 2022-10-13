@@ -1,10 +1,10 @@
-import 'package:AlphaReader/domain/entities/book.dart';
-import 'package:AlphaReader/injection_container.dart';
+import 'package:alpha_reader/domain/entities/book.dart';
+import 'package:alpha_reader/injection_container.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:AlphaReader/alpha_image_cache.dart';
+import 'package:alpha_reader/alpha_image_cache.dart';
 
 import 'package:flutter/material.dart';
 

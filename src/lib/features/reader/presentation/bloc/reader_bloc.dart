@@ -1,14 +1,15 @@
-import 'package:AlphaReader/domain/entities/book.dart';
-import 'package:AlphaReader/domain/entities/substitutions.dart';
-import 'package:AlphaReader/domain/usecases/change_sub.dart';
-import 'package:AlphaReader/domain/usecases/select_page.dart';
-import 'package:AlphaReader/injection_container.dart';
+import 'package:alpha_reader/domain/entities/book.dart';
+import 'package:alpha_reader/domain/entities/substitutions.dart';
+import 'package:alpha_reader/domain/usecases/change_sub.dart';
+import 'package:alpha_reader/domain/usecases/select_page.dart';
+import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:meta/meta.dart';
-import 'package:AlphaReader/features/reader/data/reader_repository.dart';
-import 'package:AlphaReader/mixer/mixer.dart';
-import 'package:AlphaReader/features/core/data/user_data_repository.dart';
+import 'package:alpha_reader/features/reader/data/reader_repository.dart';
+import 'package:alpha_reader/mixer/mixer.dart';
+import 'package:alpha_reader/features/core/data/user_data_repository.dart';
 
 part 'reader_event.dart';
 part 'reader_state.dart';
@@ -21,6 +22,10 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventOnOffSubstitution>(_onReaderEventOnOffSubstitution);
     on<ReaderEventNextPage>(_onReaderEventNextPage);
     on<ReaderEventPreviousPage>(_onReaderEventPreviousPage);
+    on<ReaderEventNextSet>(_onReaderEventNextSet);
+    on<ReaderEventNextFont>(_onReaderEventNextFont);
+    on<ReaderEventIncreaseFontSize>(_onReaderEventIncreaseFontSize);
+    on<ReaderEventDecreaseFontSize>(_onReaderEventDecreaseFontSize);
   }
 
   void _onReaderEventOpenBook(
@@ -40,6 +45,9 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       pageIndex: pageIndex,
       pageCount: book.length,
       pageText: displayText,
+      font: AlphaReaderFont_Empty(),
+      fontSize: FontSize.medium,
+      set: SubstitutionSet.en,
     );
     emit(newState);
   }
@@ -149,6 +157,137 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         pageIndex: newPageIndex,
         pageText: displayText,
       );
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventNextSet(
+    ReaderEventNextSet event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      var newSet = ((state as ReaderLoaded).set == SubstitutionSet.en)
+          ? SubstitutionSet.ru
+          : SubstitutionSet.en;
+
+      var newState = (state as ReaderLoaded).copyWith(set: newSet);
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventNextFont(
+    ReaderEventNextFont event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      var newState = (state as ReaderLoaded)
+          .copyWith(font: (state as ReaderLoaded).font.next);
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventIncreaseFontSize(
+    ReaderEventIncreaseFontSize event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      FontSize newSize;
+      switch ((state as ReaderLoaded).fontSize) {
+        case FontSize.xxSmall:
+          {
+            newSize = FontSize.xSmall;
+          }
+          break;
+        case FontSize.xSmall:
+          {
+            newSize = FontSize.small;
+          }
+          break;
+        case FontSize.small:
+          {
+            newSize = FontSize.medium;
+          }
+          break;
+        case FontSize.medium:
+          {
+            newSize = FontSize.large;
+          }
+          break;
+        case FontSize.large:
+          {
+            newSize = FontSize.xLarge;
+          }
+          break;
+        case FontSize.xLarge:
+          {
+            newSize = FontSize.xxLarge;
+          }
+          break;
+        case FontSize.xxLarge:
+          {
+            newSize = FontSize.xxLarge;
+          }
+          break;
+        default:
+          {
+            newSize = FontSize.medium;
+          }
+          break;
+      }
+      var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventDecreaseFontSize(
+    ReaderEventDecreaseFontSize event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      FontSize newSize;
+      switch ((state as ReaderLoaded).fontSize) {
+        case FontSize.xxSmall:
+          {
+            newSize = FontSize.xxSmall;
+          }
+          break;
+        case FontSize.xSmall:
+          {
+            newSize = FontSize.xxSmall;
+          }
+          break;
+        case FontSize.small:
+          {
+            newSize = FontSize.xSmall;
+          }
+          break;
+        case FontSize.medium:
+          {
+            newSize = FontSize.small;
+          }
+          break;
+        case FontSize.large:
+          {
+            newSize = FontSize.medium;
+          }
+          break;
+        case FontSize.xLarge:
+          {
+            newSize = FontSize.large;
+          }
+          break;
+        case FontSize.xxLarge:
+          {
+            newSize = FontSize.xLarge;
+          }
+          break;
+        default:
+          {
+            newSize = FontSize.medium;
+          }
+          break;
+      }
+      var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
       emit(newState);
     }
   }

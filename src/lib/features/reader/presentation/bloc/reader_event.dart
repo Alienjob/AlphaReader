@@ -25,6 +25,14 @@ class ReaderEventChoosePage implements ReaderEvent {
   });
 }
 
+class ReaderEventNextSet implements ReaderEvent {}
+
+class ReaderEventNextFont implements ReaderEvent {}
+
+class ReaderEventIncreaseFontSize implements ReaderEvent {}
+
+class ReaderEventDecreaseFontSize implements ReaderEvent {}
+
 class ReaderEventOnOffSubstitution implements ReaderEvent {
   final Substitution substitution;
 

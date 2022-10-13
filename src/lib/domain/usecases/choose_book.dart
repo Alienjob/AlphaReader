@@ -1,5 +1,4 @@
-import 'package:AlphaReader/domain/entities/substitutions.dart';
-import 'package:AlphaReader/features/core/data/user_data_repository.dart';
+import 'package:alpha_reader/features/core/data/user_data_repository.dart';
 
 class ChooseBook {
   final IUserDataRepository repository;

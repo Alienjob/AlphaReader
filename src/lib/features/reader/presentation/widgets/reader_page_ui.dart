@@ -1,8 +1,9 @@
-import 'package:AlphaReader/features/reader/presentation/bloc/reader_bloc.dart';
-import 'package:AlphaReader/features/reader/presentation/widgets/reader_ui_bottom_panel.dart';
-import 'package:AlphaReader/features/reader/presentation/widgets/reader_ui_top_panel.dart';
+import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_bottom_panel.dart';
+import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_top_panel.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReadPageUI extends StatefulWidget {
@@ -22,6 +23,9 @@ class _ReadPageUIState extends State<ReadPageUI> {
     return BlocListener<ReaderBloc, ReaderState>(
       listener: (context, state) {
         var newShowUI = (state is ReaderLoaded) ? (state.showUI) : false;
+        if (!newShowUI) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+        }
         if (newShowUI != showUI) {
           setState(() {
             showUI = newShowUI;
@@ -31,7 +35,7 @@ class _ReadPageUIState extends State<ReadPageUI> {
       child: Column(
         children: [
           AnimatedContainer(
-            height: showUI ? 80 : 0,
+            height: showUI ? 145 : 0,
             duration: const Duration(milliseconds: 300),
             child: const ReaderUITopPanel(),
           ),

@@ -129,6 +129,7 @@ class LiquidTheme {
         dialogBackgroundColor: darkColor.shade900,
         backgroundColor: darkColor.shade600,
         primaryColor: darkColor.shade500,
+        cardColor: darkColor.shade400,
         textTheme: TextTheme(
           bodyMedium: TextStyle(
             color: darkColor.shade400,

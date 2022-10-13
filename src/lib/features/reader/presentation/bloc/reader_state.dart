@@ -14,6 +14,10 @@ class ReaderLoading extends ReaderState {
 }
 
 class ReaderLoaded extends ReaderState {
+  final AlphaReaderFont font;
+  final FontSize fontSize;
+  final SubstitutionSet set;
+
   final bool showUI;
   final String title;
   final String pageText;
@@ -23,6 +27,9 @@ class ReaderLoaded extends ReaderState {
   final IBook book;
 
   ReaderLoaded({
+    required this.font,
+    required this.fontSize,
+    required this.set,
     required this.showUI,
     required this.title,
     required this.pageText,
@@ -35,6 +42,9 @@ class ReaderLoaded extends ReaderState {
   ReaderLoaded copyWith(
       {bool? showUI,
       String? title,
+      AlphaReaderFont? font,
+      FontSize? fontSize,
+      SubstitutionSet? set,
       String? pageText,
       int? pageIndex,
       int? pageCount,
@@ -48,11 +58,17 @@ class ReaderLoaded extends ReaderState {
       pageCount: pageCount ?? this.pageCount,
       sub: sub ?? this.sub,
       book: book ?? this.book,
+      font: font ?? this.font,
+      fontSize: fontSize ?? this.fontSize,
+      set: set ?? this.set,
     );
   }
 
   @override
   List<Object?> get props => [
+        font,
+        fontSize,
+        set,
         showUI,
         title,
         pageText,
