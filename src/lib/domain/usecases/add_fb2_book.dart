@@ -13,9 +13,13 @@ class AddFB2Book {
   });
 
   Future<Map<String, IBook>> call(String path) async {
-    var book = await FB2Book.ofPath(path: path);
-    var books = await bookRepository.addBook(book);
-
-    return books;
+    try {
+      var book = await FB2Book.ofPath(path: path);
+      var books = await bookRepository.addBook(book);
+      return books;
+    } catch (e) {
+      var books = await bookRepository.getBooks();
+      return books;
+    }
   }
 }

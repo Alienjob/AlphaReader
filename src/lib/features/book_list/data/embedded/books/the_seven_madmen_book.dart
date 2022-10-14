@@ -68,7 +68,7 @@ class TheSevenMadmenBook implements IBook {
 
   @override
   int get length {
-    return 10;
+    return _TextSource.length;
   }
 
   @override

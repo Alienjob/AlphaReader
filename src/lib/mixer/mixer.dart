@@ -31,11 +31,10 @@ class Mixer {
   void replaseSubElementsWithoutChildrens(
     Node node,
   ) {
-    if (node.hasChildNodes()) {
-      if (node.text != null) {
-        node.text = _mix(node.text!);
-      }
+    if ((node.children.isEmpty) && (node.text != null) && (node.text != '')) {
+      node.text = _mix(node.text!);
     }
+
     for (var child in node.children) {
       replaseSubElementsWithoutChildrens(child);
     }
