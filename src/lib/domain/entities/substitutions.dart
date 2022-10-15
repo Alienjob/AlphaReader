@@ -234,32 +234,32 @@ class Substitutions {
       Substitution('ch', '\u10E9', false, en),
 
       //Substitution('ц', 'Ც', false),
-      Substitution('ц', '\u10D0', false, ru),
+      Substitution('ц', '\u10F0', false, ru),
       //Substitution('ц', '\u10D0', false, en),
 
       //Substitution('д', 'Ძ', false),
-      Substitution('д', '\u10D1', false, ru),
-      Substitution('d', '\u10D1', false, en),
+      Substitution('д', '\u10F1', false, ru),
+      Substitution('d', '\u10F1', false, en),
 
       //Substitution('ц', 'Წ', false),
-      Substitution('ц', '\u10D2', false, ru),
+      Substitution('ц', '\u10F2', false, ru),
       //Substitution('ц', '\u10D2', false, en),
 
       //Substitution('ч', 'Ჭ', false),
-      Substitution('ч', '\u10D3', false, ru),
-      Substitution('ch', '\u10D3', false, en),
+      Substitution('ч', '\u10F3', false, ru),
+      Substitution('ch', '\u10F3', false, en),
 
       //Substitution('к', 'Ხ', false),
-      Substitution('к', '\u10D4', false, ru),
-      Substitution('k', '\u10D4', false, en),
+      Substitution('к', '\u10F4', false, ru),
+      Substitution('k', '\u10F4', false, en),
 
       //Substitution('д', 'Ჯ', false),
-      Substitution('д', '\u10D5', false, ru),
-      Substitution('d', '\u10D5', false, en),
+      Substitution('д', '\u10F5', false, ru),
+      Substitution('d', '\u10F5', false, en),
 
       //Substitution('х', 'Ჰ', false),
-      Substitution('х', '\u10D6', false, ru),
-      Substitution('h', '\u10D6', false, en),
+      Substitution('х', '\u10F6', false, ru),
+      Substitution('h', '\u10F6', false, en),
 
       Substitution('й', '\u10D8', false, ru),
       Substitution('ъ', '', false, ru),

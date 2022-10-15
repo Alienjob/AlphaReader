@@ -1,4 +1,4 @@
-package com.example.hello_world
+package pashutin.igor.georgia.alphareader
 
 import io.flutter.embedding.android.FlutterActivity
 
