@@ -14,28 +14,26 @@ class BookListLoading extends BookListState {
 }
 
 class BookListLoaded extends BookListState {
-  final BookList books;
-  final int bookIndex;
+  final BookList bookList;
   BookListLoaded({
-    required this.books,
-    required this.bookIndex,
+    required this.bookList,
   });
 
   String get title {
-    return books.books[bookIndex].title;
+    return bookList.title;
   }
 
   String get description {
-    return books.books[bookIndex].description;
+    return bookList.description;
   }
 
   Uint8List get imageData {
-    return books.books[bookIndex].imageData;
+    return bookList.imageData;
   }
 
   m.Image get imageObject {
     var cache = sl<AlphaImageCache>();
-    var key = books.books[bookIndex].key;
+    var key = bookList.key;
     var img = cache.get(key: key);
     if (img == null) {
       img = m.Image.memory(imageData);
@@ -46,39 +44,37 @@ class BookListLoaded extends BookListState {
   }
 
   String get key {
-    return books.books[bookIndex].key;
+    return bookList.key;
   }
 
   @override
-  List<Object?> get props => [books, bookIndex];
+  List<Object?> get props => [bookList];
 }
 
 class BookListSwich extends BookListState {
-  final BookList books;
-  final int bookIndex;
+  final BookList bookList;
   final int oldBookIndex;
 
   BookListSwich({
-    required this.books,
-    required this.bookIndex,
+    required this.bookList,
     required this.oldBookIndex,
   });
 
   String get title {
-    return books.books[oldBookIndex].title;
+    return bookList.books[oldBookIndex].title;
   }
 
   String get description {
-    return books.books[oldBookIndex].description;
+    return bookList.books[oldBookIndex].description;
   }
 
   Uint8List get imageData {
-    return books.books[bookIndex].imageData;
+    return bookList.imageData;
   }
 
   m.Image get imageObject {
     var cache = sl<AlphaImageCache>();
-    var key = books.books[bookIndex].key;
+    var key = bookList.key;
     var img = cache.get(key: key);
     if (img == null) {
       cache.addUint8List(key: key, value: imageData);
@@ -89,9 +85,9 @@ class BookListSwich extends BookListState {
   }
 
   String get key {
-    return books.books[bookIndex].key;
+    return bookList.key;
   }
 
   @override
-  List<Object?> get props => [books, bookIndex];
+  List<Object?> get props => [bookList, oldBookIndex];
 }

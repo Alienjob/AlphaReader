@@ -39,11 +39,9 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     Emitter<BookListState> emit,
   ) async {
     emit(BookListLoading());
-    var bookMap = await getBooks();
-    List<IBook> books = bookMap.values.toList();
+    var bookList = await getBooks();
     emit(BookListLoaded(
-      books: BookList(books),
-      bookIndex: 0,
+      bookList: bookList,
     ));
   }
 
@@ -51,25 +49,27 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEventChangeBook event,
     Emitter<BookListState> emit,
   ) async {
-    emit(BookListSwich(
-      books: (state as BookListLoaded).books,
-      oldBookIndex: (state as BookListLoaded).bookIndex,
-      bookIndex: event.bookIndex,
-    ));
+    assert(state is BookListLoaded);
+    BookListLoaded castState = (state as BookListLoaded);
+
+    emit(
+      BookListSwich(
+        bookList: BookList(
+          books: castState.bookList.books,
+          current: event.bookIndex,
+        ),
+        oldBookIndex: castState.bookList.current,
+      ),
+    );
+
     await Future.delayed(const Duration(milliseconds: 500));
-    if (state is BookListLoaded) {
-      emit(BookListLoaded(
-        books: (state as BookListLoaded).books,
-        bookIndex: event.bookIndex,
-      ));
-    } else {
-      var bookMap = await getBooks();
-      List<IBook> books = bookMap.values.toList();
-      emit(BookListLoaded(
-        books: BookList(books),
-        bookIndex: event.bookIndex,
-      ));
-    }
+
+    emit(BookListLoaded(
+      bookList: BookList(
+        books: castState.bookList.books,
+        current: event.bookIndex,
+      ),
+    ));
   }
 
   void _onBookListEventOpenBook(
@@ -84,14 +84,16 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     Emitter<BookListState> emit,
   ) async {
     emit(BookListLoading());
-    Map<String, IBook> bookMap = await addFB2Book(event.path);
+    final Map<String, IBook> bookMap = await addFB2Book(event.path);
 
-    List<IBook> books = bookMap.values.toList();
+    final List<IBook> books = bookMap.values.toList();
+    final int bookIndex = books.indexOf(
+      books.firstWhere((element) => element.key == event.path),
+    );
+    BookList bookList = BookList(books: books, current: bookIndex);
+
     emit(BookListLoaded(
-      books: BookList(books),
-      bookIndex: bookMap.keys.toList().indexOf(
-            event.path,
-          ),
+      bookList: bookList,
     ));
   }
 }

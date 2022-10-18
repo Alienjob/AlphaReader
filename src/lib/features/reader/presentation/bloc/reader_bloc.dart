@@ -1,5 +1,7 @@
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
+import 'package:alpha_reader/domain/usecases/change_font_family.dart';
+import 'package:alpha_reader/domain/usecases/change_font_size.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/injection_container.dart';
@@ -33,6 +35,9 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     Emitter<ReaderState> emit,
   ) async {
     emit(ReaderLoading());
+    FontSize fontSize = await sl<IUserDataRepository>().fontSize();
+    String fontFamily = await sl<IUserDataRepository>().fontFamily();
+
     IBook book = await sl<IReaderRepository>().getBook(event.bookKey);
     int pageIndex = await sl<IUserDataRepository>().pageIndex(event.bookKey);
     Substitutions sub = await sl<IUserDataRepository>().substitutions();
@@ -45,8 +50,8 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       pageIndex: pageIndex,
       pageCount: book.length,
       pageText: displayText,
-      font: AlphaReaderFont_Empty(),
-      fontSize: FontSize.medium,
+      font: AlphaReaderFont.byFamily(fontFamily),
+      fontSize: fontSize,
       set: SubstitutionSet.en,
     );
     emit(newState);
@@ -182,6 +187,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     if (state is ReaderLoaded) {
       var newState = (state as ReaderLoaded)
           .copyWith(font: (state as ReaderLoaded).font.next);
+      ChangeFontFamily(repository: sl(), alphaReaderFont: newState.font)();
       emit(newState);
     }
   }
@@ -234,6 +240,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
           }
           break;
       }
+      ChangeFontSize(repository: sl(), size: newSize)();
       var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
       emit(newState);
     }
@@ -287,6 +294,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
           }
           break;
       }
+      ChangeFontSize(repository: sl(), size: newSize)();
       var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
       emit(newState);
     }

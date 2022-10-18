@@ -7,6 +7,24 @@ enum SubstitutionSet { ru, en }
 abstract class AlphaReaderFont {
   String get family;
   AlphaReaderFont get next;
+  factory AlphaReaderFont.byFamily(String family) {
+    switch (family) {
+      case '3DUnicode':
+        return AlphaReaderFont_3DUnicode();
+      case 'ALKKaterina':
+        return AlphaReaderFont_ALKKaterina();
+      case 'Datebashvili':
+        return AlphaReaderFont_Datebashvili();
+      case 'ARArchy':
+        return AlphaReaderFont_ARArchy();
+      case 'BolnisiMtavruli':
+        return AlphaReaderFont_BolnisiMtavruli();
+      case 'BPGNuskhaModern':
+        return AlphaReaderFont_BPGNuskhaModern();
+      default:
+        return AlphaReaderFont_Empty();
+    }
+  }
 }
 
 class AlphaReaderFont_3DUnicode implements AlphaReaderFont {

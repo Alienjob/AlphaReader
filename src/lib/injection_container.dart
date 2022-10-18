@@ -59,6 +59,7 @@ Future<void> init() async {
 
   //! USE CASES
   sl.registerLazySingleton<GetBooks>(() => GetBooks(
+        userRepository: sl(),
         repository: sl(),
       ));
   sl.registerLazySingleton<OpenBook>(() => OpenBook(

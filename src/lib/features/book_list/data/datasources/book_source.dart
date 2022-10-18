@@ -27,7 +27,7 @@ class BookSourceEmbedded implements IBookSource {
 
   @override
   Future<BookListModel> bookList() {
-    BookListModel result = BookListModel(_books);
+    BookListModel result = BookListModel(books: _books, current: 0);
     return Future.value(result);
   }
 }
@@ -45,12 +45,21 @@ class BookSourceFB2 implements IBookSource {
       {required SharedPreferences sharedPreferences}) async {
     List<IBook> books = [];
 
-    List<String> savedBookData = [];
-    //List<String> savedBookData =
-    //    sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    //List<String> savedBookData = [];
+    List<String> savedBookData =
+        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
     for (var stringData in savedBookData) {
       Map<String, dynamic> data = json.decode(stringData);
-      books.add(await FB2Book.ofPath(path: data['path']));
+      try {
+        final book = await FB2Book.ofPath(path: data['path']);
+        books.add(book);
+      } catch (_) {
+        savedBookData.remove(stringData);
+      }
+      sharedPreferences.setStringList(
+        'FB2_BOOKS',
+        savedBookData,
+      );
     }
 
     return BookSourceFB2._(books: books, sharedPreferences: sharedPreferences);
@@ -58,7 +67,10 @@ class BookSourceFB2 implements IBookSource {
 
   @override
   Future<BookListModel> bookList() async {
-    BookListModel result = BookListModel(_books);
+    BookListModel result = BookListModel(
+      books: _books,
+      current: 0,
+    );
     return Future.value(result);
   }
 

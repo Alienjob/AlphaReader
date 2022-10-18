@@ -134,16 +134,17 @@ class BooksPage extends StatelessWidget {
 
   Widget _buildBookList(
       BuildContext context, Substitutions sub, BookListState state) {
-    final BookList books = (state is BookListLoaded)
-        ? (state.books)
-        : (state as BookListSwich).books;
+    final BookList bookList = (state is BookListLoaded)
+        ? (state.bookList)
+        : (state as BookListSwich).bookList;
     return CarouselSlider(
       options: CarouselOptions(
         height: 280,
         onPageChanged: onPageChange,
+        initialPage: bookList.current,
       ),
       items: [
-        ...(books.books.map((e) => BookCard(
+        ...(bookList.books.map((e) => BookCard(
               image: e.imageObject,
               bookKey: e.key,
             )))

@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:alpha_reader/domain/entities/substitutions.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IUserDataRepository {
@@ -13,6 +16,12 @@ abstract class IUserDataRepository {
   //substitution
   Future<Substitutions> substitutions();
   Future<void> setSubstitutions({required Substitutions sub});
+
+  Future<FontSize> fontSize();
+  Future<void> setFontSize({required FontSize size});
+
+  Future<String> fontFamily();
+  Future<void> setFontFamily({required String family});
 }
 
 class UserDataRepository implements IUserDataRepository {
@@ -58,5 +67,27 @@ class UserDataRepository implements IUserDataRepository {
       'SUBSTITUTIONS',
       Substitutions.toStringMap(sub.pairs),
     );
+  }
+
+  @override
+  Future<String> fontFamily() async {
+    return sharedPreferences.getString('FONTFAMILY') ?? '';
+  }
+
+  @override
+  Future<void> setFontFamily({required String family}) async {
+    sharedPreferences.setString('FONTFAMILY', family);
+  }
+
+  @override
+  Future<FontSize> fontSize() async {
+    double size = sharedPreferences.getDouble('FONTSIZE') ?? 0.0;
+
+    return (size == 0) ? (FontSize.medium) : FontSize(size);
+  }
+
+  @override
+  Future<void> setFontSize({required FontSize size}) async {
+    sharedPreferences.setDouble('FONTSIZE', size.size ?? 0);
   }
 }
