@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         theme: LiquidTheme().darkSchemeData(),
         darkTheme: LiquidTheme().darkSchemeData(),
         home: const BooksPage(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

@@ -52,3 +52,17 @@ class BookListEventAddFB2Book implements BookListEvent {
     required this.path,
   });
 }
+
+class BookListEventRemoveFB2Book implements BookListEvent {
+  @override
+  List<Object?> get props => [book];
+
+  @override
+  bool? get stringify => false;
+
+  final FB2Book book;
+
+  BookListEventRemoveFB2Book({
+    required this.book,
+  });
+}

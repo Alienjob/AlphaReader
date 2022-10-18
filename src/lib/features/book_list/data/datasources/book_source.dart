@@ -88,4 +88,11 @@ class BookSourceFB2 implements IBookSource {
       _books.add(newBook);
     }
   }
+
+  Future<void> removeBook({required String path}) async {
+    List<String> savedBookData =
+        sharedPreferences.getStringList('FB2_BOOKS') ?? [];
+    savedBookData.remove(path);
+    await sharedPreferences.setStringList('FB2_BOOKS', savedBookData);
+  }
 }

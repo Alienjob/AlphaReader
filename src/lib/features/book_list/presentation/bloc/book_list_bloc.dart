@@ -3,6 +3,8 @@ import 'package:alpha_reader/domain/entities/book_list.dart';
 import 'package:alpha_reader/domain/usecases/add_fb2_book.dart';
 import 'package:alpha_reader/domain/usecases/get_books.dart';
 import 'package:alpha_reader/domain/usecases/open_book.dart';
+import 'package:alpha_reader/domain/usecases/remove_book.dart';
+import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,10 +20,12 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
   final GetBooks getBooks;
   final OpenBook openBook;
   final AddFB2Book addFB2Book;
+  final RemoveBook removeBook;
 
   // constructor
 
   BookListBloc({
+    required this.removeBook,
     required this.getBooks,
     required this.openBook,
     required this.addFB2Book,
@@ -30,6 +34,7 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     on<BookListEventChangeBook>(_onBookListEventChangeBook);
     on<BookListEventOpenBook>(_onBookListEventOpenBook);
     on<BookListEventAddFB2Book>(_onBookListEventAddFB2Book);
+    on<BookListEventRemoveFB2Book>(_onBookListEventRemoveFB2Book);
   }
 
   // events managers
@@ -95,5 +100,21 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     emit(BookListLoaded(
       bookList: bookList,
     ));
+  }
+
+  void _onBookListEventRemoveFB2Book(
+    BookListEventRemoveFB2Book event,
+    Emitter<BookListState> emit,
+  ) async {
+    final _state = state as BookListLoaded;
+    final books = _state.bookList.books
+        .where((element) => (element != event.book))
+        .toList();
+
+    final BookList newList = BookList(books: books, current: 1);
+    emit(BookListLoaded(
+      bookList: newList,
+    ));
+    removeBook(event.book);
   }
 }

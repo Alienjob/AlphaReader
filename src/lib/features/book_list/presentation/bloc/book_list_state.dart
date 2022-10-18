@@ -47,6 +47,10 @@ class BookListLoaded extends BookListState {
     return bookList.key;
   }
 
+  IBook get book {
+    return bookList.book;
+  }
+
   @override
   List<Object?> get props => [bookList];
 }

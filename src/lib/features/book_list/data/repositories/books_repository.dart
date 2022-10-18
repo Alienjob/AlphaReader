@@ -1,5 +1,6 @@
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/repositories/books_repository.dart';
+import 'package:alpha_reader/domain/usecases/remove_book.dart';
 import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
 import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 
@@ -38,5 +39,10 @@ class BooksRepository implements IBooksRepository {
     }
 
     return await getBooks();
+  }
+
+  @override
+  Future<void> removeBook(IBook book) async {
+    await bookSourceFB2.removeBook(path: book.key);
   }
 }

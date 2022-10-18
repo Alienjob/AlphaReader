@@ -5,6 +5,7 @@ import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/choose_book.dart';
 import 'package:alpha_reader/domain/usecases/get_books.dart';
 import 'package:alpha_reader/domain/usecases/open_book.dart';
+import 'package:alpha_reader/domain/usecases/remove_book.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
 import 'package:alpha_reader/features/book_list/data/repositories/books_repository.dart';
@@ -53,6 +54,7 @@ Future<void> init() async {
         getBooks: sl(),
         openBook: sl(),
         addFB2Book: sl(),
+        removeBook: sl(),
       ));
 
   sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
@@ -78,5 +80,8 @@ Future<void> init() async {
   sl.registerLazySingleton<AddFB2Book>(() => AddFB2Book(
         bookRepository: sl(),
         userDatarepository: sl(),
+      ));
+  sl.registerLazySingleton<RemoveBook>(() => RemoveBook(
+        repository: sl(),
       ));
 }

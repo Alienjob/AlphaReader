@@ -1,4 +1,5 @@
 import 'package:alpha_reader/domain/entities/book_list.dart';
+import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_card.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_description.dart';
 import 'package:alpha_reader/features/core/presentation/Loading.dart';
@@ -60,6 +61,16 @@ PreferredSizeWidget _buildAppBar(BookListState state) {
             print("parse error");
           } else {
             sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
+          }
+        },
+      ),
+      IconButton(
+        icon: const Icon(Icons.delete),
+        tooltip: 'Delete fb2 book',
+        onPressed: () async {
+          final current = (state as BookListLoaded).book;
+          if (current is FB2Book) {
+            sl<BookListBloc>().add(BookListEventRemoveFB2Book(book: current));
           }
         },
       ),

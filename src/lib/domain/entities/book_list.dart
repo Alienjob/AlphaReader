@@ -25,4 +25,5 @@ class BookList implements IBookList {
   Uint8List get imageData => books[current].imageData;
   Image get imageObject => books[current].imageObject;
   int get length => books[current].length;
+  IBook get book => books[current];
 }
