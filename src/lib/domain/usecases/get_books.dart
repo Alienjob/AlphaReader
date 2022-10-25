@@ -12,8 +12,12 @@ class GetBooks {
   Future<BookList> call() async {
     final String bookKey = await userRepository.book();
     final List<IBook> books = (await repository.getBooks()).values.toList();
-    final int current =
-        books.indexOf(books.firstWhere((element) => (element.key == bookKey)));
+
+    final IBook currentBook = books.firstWhere(
+      (element) => (element.key == bookKey),
+      orElse: () => books[0],
+    );
+    final int current = books.indexOf(currentBook);
     return BookList(books: books, current: current);
   }
 }
