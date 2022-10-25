@@ -103,6 +103,8 @@ class Substitutions {
     String savedSubstitutions,
   ) : pairs = _fromString(savedSubstitutions);
 
+  Substitutions.all() : pairs = _all();
+
   Substitutions() : pairs = _defaultPairs();
 
   static List<Substitution> _fromString(String savedSubstitutions) {
@@ -117,6 +119,23 @@ class Substitutions {
           sub.from,
           sub.to,
           isActive,
+          sub.set,
+        ),
+      );
+    }
+
+    return result;
+  }
+
+  static List<Substitution> _all() {
+    var def = _defaultPairs();
+    List<Substitution> result = [];
+    for (Substitution sub in def) {
+      result.add(
+        Substitution(
+          sub.from,
+          sub.to,
+          true,
           sub.set,
         ),
       );
@@ -216,6 +235,7 @@ class Substitutions {
 
       //Substitution('с', 'Ს', false),
       Substitution('с', '\u10E1', false, ru),
+      Substitution('c', '\u10E1', false, en),
       Substitution('s', '\u10E1', false, en),
 
       //Substitution('т', 'Ტ', false),
