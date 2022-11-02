@@ -20,7 +20,9 @@ class BookSourceEmbedded implements IBookSource {
     List<IBook> books = [];
     books.add(await TheSevenMadmenBook.init());
     books.add(await LittlePrinceBook.init());
-    books.add(await TheCausalAngelBook.init());
+    final instanceTheCausalAngelBook = TheCausalAngelBook();
+    await instanceTheCausalAngelBook.init();
+    books.add(instanceTheCausalAngelBook);
 
     return BookSourceEmbedded._(books);
   }

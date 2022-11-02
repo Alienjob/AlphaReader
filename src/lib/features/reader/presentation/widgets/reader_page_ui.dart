@@ -23,9 +23,6 @@ class _ReadPageUIState extends State<ReadPageUI> {
     return BlocListener<ReaderBloc, ReaderState>(
       listener: (context, state) {
         var newShowUI = (state is ReaderLoaded) ? (state.showUI) : false;
-        if (!newShowUI) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-        }
         if (newShowUI != showUI) {
           setState(() {
             showUI = newShowUI;

@@ -6,6 +6,7 @@ import 'package:alpha_reader/features/core/presentation/Loading.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
@@ -94,6 +95,7 @@ class BooksPage extends StatelessWidget {
 
     return BlocBuilder<BookListBloc, BookListState>(
       builder: (context, state) {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
         if (state is BookListInitial) {
           sl<BookListBloc>().add(BookListEventStartApp());
         }
@@ -107,37 +109,34 @@ class BooksPage extends StatelessWidget {
                 : (state is BookListLoading)
                     ? const Center(child: CircularProgressIndicator())
                     : ((state is BookListLoaded) || (state is BookListSwich))
-                        ? SafeArea(
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 16,
+                        ? Column(
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              _buildBookList(context, sub, state),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Desription:',
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                                _buildBookList(context, sub, state),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Desription:',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                Expanded(
-                                    child: AnimatedOpacity(
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        opacity:
-                                            (state is BookListLoaded) ? 1 : 0,
-                                        child: BookDescription(
-                                            description:
-                                                (state is BookListLoaded)
-                                                    ? (state.description)
-                                                    : (state as BookListSwich)
-                                                        .description))),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                              ],
-                            ),
+                              ),
+                              Expanded(
+                                  child: AnimatedOpacity(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      opacity:
+                                          (state is BookListLoaded) ? 1 : 0,
+                                      child: BookDescription(
+                                          description: (state is BookListLoaded)
+                                              ? (state.description)
+                                              : (state as BookListSwich)
+                                                  .description))),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                            ],
                           )
                         : const Center(child: Text('Ошибка')),
           ),

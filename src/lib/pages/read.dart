@@ -11,66 +11,64 @@ class ReadPage extends StatelessWidget {
   const ReadPage({super.key});
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: SizedBox(
-          child: Stack(
-            children: <Widget>[
-              GestureDetector(
-                onHorizontalDragEnd: (details) {
-                  if (details.velocity.pixelsPerSecond.dx > 100) {
-                    sl<ReaderBloc>().add(
-                      ReaderEventPreviousPage(),
-                    );
-                  } else if (details.velocity.pixelsPerSecond.dx < -100) {
-                    sl<ReaderBloc>().add(
-                      ReaderEventNextPage(),
-                    );
-                  }
-                },
-                child: const ReaderBody(),
-              ),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: GestureDetector(
-              //         behavior: HitTestBehavior.translucent,
-              //         onTap: (() {
-              //           sl<ReaderBloc>().add(
-              //             ReaderEventPreviousPage(),
-              //           );
-              //         }),
-              //         child: Container(),
-              //       ),
-              //     ),
-              //     Expanded(
-              //       flex: 4,
-              //       child: GestureDetector(
-              //         behavior: HitTestBehavior.translucent,
-              //         onTap: (() {
-              //           sl<ReaderBloc>().add(
-              //             ReaderEventShowHideUI(),
-              //           );
-              //         }),
-              //         child: Container(),
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: GestureDetector(
-              //         behavior: HitTestBehavior.translucent,
-              //         onTap: (() {
-              //           sl<ReaderBloc>().add(
-              //             ReaderEventNextPage(),
-              //           );
-              //         }),
-              //         child: Container(),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              ...([const ReadPageUI()]),
-            ],
-          ),
+    return Center(
+      child: SizedBox(
+        child: Stack(
+          children: <Widget>[
+            GestureDetector(
+              onHorizontalDragEnd: (details) {
+                if (details.velocity.pixelsPerSecond.dx > 100) {
+                  sl<ReaderBloc>().add(
+                    ReaderEventPreviousPage(),
+                  );
+                } else if (details.velocity.pixelsPerSecond.dx < -100) {
+                  sl<ReaderBloc>().add(
+                    ReaderEventNextPage(),
+                  );
+                }
+              },
+              child: const ReaderBody(),
+            ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: GestureDetector(
+            //         behavior: HitTestBehavior.translucent,
+            //         onTap: (() {
+            //           sl<ReaderBloc>().add(
+            //             ReaderEventPreviousPage(),
+            //           );
+            //         }),
+            //         child: Container(),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       flex: 4,
+            //       child: GestureDetector(
+            //         behavior: HitTestBehavior.translucent,
+            //         onTap: (() {
+            //           sl<ReaderBloc>().add(
+            //             ReaderEventShowHideUI(),
+            //           );
+            //         }),
+            //         child: Container(),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       child: GestureDetector(
+            //         behavior: HitTestBehavior.translucent,
+            //         onTap: (() {
+            //           sl<ReaderBloc>().add(
+            //             ReaderEventNextPage(),
+            //           );
+            //         }),
+            //         child: Container(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            ...([const ReadPageUI()]),
+          ],
         ),
       ),
     );

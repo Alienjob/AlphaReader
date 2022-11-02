@@ -11,6 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitUp,
+  ]);
+
   Bloc.observer = BookListObserver();
   runApp(const MyApp());
 }
@@ -21,11 +26,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitUp,
-    ]);
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<BookListBloc>(
