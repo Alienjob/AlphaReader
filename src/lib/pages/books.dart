@@ -17,6 +17,8 @@ import 'dart:io';
 
 Future<String?> pickFile() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
+    allowedExtensions: ['fb2', 'zip'],
+    type: FileType.custom,
     lockParentWindow: true,
   );
   if (result == null) return null;
@@ -25,15 +27,20 @@ Future<String?> pickFile() async {
 
   /// path to the picked file
   String path = result.paths.first!;
+  String pathOut = (await getApplicationDocumentsDirectory()).path;
+  final bytes = File(result.files.first.path!).readAsBytesSync();
 
   /// encode zip
   if (result.files.first.extension == 'zip') {
-    final bytes = File(result.files.first.path!).readAsBytesSync();
     final archive = ZipDecoder().decodeBytes(bytes);
-    String pathOut = (await getApplicationDocumentsDirectory()).path;
     File file = File(pathOut + archive.first.name)
       ..createSync()
       ..writeAsBytesSync(archive.first.content);
+    path = file.path;
+  } else {
+    File file = File(pathOut + result.files.first.name)
+      ..createSync()
+      ..writeAsBytesSync(bytes);
     path = file.path;
   }
 
@@ -58,7 +65,7 @@ PreferredSizeWidget _buildAppBar(BookListState state) {
         onPressed: () async {
           String? path = await pickFile();
           if (path == null) {
-            print("parse error");
+            print("pick file error");
           } else {
             sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
           }

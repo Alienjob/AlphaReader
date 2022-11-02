@@ -28,6 +28,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventNextFont>(_onReaderEventNextFont);
     on<ReaderEventIncreaseFontSize>(_onReaderEventIncreaseFontSize);
     on<ReaderEventDecreaseFontSize>(_onReaderEventDecreaseFontSize);
+    on<ReaderEventSetBookmark>(_onReaderEventSetBookmark);
   }
 
   void _onReaderEventOpenBook(
@@ -53,6 +54,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       font: AlphaReaderFont.byFamily(fontFamily),
       fontSize: fontSize,
       set: SubstitutionSet.en,
+      bookmark: 'empty',
     );
     emit(newState);
   }
@@ -188,6 +190,18 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       var newState = (state as ReaderLoaded)
           .copyWith(font: (state as ReaderLoaded).font.next);
       ChangeFontFamily(repository: sl(), alphaReaderFont: newState.font)();
+      emit(newState);
+    }
+  }
+
+  void _onReaderEventSetBookmark(
+    ReaderEventSetBookmark event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      var newState = (state as ReaderLoaded).copyWith(
+        bookmark: event.bookmark,
+      );
       emit(newState);
     }
   }

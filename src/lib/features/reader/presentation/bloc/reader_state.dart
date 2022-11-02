@@ -25,6 +25,7 @@ class ReaderLoaded extends ReaderState {
   final int pageCount;
   final Substitutions sub;
   final IBook book;
+  final String bookmark;
 
   ReaderLoaded({
     required this.font,
@@ -37,19 +38,22 @@ class ReaderLoaded extends ReaderState {
     required this.pageCount,
     required this.sub,
     required this.book,
+    required this.bookmark,
   });
 
-  ReaderLoaded copyWith(
-      {bool? showUI,
-      String? title,
-      AlphaReaderFont? font,
-      FontSize? fontSize,
-      SubstitutionSet? set,
-      String? pageText,
-      int? pageIndex,
-      int? pageCount,
-      Substitutions? sub,
-      IBook? book}) {
+  ReaderLoaded copyWith({
+    bool? showUI,
+    String? title,
+    AlphaReaderFont? font,
+    FontSize? fontSize,
+    SubstitutionSet? set,
+    String? pageText,
+    int? pageIndex,
+    int? pageCount,
+    Substitutions? sub,
+    IBook? book,
+    String? bookmark,
+  }) {
     return ReaderLoaded(
       showUI: showUI ?? this.showUI,
       title: title ?? this.title,
@@ -61,6 +65,7 @@ class ReaderLoaded extends ReaderState {
       font: font ?? this.font,
       fontSize: fontSize ?? this.fontSize,
       set: set ?? this.set,
+      bookmark: bookmark ?? this.bookmark,
     );
   }
 
@@ -76,5 +81,6 @@ class ReaderLoaded extends ReaderState {
         pageCount,
         sub,
         book,
+        bookmark,
       ];
 }

@@ -3,10 +3,20 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 import 'dart:math';
 
+class AnchorGenerator {
+  int current = 0;
+  String get next {
+    current++;
+    return 'id$current';
+  }
+}
+
 class Mixer {
   Map<String, List<String>> subMap = {};
   Random rand = Random();
   bool useRandom = true;
+  bool useAncors = true;
+  var uuid = AnchorGenerator();
 
   Mixer(Substitutions substitutions) {
     subMap = {};
@@ -23,19 +33,52 @@ class Mixer {
 
   String mix(String text) {
     var document = parse(text);
+    if (useAncors) {
+      wrapWords(document);
+    }
     replaseSubElementsWithoutChildrens(
       document,
     );
     return document.outerHtml;
   }
 
+  void wrapWords(
+    dom.Node node,
+  ) {
+    final iterator = [...node.nodes];
+
+    for (var child in iterator) {
+      if ((child.nodeType == 3) && ((child as dom.Text).data != '')) {
+        int childIndex = node.nodes.indexOf(child);
+        final linesList = child.data.split('\n');
+        final wordList = <String>[];
+        for (var line in linesList) {
+          var currentWordList = line.split(' ');
+          for (var word in currentWordList) {
+            wordList.add(word);
+            wordList.add(' ');
+          }
+          wordList.removeLast();
+          wordList.add('\n');
+        }
+        wordList.removeLast();
+        for (var word in wordList) {
+          dom.Element newElement = dom.Element.html('<a id=${uuid.next}></a>');
+          dom.Text wordNode = dom.Text(word);
+          newElement.nodes.add(wordNode);
+          node.nodes.insert(childIndex, newElement);
+          childIndex++;
+        }
+        node.nodes.remove(child);
+      } else {
+        wrapWords(child);
+      }
+    }
+  }
+
   void replaseSubElementsWithoutChildrens(
     dom.Node node,
   ) {
-    // if ((node.children.isEmpty) && (node.text != null) && (node.text != '')) {
-    //   node.text = _mix(node.text!);
-    // }
-
     if ((node.nodeType == 3) && ((node as dom.Text).data != '')) {
       node.data = _mix(node.data);
     }

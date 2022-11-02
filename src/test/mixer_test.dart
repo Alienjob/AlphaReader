@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/mixer/mixer.dart';
 import 'package:test/test.dart';
@@ -10,6 +12,7 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
   });
@@ -21,6 +24,7 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
   });
@@ -32,6 +36,7 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
   });
@@ -42,6 +47,7 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
   });
@@ -53,6 +59,7 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
   });
@@ -64,7 +71,58 @@ void main() {
 
     var mixer = Mixer(sub);
     mixer.useRandom = false;
+    mixer.useAncors = false;
 
     expect(mixer.mix(html), equals(result));
+  });
+
+  test('RU wrapper is wrap', () {
+    var html = '<html><head></head><body><p>абс</p>дефж</body></html>';
+    var sub = Substitutions.all();
+    var etalon =
+        '<html><head></head><body><p><a id="id1">აბს</a></p><a id="id2">დეფჟ</a></body></html>';
+
+    var mixer = Mixer(sub);
+    mixer.useRandom = false;
+    mixer.useAncors = true;
+    var result = mixer.mix(html);
+
+    expect(result, equals(etalon));
+  });
+
+  test('RU wrapper is deviding by space', () {
+    var html = '<html><head></head><body><p>абс</p>де фж</body></html>';
+    var sub = Substitutions.all();
+    var etalon = '<html><head></head><body>'
+        '<p><a id="id1">აბს</a></p>'
+        '<a id="id2">დე</a>'
+        '<a id="id3"> </a>'
+        '<a id="id4">ფჟ</a>'
+        '</body></html>';
+
+    var mixer = Mixer(sub);
+    mixer.useRandom = false;
+    mixer.useAncors = true;
+    var result = mixer.mix(html);
+
+    expect(result, equals(etalon));
+  });
+
+  test('RU wrapper is deviding by space reverse input', () {
+    var html = '<html><head></head><body>де фж<p>абс</p></body></html>';
+    var sub = Substitutions.all();
+    var etalon = '<html><head></head><body>'
+        '<a id="id1">დე</a>'
+        '<a id="id2"> </a>'
+        '<a id="id3">ფჟ</a>'
+        '<p><a id="id4">აბს</a></p>'
+        '</body></html>';
+
+    var mixer = Mixer(sub);
+    mixer.useRandom = false;
+    mixer.useAncors = true;
+    var result = mixer.mix(html);
+
+    expect(result, equals(etalon));
   });
 }

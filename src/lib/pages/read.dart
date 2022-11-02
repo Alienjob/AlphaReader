@@ -28,46 +28,46 @@ class ReadPage extends StatelessWidget {
                     );
                   }
                 },
-                child: ReaderBody(),
+                child: const ReaderBody(),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: (() {
-                        sl<ReaderBloc>().add(
-                          ReaderEventPreviousPage(),
-                        );
-                      }),
-                      child: Container(),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: (() {
-                        sl<ReaderBloc>().add(
-                          ReaderEventShowHideUI(),
-                        );
-                      }),
-                      child: Container(),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: (() {
-                        sl<ReaderBloc>().add(
-                          ReaderEventNextPage(),
-                        );
-                      }),
-                      child: Container(),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: GestureDetector(
+              //         behavior: HitTestBehavior.translucent,
+              //         onTap: (() {
+              //           sl<ReaderBloc>().add(
+              //             ReaderEventPreviousPage(),
+              //           );
+              //         }),
+              //         child: Container(),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       flex: 4,
+              //       child: GestureDetector(
+              //         behavior: HitTestBehavior.translucent,
+              //         onTap: (() {
+              //           sl<ReaderBloc>().add(
+              //             ReaderEventShowHideUI(),
+              //           );
+              //         }),
+              //         child: Container(),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: GestureDetector(
+              //         behavior: HitTestBehavior.translucent,
+              //         onTap: (() {
+              //           sl<ReaderBloc>().add(
+              //             ReaderEventNextPage(),
+              //           );
+              //         }),
+              //         child: Container(),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               ...([const ReadPageUI()]),
             ],
           ),
@@ -90,33 +90,35 @@ class ReaderBody extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  String _style(String html) {
-    return '''
-      <body>
-          $html
-      <body/>''';
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<ReaderBloc, ReaderState>(
-        builder: (context, state) {
-          return (state is ReaderLoaded)
-              ? Html(
-                  style: {
-                    "body": Style(
-                      padding: const EdgeInsets.all(8),
-                      fontSize: state.fontSize,
-                      fontFamily: state.font.family,
-                      //fontFamily: "3DUnicode",
-                    )
+    return BlocBuilder<ReaderBloc, ReaderState>(
+      builder: (context, state) {
+        return (state is ReaderLoaded)
+            ? SingleChildScrollView(
+                child: Html(
+                  onAnchorTap: (ancor, htmlContext, map, el) {
+                    // scrollIntoView  final data = htmlContext.parser;
+                    String id = map['id'] ?? 'empty';
+                    sl<ReaderBloc>().add(ReaderEventSetBookmark(id));
                   },
-                  data: _style(state.pageText),
-                )
-              : Container();
-        },
-      ),
+                  style: {
+                    "a": Style(
+                        fontSize: state.fontSize,
+                        fontFamily: state.font.family,
+                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        textDecoration: TextDecoration.none),
+                    '#${state.bookmark}': Style(
+                        fontSize: state.fontSize,
+                        fontFamily: state.font.family,
+                        color: Theme.of(context).focusColor,
+                        textDecoration: TextDecoration.none),
+                  },
+                  data: state.pageText,
+                ),
+              )
+            : Container();
+      },
     );
   }
 }
@@ -129,9 +131,18 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
     return BlocBuilder<ReaderBloc, ReaderState>(builder: (context, state) {
       if (state is ReaderLoaded) {
         return AppBar(
-            title: Text(
-          state.title,
-        ));
+          title: Text(
+            state.title,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                sl<ReaderBloc>().add(ReaderEventShowHideUI());
+              },
+              icon: const Icon(Icons.settings),
+            ),
+          ],
+        );
       } else {
         return const LoadingAppBar();
       }

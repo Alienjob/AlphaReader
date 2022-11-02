@@ -42,3 +42,9 @@ class ReaderEventOnOffSubstitution implements ReaderEvent {
 }
 
 class ReaderEventCloseBook implements ReaderEvent {}
+
+class ReaderEventSetBookmark implements ReaderEvent {
+  final String bookmark;
+
+  ReaderEventSetBookmark(this.bookmark);
+}
