@@ -8,7 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class ReadPage extends StatelessWidget {
-  const ReadPage({super.key});
+  ReadPage({super.key});
+
+  GlobalKey htmlAncor = GlobalKey();
 
   Widget _buildBody(BuildContext context) {
     return Center(
@@ -27,7 +29,7 @@ class ReadPage extends StatelessWidget {
                   );
                 }
               },
-              child: const ReaderBody(),
+              child: ReaderBody(htmlAncor: htmlAncor),
             ),
             // Row(
             //   children: [
@@ -79,6 +81,36 @@ class ReadPage extends StatelessWidget {
     return Scaffold(
       appBar: const ReaderAppBar(),
       body: _buildBody(context),
+      //  floatingActionButton:
+      //      ScrollToBookmarkFloatingButton(htmlAncor: htmlAncor),
+    );
+  }
+}
+
+class ScrollToBookmarkFloatingButton extends StatelessWidget {
+  const ScrollToBookmarkFloatingButton({
+    Key? key,
+    required this.htmlAncor,
+  }) : super(key: key);
+
+  final GlobalKey<State<StatefulWidget>> htmlAncor;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.find_in_page),
+      onPressed: () {
+        final AnchorKey? htmlAncorKey = AnchorKey.forId(
+          htmlAncor,
+          (sl<ReaderBloc>().state as ReaderLoaded).bookmark,
+        );
+        if (htmlAncorKey == null) return;
+
+        final BuildContext? anchorContext = htmlAncorKey.currentContext;
+        if (anchorContext == null) return;
+
+        Scrollable.ensureVisible(anchorContext);
+      },
     );
   }
 }
@@ -86,8 +118,9 @@ class ReadPage extends StatelessWidget {
 class ReaderBody extends StatelessWidget {
   const ReaderBody({
     Key? key,
+    required this.htmlAncor,
   }) : super(key: key);
-
+  final GlobalKey htmlAncor;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReaderBloc, ReaderState>(
@@ -95,6 +128,7 @@ class ReaderBody extends StatelessWidget {
         return (state is ReaderLoaded)
             ? SingleChildScrollView(
                 child: Html(
+                  anchorKey: htmlAncor,
                   onAnchorTap: (ancor, htmlContext, map, el) {
                     // scrollIntoView  final data = htmlContext.parser;
                     String id = map['id'] ?? 'empty';
