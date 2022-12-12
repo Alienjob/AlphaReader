@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alpha_reader/domain/entities/book.dart';
+import 'package:alpha_reader/features/book_list/data/embedded/books/hpmor_ru.dart';
 import 'package:alpha_reader/features/book_list/data/embedded/books/little_prince.dart';
 import 'package:alpha_reader/features/book_list/data/embedded/books/the_causal_angel.dart';
 import 'package:alpha_reader/features/book_list/data/embedded/books/the_seven_madmen_book.dart';
@@ -23,6 +24,9 @@ class BookSourceEmbedded implements IBookSource {
     final instanceTheCausalAngelBook = TheCausalAngelBook();
     await instanceTheCausalAngelBook.init();
     books.add(instanceTheCausalAngelBook);
+    final instanceHPMOR = HPMOR();
+    await instanceHPMOR.init();
+    books.add(instanceHPMOR);
 
     return BookSourceEmbedded._(books);
   }

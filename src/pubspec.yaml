@@ -90,6 +90,7 @@ flutter:
     - assets/fonts/bpg_nuskha_modern.ttf
 
     - assets/books/TheCausalAngel/TheCausalAngel.fb2
+    - assets/books/hpmor_ru/hpmor_ru.fb2
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

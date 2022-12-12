@@ -3,7 +3,6 @@ import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_bott
 import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_top_panel.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReadPageUI extends StatefulWidget {

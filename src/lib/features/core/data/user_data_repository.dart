@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +10,10 @@ abstract class IUserDataRepository {
   //page
   Future<int> pageIndex(String bookKey);
   Future<void> setPageIndex(String bookKey, int pageIndex);
+
+  //bookMark
+  Future<void> setBookMark(String bookKey, int pageIndex, String bookMark);
+  Future<String> bookMark(String bookKey, int pageIndex);
 
   //substitution
   Future<Substitutions> substitutions();
@@ -89,5 +91,21 @@ class UserDataRepository implements IUserDataRepository {
   @override
   Future<void> setFontSize({required FontSize size}) async {
     sharedPreferences.setDouble('FONTSIZE', size.size ?? 0);
+  }
+
+  @override
+  Future<String> bookMark(String bookKey, int pageIndex) async {
+    String bookMark = sharedPreferences
+            .getString('BOOKMARKbookKey${bookKey}pageIndex$pageIndex') ??
+        'empty';
+
+    return bookMark;
+  }
+
+  @override
+  Future<void> setBookMark(
+      String bookKey, int pageIndex, String bookMark) async {
+    sharedPreferences.setString(
+        'BOOKMARKbookKey${bookKey}pageIndex$pageIndex', bookMark);
   }
 }

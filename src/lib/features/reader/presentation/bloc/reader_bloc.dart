@@ -4,6 +4,8 @@ import 'package:alpha_reader/domain/usecases/change_font_family.dart';
 import 'package:alpha_reader/domain/usecases/change_font_size.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
+import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
+import 'package:alpha_reader/domain/usecases/open_book.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -42,6 +44,8 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     IBook book = await sl<IReaderRepository>().getBook(event.bookKey);
     int pageIndex = await sl<IUserDataRepository>().pageIndex(event.bookKey);
     Substitutions sub = await sl<IUserDataRepository>().substitutions();
+    String bookmark =
+        await sl<IUserDataRepository>().bookMark(book.key, pageIndex);
     String displayText = Mixer(sub).mix(book.pageText(pageIndex));
     var newState = ReaderLoaded(
       sub: sub,
@@ -54,8 +58,12 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       font: AlphaReaderFont.byFamily(fontFamily),
       fontSize: fontSize,
       set: SubstitutionSet.en,
-      bookmark: 'empty',
+      bookmark: bookmark,
     );
+    sl<OpenBook>()(
+      bookKey: newState.book.key,
+    );
+
     emit(newState);
   }
 
@@ -138,6 +146,12 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         pageIndex: newPageIndex,
         pageText: displayText,
       );
+
+      sl<SelectPage>()(
+        bookKey: newState.book.key,
+        pageIndex: newState.pageIndex,
+      );
+
       emit(newState);
     }
   }
@@ -164,6 +178,12 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         pageIndex: newPageIndex,
         pageText: displayText,
       );
+
+      sl<SelectPage>()(
+        bookKey: newState.book.key,
+        pageIndex: newState.pageIndex,
+      );
+
       emit(newState);
     }
   }
@@ -203,6 +223,11 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         bookmark: event.bookmark,
       );
       emit(newState);
+      sl<SetBookMark>()(
+        bookKey: newState.book.key,
+        pageIndex: newState.pageIndex,
+        bookMark: newState.bookmark,
+      );
     }
   }
 
