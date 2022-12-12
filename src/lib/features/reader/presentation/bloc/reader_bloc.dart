@@ -233,49 +233,15 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     Emitter<ReaderState> emit,
   ) async {
     if (state is ReaderLoaded) {
-      FontSize newSize;
-      switch ((state as ReaderLoaded).fontSize) {
-        case FontSize.xxSmall:
-          {
-            newSize = FontSize.xSmall;
-          }
-          break;
-        case FontSize.xSmall:
-          {
-            newSize = FontSize.small;
-          }
-          break;
-        case FontSize.small:
-          {
-            newSize = FontSize.medium;
-          }
-          break;
-        case FontSize.medium:
-          {
-            newSize = FontSize.large;
-          }
-          break;
-        case FontSize.large:
-          {
-            newSize = FontSize.xLarge;
-          }
-          break;
-        case FontSize.xLarge:
-          {
-            newSize = FontSize.xxLarge;
-          }
-          break;
-        case FontSize.xxLarge:
-          {
-            newSize = FontSize.xxLarge;
-          }
-          break;
-        default:
-          {
-            newSize = FontSize.medium;
-          }
-          break;
-      }
+      FontSize newSize = FontSize.medium;
+      final old = (state as ReaderLoaded).fontSize.size;
+      if (old == FontSize.xxSmall.size) newSize = FontSize.xSmall;
+      if (old == FontSize.xSmall.size) newSize = FontSize.small;
+      if (old == FontSize.small.size) newSize = FontSize.medium;
+      if (old == FontSize.medium.size) newSize = FontSize.large;
+      if (old == FontSize.large.size) newSize = FontSize.xLarge;
+      if (old == FontSize.xLarge.size) newSize = FontSize.xxLarge;
+      if (old == FontSize.xxLarge.size) newSize = FontSize.xxLarge;
       ChangeFontSize(repository: sl(), size: newSize)();
       var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
       emit(newState);
@@ -287,49 +253,15 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     Emitter<ReaderState> emit,
   ) async {
     if (state is ReaderLoaded) {
-      FontSize newSize;
-      switch ((state as ReaderLoaded).fontSize) {
-        case FontSize.xxSmall:
-          {
-            newSize = FontSize.xxSmall;
-          }
-          break;
-        case FontSize.xSmall:
-          {
-            newSize = FontSize.xxSmall;
-          }
-          break;
-        case FontSize.small:
-          {
-            newSize = FontSize.xSmall;
-          }
-          break;
-        case FontSize.medium:
-          {
-            newSize = FontSize.small;
-          }
-          break;
-        case FontSize.large:
-          {
-            newSize = FontSize.medium;
-          }
-          break;
-        case FontSize.xLarge:
-          {
-            newSize = FontSize.large;
-          }
-          break;
-        case FontSize.xxLarge:
-          {
-            newSize = FontSize.xLarge;
-          }
-          break;
-        default:
-          {
-            newSize = FontSize.medium;
-          }
-          break;
-      }
+      FontSize newSize = FontSize.medium;
+      final old = (state as ReaderLoaded).fontSize.size;
+      if (old == FontSize.xxSmall.size) newSize = FontSize.xxSmall;
+      if (old == FontSize.xSmall.size) newSize = FontSize.xxSmall;
+      if (old == FontSize.small.size) newSize = FontSize.xSmall;
+      if (old == FontSize.medium.size) newSize = FontSize.small;
+      if (old == FontSize.large.size) newSize = FontSize.medium;
+      if (old == FontSize.xLarge.size) newSize = FontSize.large;
+      if (old == FontSize.xxLarge.size) newSize = FontSize.xLarge;
       ChangeFontSize(repository: sl(), size: newSize)();
       var newState = (state as ReaderLoaded).copyWith(fontSize: newSize);
       emit(newState);
