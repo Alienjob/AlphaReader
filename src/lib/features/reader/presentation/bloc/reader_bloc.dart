@@ -60,9 +60,6 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       set: SubstitutionSet.en,
       bookmark: bookmark,
     );
-    sl<OpenBook>()(
-      bookKey: newState.book.key,
-    );
 
     emit(newState);
   }
@@ -223,7 +220,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         bookmark: event.bookmark,
       );
       emit(newState);
-      sl<SetBookMark>()(
+      await sl<SetBookMark>()(
         bookKey: newState.book.key,
         pageIndex: newState.pageIndex,
         bookMark: newState.bookmark,

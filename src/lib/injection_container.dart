@@ -7,6 +7,7 @@ import 'package:alpha_reader/domain/usecases/get_books.dart';
 import 'package:alpha_reader/domain/usecases/open_book.dart';
 import 'package:alpha_reader/domain/usecases/remove_book.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
+import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
 import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
 import 'package:alpha_reader/features/book_list/data/repositories/books_repository.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
@@ -82,6 +83,9 @@ Future<void> init() async {
         userDatarepository: sl(),
       ));
   sl.registerLazySingleton<RemoveBook>(() => RemoveBook(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<SetBookMark>(() => SetBookMark(
         repository: sl(),
       ));
 }

@@ -5,7 +5,7 @@ class SetBookMark {
 
   SetBookMark({required this.repository});
 
-  void call({
+  Future<void> call({
     required bookKey,
     required pageIndex,
     required String bookMark,
