@@ -50,6 +50,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   uuid: ^3.0.6
+  freezed_annotation: ^2.2.0
+
 
   
 dev_dependencies:
@@ -65,6 +67,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   test: ^1.21.4
+  build_runner: ^2.3.0
+  freezed: ^2.2.0
 
 
 # For information on the generic Dart part of this file, see the
@@ -94,6 +98,120 @@ flutter:
     - assets/books/TheCausalAngel/TheCausalAngel.fb2
     - assets/books/hpmor_ru/hpmor_ru.fb2
   #   - images/a_dot_ham.jpeg
+
+    - assets/fonts_pay/5mikropix.ttf
+    - assets/fonts_pay/8bitoperatorf8.ttf
+    - assets/fonts_pay/Cartoon1471Extended.ttf
+    - assets/fonts_pay/CustomFontTtf12H10.ttf
+    - assets/fonts_pay/CustomFontTtf12H20.ttf
+    - assets/fonts_pay/CustomFontTtf12H30.ttf
+    - assets/fonts_pay/CustomFontTtf12H30ForPaint.ttf
+    - assets/fonts_pay/CustomFontTtf16H10.ttf
+    - assets/fonts_pay/CustomFontTtf16H20.ttf
+    - assets/fonts_pay/CustomFontTtf16H30.ttf
+    - assets/fonts_pay/CustomFontTtf16H30ForPaint.ttf
+    - assets/fonts_pay/DejaVuMarkup-Bold.ttf
+    - assets/fonts_pay/DejaVuMarkup-BoldOblique.ttf
+    - assets/fonts_pay/DejaVuMarkup-Oblique.ttf
+    - assets/fonts_pay/DejaVuMarkup.ttf
+    - assets/fonts_pay/DejaVuSans-Bold.ttf
+    - assets/fonts_pay/DejaVuSans-BoldOblique.ttf
+    - assets/fonts_pay/DejaVuSans-ExtraLight.ttf
+    - assets/fonts_pay/DejaVuSans-Oblique.ttf
+    - assets/fonts_pay/DejaVuSans.ttf
+    - assets/fonts_pay/DejaVuSansCondensed-Bold.ttf
+    - assets/fonts_pay/DejaVuSansCondensed-BoldOblique.ttf
+    - assets/fonts_pay/DejaVuSansCondensed-Oblique.ttf
+    - assets/fonts_pay/DejaVuSansCondensed.ttf
+    - assets/fonts_pay/DejaVuSansMono-Bold.ttf
+    - assets/fonts_pay/DejaVuSansMono-BoldOblique.ttf
+    - assets/fonts_pay/DejaVuSansMono-Oblique.ttf
+    - assets/fonts_pay/DejaVuSansMono.ttf
+    - assets/fonts_pay/DejaVuSerif-Bold.ttf
+    - assets/fonts_pay/DejaVuSerif-BoldItalic.ttf
+    - assets/fonts_pay/DejaVuSerif-Italic.ttf
+    - assets/fonts_pay/DejaVuSerif.ttf
+    - assets/fonts_pay/DejaVuSerifCondensed-Bold.ttf
+    - assets/fonts_pay/DejaVuSerifCondensed-BoldItalic.ttf
+    - assets/fonts_pay/DejaVuSerifCondensed-Italic.ttf
+    - assets/fonts_pay/DejaVuSerifCondensed.ttf
+    - assets/fonts_pay/F77 Minecraft.ttf
+    - assets/fonts_pay/FreeMono.ttf
+    - assets/fonts_pay/FreeMonoBold.ttf
+    - assets/fonts_pay/FreeMonoBoldOblique.ttf
+    - assets/fonts_pay/FreeMonoOblique.ttf
+    - assets/fonts_pay/FreeMonospaced.otf
+    - assets/fonts_pay/FreeMonospaced.ttf
+    - assets/fonts_pay/FreeMonospacedBold.otf
+    - assets/fonts_pay/FreeMonospacedBold.ttf
+    - assets/fonts_pay/FreeMonospacedBoldOblique.otf
+    - assets/fonts_pay/FreeMonospacedBoldOblique.ttf
+    - assets/fonts_pay/FreeMonospacedOblique.otf
+    - assets/fonts_pay/FreeMonospacedOblique.ttf
+    - assets/fonts_pay/FreeSans.ttf
+    - assets/fonts_pay/FreeSansBold.ttf
+    - assets/fonts_pay/FreeSansBoldOblique.ttf
+    - assets/fonts_pay/FreeSansOblique.ttf
+    - assets/fonts_pay/FreeSerif.ttf
+    - assets/fonts_pay/FreeSerifBold.ttf
+    - assets/fonts_pay/FreeSerifBoldItalic.ttf
+    - assets/fonts_pay/FreeSerifItalic.ttf
+    - assets/fonts_pay/FsSongarak1Regular.ttf
+    - assets/fonts_pay/GaliverSans.ttf
+    - assets/fonts_pay/GaliverSansBold.ttf
+    - assets/fonts_pay/GaliverSansBoldItalic.ttf
+    - assets/fonts_pay/GaliverSansItalic.ttf
+    - assets/fonts_pay/GaliverSansObliques.ttf
+    - assets/fonts_pay/GaliverSansObliquesBold.ttf
+    - assets/fonts_pay/GaliverSansObliquesBoldItalic.ttf
+    - assets/fonts_pay/GaliverSansObliquesItalic.ttf
+    - assets/fonts_pay/Hack-Bold.ttf
+    - assets/fonts_pay/Hack-BoldItalic.ttf
+    - assets/fonts_pay/Hack-Italic.ttf
+    - assets/fonts_pay/Hack-Regular.ttf
+    - assets/fonts_pay/K1FS.ttf
+    - assets/fonts_pay/Kelvinch-Bold.otf
+    - assets/fonts_pay/Kelvinch-BoldItalic.otf
+    - assets/fonts_pay/Kelvinch-Italic.otf
+    - assets/fonts_pay/Kelvinch-Roman.otf
+    - assets/fonts_pay/NikkyouSans.ttf
+    - assets/fonts_pay/Pixelatus.ttf
+    - assets/fonts_pay/Quivira.ttf
+    - assets/fonts_pay/RailModel.ttf
+    - assets/fonts_pay/Royana-Regular.ttf
+    - assets/fonts_pay/Truetypewriter PolyglOTT.ttf
+    - assets/fonts_pay/VEGESIGNES.ttf
+    - assets/fonts_pay/VegesignesRegular.ttf
+    - assets/fonts_pay/Xarrovv.otf
+    - assets/fonts_pay/XarrovvBold.otf
+    - assets/fonts_pay/_helveticaneueui.ttf
+    - assets/fonts_pay/carrier.ttf
+    - assets/fonts_pay/cstmxprmntl02bold_bold.otf
+    - assets/fonts_pay/cstmxprmntl02italic_italic.otf
+    - assets/fonts_pay/determination2.ttf
+    - assets/fonts_pay/erkntitlefont_v2.ttf
+    - assets/fonts_pay/fsrebellion.otf
+    - assets/fonts_pay/garamondtypoartunicode.otf
+    - assets/fonts_pay/geo_1.ttf
+    - assets/fonts_pay/hailstenui.otf
+    - assets/fonts_pay/mandy_ssketchextended.otf
+    - assets/fonts_pay/neoletters.ttf
+    - assets/fonts_pay/new-gen.ttf
+    - assets/fonts_pay/neznaikanalune.otf
+    - assets/fonts_pay/poeveticaui.otf
+    - assets/fonts_pay/positypeneue.ttf
+    - assets/fonts_pay/softclubhelvetica.otf
+    - assets/fonts_pay/softclubhelvetica_bold.otf
+    - assets/fonts_pay/sylfaen.ttf
+    - assets/fonts_pay/vgafontupdatecop.ttf
+    - assets/fonts_pay/vgafontupdatecop_medium.otf
+    - assets/fonts_pay/vgaupdate1_medium.otf
+    - assets/fonts_pay/weblysleekuil.ttf
+    - assets/fonts_pay/weblysleekuili.ttf
+    - assets/fonts_pay/weblysleekuisb.ttf
+    - assets/fonts_pay/weblysleekuisbi.ttf
+    - assets/fonts_pay/weblysleekuisl.ttf
+    - assets/fonts_pay/weblysleekuisli.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -130,3 +248,274 @@ flutter:
     - family: BPGNuskhaModern
       fonts:
         - asset: assets/fonts/bpg_nuskha_modern.ttf
+
+    # fonts_pay
+    - family: 5mikropix
+      fonts:
+        - asset: assets/fonts_pay/5mikropix.ttf
+
+    - family: 8bitoperatorf8
+      fonts:
+        - asset: assets/fonts_pay/8bitoperatorf8.ttf
+
+    - family: Cartoon1471Extended
+      fonts:
+        - asset: assets/fonts_pay/Cartoon1471Extended.ttf
+
+    - family: CustomFont
+      fonts:
+        - asset: assets/fonts_pay/CustomFontTtf12H10.ttf
+        - asset: assets/fonts_pay/CustomFontTtf12H20.ttf
+        - asset: assets/fonts_pay/CustomFontTtf12H30.ttf
+        - asset: assets/fonts_pay/CustomFontTtf12H30ForPaint.ttf
+        - asset: assets/fonts_pay/CustomFontTtf16H10.ttf
+        - asset: assets/fonts_pay/CustomFontTtf16H20.ttf
+        - asset: assets/fonts_pay/CustomFontTtf16H30.ttf
+        - asset: assets/fonts_pay/CustomFontTtf16H30ForPaint.ttf
+
+    - family: DejaVuMarkup
+      fonts:
+        - asset: assets/fonts_pay/DejaVuMarkup-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuMarkup-BoldOblique.ttf
+        - asset: assets/fonts_pay/DejaVuMarkup-Oblique.ttf
+        - asset: assets/fonts_pay/DejaVuMarkup.ttf
+
+    - family: DejaVuSans
+      fonts:
+        - asset: assets/fonts_pay/DejaVuSans-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuSans-BoldOblique.ttf
+        - asset: assets/fonts_pay/DejaVuSans-ExtraLight.ttf
+        - asset: assets/fonts_pay/DejaVuSans-Oblique.ttf
+        - asset: assets/fonts_pay/DejaVuSans.ttf
+
+    - family: DejaVuSansCondensed
+      fonts:
+        - asset: assets/fonts_pay/DejaVuSansCondensed-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuSansCondensed-BoldOblique.ttf
+        - asset: assets/fonts_pay/DejaVuSansCondensed-Oblique.ttf
+        - asset: assets/fonts_pay/DejaVuSansCondensed.ttf
+
+    - family: DejaVuSansMono
+      fonts:
+        - asset: assets/fonts_pay/DejaVuSansMono-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuSansMono-BoldOblique.ttf
+        - asset: assets/fonts_pay/DejaVuSansMono-Oblique.ttf
+        - asset: assets/fonts_pay/DejaVuSansMono.ttf
+
+    - family: DejaVuSerif
+      fonts:
+        - asset: assets/fonts_pay/DejaVuSerif-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuSerif-BoldItalic.ttf
+        - asset: assets/fonts_pay/DejaVuSerif-Italic.ttf
+        - asset: assets/fonts_pay/DejaVuSerif.ttf
+
+    - family: DejaVuSerifCondensed
+      fonts:
+        - asset: assets/fonts_pay/DejaVuSerifCondensed-Bold.ttf
+        - asset: assets/fonts_pay/DejaVuSerifCondensed-BoldItalic.ttf
+        - asset: assets/fonts_pay/DejaVuSerifCondensed-Italic.ttf
+        - asset: assets/fonts_pay/DejaVuSerifCondensed.ttf
+
+    - family: Minecraft
+      fonts:
+        - asset: assets/fonts_pay/F77 Minecraft.ttf
+
+    - family: FreeMono
+      fonts:
+        - asset: assets/fonts_pay/FreeMonoBold.ttf
+        - asset: assets/fonts_pay/FreeMonoBoldOblique.ttf
+        - asset: assets/fonts_pay/FreeMonoOblique.ttf
+        - asset: assets/fonts_pay/FreeMono.ttf
+
+    - family: FreeMonospaced
+      fonts:
+        - asset: assets/fonts_pay/FreeMonospaced.ttf
+        - asset: assets/fonts_pay/FreeMonospaced.otf
+
+    - family: FreeMonospacedBold
+      fonts:
+        - asset: assets/fonts_pay/FreeMonospacedBold.ttf
+        - asset: assets/fonts_pay/FreeMonospacedBold.otf
+
+    - family: FreeMonospacedBoldOblique
+      fonts:
+        - asset: assets/fonts_pay/FreeMonospacedBoldOblique.ttf
+        - asset: assets/fonts_pay/FreeMonospacedBoldOblique.otf
+
+    - family: FreeMonospacedOblique
+      fonts:
+        - asset: assets/fonts_pay/FreeMonospacedOblique.ttf
+        - asset: assets/fonts_pay/FreeMonospacedOblique.otf
+
+    - family: FreeSans
+      fonts:
+        - asset: assets/fonts_pay/FreeSans.ttf
+        - asset: assets/fonts_pay/FreeSansBold.ttf
+        - asset: assets/fonts_pay/FreeSansBoldOblique.ttf
+        - asset: assets/fonts_pay/FreeSansOblique.ttf
+
+    - family: FreeSerif
+      fonts:
+        - asset: assets/fonts_pay/FreeSerif.ttf
+        - asset: assets/fonts_pay/FreeSerifBold.ttf
+        - asset: assets/fonts_pay/FreeSerifBoldItalic.ttf
+        - asset: assets/fonts_pay/FreeSerifItalic.ttf
+
+    - family: GaliverSans
+      fonts:
+        - asset: assets/fonts_pay/GaliverSans.ttf
+        - asset: assets/fonts_pay/GaliverSansBold.ttf
+        - asset: assets/fonts_pay/GaliverSansBoldItalic.ttf
+        - asset: assets/fonts_pay/GaliverSansItalic.ttf
+        - asset: assets/fonts_pay/GaliverSansObliques.ttf
+        - asset: assets/fonts_pay/GaliverSansObliquesBold.ttf
+        - asset: assets/fonts_pay/GaliverSansObliquesBoldItalic.ttf
+        - asset: assets/fonts_pay/GaliverSansObliquesItalic.ttf
+
+    - family: Hack
+      fonts:
+        - asset: assets/fonts_pay/Hack-Bold.ttf
+        - asset: assets/fonts_pay/Hack-BoldItalic.ttf
+        - asset: assets/fonts_pay/Hack-Italic.ttf
+        - asset: assets/fonts_pay/Hack-Regular.ttf
+
+    - family: Kelvinch
+      fonts:
+        - asset: assets/fonts_pay/Kelvinch-Bold.otf
+        - asset: assets/fonts_pay/Kelvinch-BoldItalic.otf
+        - asset: assets/fonts_pay/Kelvinch-Italic.otf
+        - asset: assets/fonts_pay/Kelvinch-Roman.otf
+
+    - family: K1FS
+      fonts:
+        - asset: assets/fonts_pay/K1FS.ttf
+
+    - family: NikkyouSans
+      fonts:
+        - asset: assets/fonts_pay/NikkyouSans.ttf
+
+    - family: FsSongarak1Regular
+      fonts:
+        - asset: assets/fonts_pay/FsSongarak1Regular.ttf
+
+    - family: Pixelatus
+      fonts:
+        - asset: assets/fonts_pay/Pixelatus.ttf
+
+    - family: Quivira
+      fonts:
+        - asset: assets/fonts_pay/Quivira.ttf
+
+    - family: RailModel
+      fonts:
+        - asset: assets/fonts_pay/RailModel.ttf
+
+    - family: Royana-Regular
+      fonts:
+        - asset: assets/fonts_pay/Royana-Regular.ttf
+
+    - family: Truetypewriter
+      fonts:
+        - asset: assets/fonts_pay/Truetypewriter PolyglOTT.ttf
+
+    - family: VEGESIGNES
+      fonts:
+        - asset: assets/fonts_pay/VEGESIGNES.ttf
+
+    - family: VegesignesRegular
+      fonts:
+        - asset: assets/fonts_pay/VegesignesRegular.ttf
+
+    - family: Xarrovv
+      fonts:
+        - asset: assets/fonts_pay/Xarrovv.otf
+        - asset: assets/fonts_pay/XarrovvBold.otf
+
+    - family: _helveticaneueui
+      fonts:
+        - asset: assets/fonts_pay/_helveticaneueui.ttf
+
+    - family: carrier
+      fonts:
+        - asset: assets/fonts_pay/carrier.ttf
+
+    - family: cstmxprmnt
+      fonts:
+        - asset: assets/fonts_pay/cstmxprmntl02bold_bold.otf
+        - asset: assets/fonts_pay/cstmxprmntl02italic_italic.otf
+
+    - family: determination2
+      fonts:
+        - asset: assets/fonts_pay/determination2.ttf
+
+    - family: erkntitlefont_v2
+      fonts:
+        - asset: assets/fonts_pay/erkntitlefont_v2.ttf
+
+    - family: fsrebellion
+      fonts:
+        - asset: assets/fonts_pay/fsrebellion.otf
+
+    - family: garamondtypoartunicode
+      fonts:
+        - asset: assets/fonts_pay/garamondtypoartunicode.otf
+
+    - family: geo_1
+      fonts:
+        - asset: assets/fonts_pay/geo_1.ttf
+
+    - family: hailstenui
+      fonts:
+        - asset: assets/fonts_pay/hailstenui.otf
+
+    - family: mandy_ssketchextended
+      fonts:
+        - asset: assets/fonts_pay/mandy_ssketchextended.otf
+
+    - family: neoletters
+      fonts:
+        - asset: assets/fonts_pay/neoletters.ttf
+
+    - family: new-gen
+      fonts:
+        - asset: assets/fonts_pay/new-gen.ttf
+
+    - family: neznaikanalune
+      fonts:
+        - asset: assets/fonts_pay/neznaikanalune.otf
+
+    - family: poeveticaui
+      fonts:
+        - asset: assets/fonts_pay/poeveticaui.otf
+
+    - family: positypeneue
+      fonts:
+        - asset: assets/fonts_pay/positypeneue.ttf
+
+    - family: softclubhelvetica
+      fonts:
+        - asset: assets/fonts_pay/softclubhelvetica.otf
+        - asset: assets/fonts_pay/softclubhelvetica_bold.otf
+
+    - family: sylfaen
+      fonts:
+        - asset: assets/fonts_pay/sylfaen.ttf
+
+    - family: vgafontupdatecop
+      fonts:
+        - asset: assets/fonts_pay/vgafontupdatecop.ttf
+        - asset: assets/fonts_pay/vgafontupdatecop_medium.otf
+
+    - family: vgaupdate1_medium
+      fonts:
+        - asset: assets/fonts_pay/vgaupdate1_medium.otf
+
+    - family: weblysleekuil
+      fonts:
+        - asset: assets/fonts_pay/weblysleekuil.ttf
+        - asset: assets/fonts_pay/weblysleekuili.ttf
+        - asset: assets/fonts_pay/weblysleekuisb.ttf
+        - asset: assets/fonts_pay/weblysleekuisbi.ttf
+        - asset: assets/fonts_pay/weblysleekuisl.ttf
+        - asset: assets/fonts_pay/weblysleekuisli.ttf
+
