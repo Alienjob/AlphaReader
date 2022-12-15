@@ -57,7 +57,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       pageText: displayText,
       font: AlphaReaderFont.byFamily(fontFamily),
       fontSize: fontSize,
-      set: SubstitutionSet.en,
+      set: SubstitutionSet.ru,
       bookmark: bookmark,
     );
 

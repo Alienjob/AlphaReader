@@ -1,6 +1,7 @@
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:alpha_reader/injection_container.dart';
+import 'package:alpha_reader/pages/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +50,13 @@ class _PageSliderState extends State<PageSlider> {
                 color: Theme.of(context).cardColor,
               ),
               onPressed: () {
-                sl<ReaderBloc>().add(ReaderEventNextFont());
+                //  sl<ReaderBloc>().add(ReaderEventNextFont());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ShopPage(),
+                  ),
+                );
               },
             ),
             Row(

@@ -12,6 +12,8 @@ import 'package:alpha_reader/features/book_list/data/datasources/book_source.dar
 import 'package:alpha_reader/features/book_list/data/repositories/books_repository.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
+import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
+import 'package:alpha_reader/features/fonts/repository.dart';
 import 'package:alpha_reader/features/reader/data/reader_repository.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -50,6 +52,9 @@ Future<void> init() async {
   sl.registerLazySingleton<IUserDataRepository>(
       () => UserDataRepository(sharedPreferences: sl()));
 
+  //! DATA SOURCE - FONT
+  sl.registerLazySingleton<FontRepositary>(() => FontRepositary());
+
   //! BLOC
   sl.registerLazySingleton<BookListBloc>(() => BookListBloc(
         getBooks: sl(),
@@ -59,6 +64,8 @@ Future<void> init() async {
       ));
 
   sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
+
+  sl.registerFactory<FontBloc>(() => FontBloc(sl()));
 
   //! USE CASES
   sl.registerLazySingleton<GetBooks>(() => GetBooks(
