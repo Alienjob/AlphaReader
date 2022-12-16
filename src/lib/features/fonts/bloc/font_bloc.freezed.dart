@@ -19,6 +19,7 @@ mixin _$FontState {
   bool get isProcessing => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   List<FontDescription> get fonts => throw _privateConstructorUsedError;
+  StoreData get storeData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FontStateCopyWith<FontState> get copyWith =>
@@ -30,7 +31,13 @@ abstract class $FontStateCopyWith<$Res> {
   factory $FontStateCopyWith(FontState value, $Res Function(FontState) then) =
       _$FontStateCopyWithImpl<$Res, FontState>;
   @useResult
-  $Res call({bool isProcessing, String message, List<FontDescription> fonts});
+  $Res call(
+      {bool isProcessing,
+      String message,
+      List<FontDescription> fonts,
+      StoreData storeData});
+
+  $StoreDataCopyWith<$Res> get storeData;
 }
 
 /// @nodoc
@@ -49,6 +56,7 @@ class _$FontStateCopyWithImpl<$Res, $Val extends FontState>
     Object? isProcessing = null,
     Object? message = null,
     Object? fonts = null,
+    Object? storeData = null,
   }) {
     return _then(_value.copyWith(
       isProcessing: null == isProcessing
@@ -63,7 +71,19 @@ class _$FontStateCopyWithImpl<$Res, $Val extends FontState>
           ? _value.fonts
           : fonts // ignore: cast_nullable_to_non_nullable
               as List<FontDescription>,
+      storeData: null == storeData
+          ? _value.storeData
+          : storeData // ignore: cast_nullable_to_non_nullable
+              as StoreData,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StoreDataCopyWith<$Res> get storeData {
+    return $StoreDataCopyWith<$Res>(_value.storeData, (value) {
+      return _then(_value.copyWith(storeData: value) as $Val);
+    });
   }
 }
 
@@ -74,7 +94,14 @@ abstract class _$$_FontStateCopyWith<$Res> implements $FontStateCopyWith<$Res> {
       __$$_FontStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isProcessing, String message, List<FontDescription> fonts});
+  $Res call(
+      {bool isProcessing,
+      String message,
+      List<FontDescription> fonts,
+      StoreData storeData});
+
+  @override
+  $StoreDataCopyWith<$Res> get storeData;
 }
 
 /// @nodoc
@@ -91,6 +118,7 @@ class __$$_FontStateCopyWithImpl<$Res>
     Object? isProcessing = null,
     Object? message = null,
     Object? fonts = null,
+    Object? storeData = null,
   }) {
     return _then(_$_FontState(
       isProcessing: null == isProcessing
@@ -105,6 +133,10 @@ class __$$_FontStateCopyWithImpl<$Res>
           ? _value._fonts
           : fonts // ignore: cast_nullable_to_non_nullable
               as List<FontDescription>,
+      storeData: null == storeData
+          ? _value.storeData
+          : storeData // ignore: cast_nullable_to_non_nullable
+              as StoreData,
     ));
   }
 }
@@ -115,7 +147,8 @@ class _$_FontState implements _FontState {
   const _$_FontState(
       {required this.isProcessing,
       required this.message,
-      required final List<FontDescription> fonts})
+      required final List<FontDescription> fonts,
+      required this.storeData})
       : _fonts = fonts;
 
   @override
@@ -130,8 +163,11 @@ class _$_FontState implements _FontState {
   }
 
   @override
+  final StoreData storeData;
+
+  @override
   String toString() {
-    return 'FontState(isProcessing: $isProcessing, message: $message, fonts: $fonts)';
+    return 'FontState(isProcessing: $isProcessing, message: $message, fonts: $fonts, storeData: $storeData)';
   }
 
   @override
@@ -142,12 +178,14 @@ class _$_FontState implements _FontState {
             (identical(other.isProcessing, isProcessing) ||
                 other.isProcessing == isProcessing) &&
             (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._fonts, _fonts));
+            const DeepCollectionEquality().equals(other._fonts, _fonts) &&
+            (identical(other.storeData, storeData) ||
+                other.storeData == storeData));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isProcessing, message,
-      const DeepCollectionEquality().hash(_fonts));
+      const DeepCollectionEquality().hash(_fonts), storeData);
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +198,8 @@ abstract class _FontState implements FontState {
   const factory _FontState(
       {required final bool isProcessing,
       required final String message,
-      required final List<FontDescription> fonts}) = _$_FontState;
+      required final List<FontDescription> fonts,
+      required final StoreData storeData}) = _$_FontState;
 
   @override
   bool get isProcessing;
@@ -168,6 +207,8 @@ abstract class _FontState implements FontState {
   String get message;
   @override
   List<FontDescription> get fonts;
+  @override
+  StoreData get storeData;
   @override
   @JsonKey(ignore: true)
   _$$_FontStateCopyWith<_$_FontState> get copyWith =>

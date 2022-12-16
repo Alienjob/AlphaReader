@@ -6,12 +6,14 @@ class FontState with _$FontState {
     required bool isProcessing,
     required String message,
     required List<FontDescription> fonts,
+    required StoreData storeData,
   }) = _FontState;
   factory FontState.initial() {
-    return const FontState(
+    return FontState(
       isProcessing: false,
       message: '',
       fonts: [],
+      storeData: StoreData.empty(),
     );
   }
 }

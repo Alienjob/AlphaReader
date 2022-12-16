@@ -14,6 +14,7 @@ import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
 import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
 import 'package:alpha_reader/features/fonts/repository.dart';
+import 'package:alpha_reader/features/purchase/purchase_repository.dart';
 import 'package:alpha_reader/features/reader/data/reader_repository.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:get_it/get_it.dart';
