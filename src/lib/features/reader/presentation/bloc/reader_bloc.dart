@@ -1,11 +1,10 @@
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:alpha_reader/domain/usecases/change_font_family.dart';
 import 'package:alpha_reader/domain/usecases/change_font_size.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
-import 'package:alpha_reader/domain/usecases/open_book.dart';
+import 'package:alpha_reader/features/fonts/repository.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -27,10 +26,10 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventNextPage>(_onReaderEventNextPage);
     on<ReaderEventPreviousPage>(_onReaderEventPreviousPage);
     on<ReaderEventNextSet>(_onReaderEventNextSet);
-    on<ReaderEventNextFont>(_onReaderEventNextFont);
     on<ReaderEventIncreaseFontSize>(_onReaderEventIncreaseFontSize);
     on<ReaderEventDecreaseFontSize>(_onReaderEventDecreaseFontSize);
     on<ReaderEventSetBookmark>(_onReaderEventSetBookmark);
+    on<ReaderEventSelectFont>(_onReaderEventSelectFont);
   }
 
   void _onReaderEventOpenBook(
@@ -55,7 +54,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       pageIndex: pageIndex,
       pageCount: book.length,
       pageText: displayText,
-      font: AlphaReaderFont.byFamily(fontFamily),
+      font: AlphaReaderFont(fontFamily),
       fontSize: fontSize,
       set: SubstitutionSet.ru,
       bookmark: bookmark,
@@ -199,18 +198,6 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     }
   }
 
-  void _onReaderEventNextFont(
-    ReaderEventNextFont event,
-    Emitter<ReaderState> emit,
-  ) async {
-    if (state is ReaderLoaded) {
-      var newState = (state as ReaderLoaded)
-          .copyWith(font: (state as ReaderLoaded).font.next);
-      ChangeFontFamily(repository: sl(), alphaReaderFont: newState.font)();
-      emit(newState);
-    }
-  }
-
   void _onReaderEventSetBookmark(
     ReaderEventSetBookmark event,
     Emitter<ReaderState> emit,
@@ -225,6 +212,18 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         pageIndex: newState.pageIndex,
         bookMark: newState.bookmark,
       );
+    }
+  }
+
+  void _onReaderEventSelectFont(
+    ReaderEventSelectFont event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      var newState = (state as ReaderLoaded).copyWith(
+        font: AlphaReaderFont(event.font.family),
+      );
+      emit(newState);
     }
   }
 

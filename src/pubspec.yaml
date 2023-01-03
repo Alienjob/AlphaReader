@@ -51,7 +51,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   uuid: ^3.0.6
   freezed_annotation: ^2.2.0
-  in_app_purchase: ^3.0.8
   purchases_flutter: ^4.5.2
 
 

@@ -14,6 +14,7 @@ import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
 import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
 import 'package:alpha_reader/features/fonts/repository.dart';
+import 'package:alpha_reader/features/purchase/bloc/shop_bloc.dart';
 import 'package:alpha_reader/features/purchase/purchase_repository.dart';
 import 'package:alpha_reader/features/reader/data/reader_repository.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
@@ -56,7 +57,15 @@ Future<void> init() async {
   //! DATA SOURCE - FONT
   sl.registerLazySingleton<FontRepositary>(() => FontRepositary());
 
+  //! DATA SOURCE - Store
+  sl.registerLazySingleton<IPurshaseRepository>(
+      () => RevenueCatPurshaseRepository());
+
   //! BLOC
+  sl.registerFactory<ShopBloc>(() => ShopBloc(
+        sl(),
+      ));
+
   sl.registerLazySingleton<BookListBloc>(() => BookListBloc(
         getBooks: sl(),
         openBook: sl(),
@@ -66,7 +75,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<ReaderBloc>(() => ReaderBloc());
 
-  sl.registerFactory<FontBloc>(() => FontBloc(sl()));
+  sl.registerFactory<FontBloc>(() => FontBloc(sl(), sl()));
 
   //! USE CASES
   sl.registerLazySingleton<GetBooks>(() => GetBooks(

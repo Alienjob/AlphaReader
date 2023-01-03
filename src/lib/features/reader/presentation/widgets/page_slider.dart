@@ -1,6 +1,7 @@
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:alpha_reader/injection_container.dart';
+import 'package:alpha_reader/pages/fonts.dart';
 import 'package:alpha_reader/pages/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,14 +50,16 @@ class _PageSliderState extends State<PageSlider> {
                 Icons.font_download,
                 color: Theme.of(context).cardColor,
               ),
-              onPressed: () {
+              onPressed: () async {
                 //  sl<ReaderBloc>().add(ReaderEventNextFont());
-                Navigator.push(
+                var selectedFont = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ShopPage(),
+                    //builder: (context) => const ShopPage(),
+                    builder: (context) => const FontsPage(),
                   ),
                 );
+                sl<ReaderBloc>().add(ReaderEventSelectFont(selectedFont));
               },
             ),
             Row(

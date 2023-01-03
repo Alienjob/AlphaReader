@@ -1,171 +1,100 @@
 import 'dart:async';
 
+import 'package:alpha_reader/features/purchase/bloc/purchases_configuration.dart';
 import 'package:alpha_reader/features/purchase/store_data.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:flutter/services.dart';
+
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 const additionalFontsID = 'additional_fonts';
 const adFreeID = 'ad_free';
 const _productIds = {additionalFontsID, adFreeID};
 
-typedef PurchaseStatusHandler = void Function(StoreData data);
-
 abstract class IPurshaseRepository {
-  Future<PurshaseRepository> instance({
-    required PurchaseStatusHandler purchaseErrorHandler,
-    required PurchaseStatusHandler purchasePendingHandler,
-    required PurchaseStatusHandler purchaseCompleteHandler,
-  });
+  Future<bool> available();
+  Future<StoreData> readStatus();
+  Future<bool> buy(String itemID);
 }
 
-class PurshaseRepository implements IPurshaseRepository {
-  final InAppPurchase _connection;
-  final StreamSubscription<List<PurchaseDetails>> _subscription;
-  final List<ProductDetails> _products;
-
-  final PurchaseStatusHandler purchaseErrorHandler;
-  final PurchaseStatusHandler purchasePendingHandler;
-  final PurchaseStatusHandler purchaseCompleteHandler;
-
-  StoreData data = StoreData.empty();
-
-  bool get available => data.available;
-
-  PurshaseRepository._(
-    this._connection,
-    this._subscription,
-    this._products,
-    this.purchaseErrorHandler,
-    this.purchasePendingHandler,
-    this.purchaseCompleteHandler,
-    this.data,
-  );
+class RevenueCatPurshaseRepository implements IPurshaseRepository {
+  StoreData _storeData = StoreData.empty();
+  Map<String, Package> packages = {};
 
   @override
-  Future<PurshaseRepository> instance({
-    required PurchaseStatusHandler purchaseErrorHandler,
-    required PurchaseStatusHandler purchasePendingHandler,
-    required PurchaseStatusHandler purchaseCompleteHandler,
-  }) async {
-    //! saved shop data
-    data = StoreData.empty();
-
-    final connection = InAppPurchase.instance;
-    final purchaseUpdated = InAppPurchase.instance.purchaseStream;
-    final subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-    });
-
-    List<ProductDetails> products = [];
-    final bool available = await connection.isAvailable();
-    if (!available) {
-      return PurshaseRepository._(
-          connection,
-          subscription,
-          products,
-          purchaseErrorHandler,
-          purchasePendingHandler,
-          purchaseCompleteHandler,
-          data);
+  Future<bool> available() async {
+    bool isConfigured = await Purchases.isConfigured;
+    if (!isConfigured) {
+      await Purchases.configure(
+          PurchasesConfiguration(AlphaReaderPurchasesConfiguration.apiKey));
+      isConfigured = await Purchases.isConfigured;
     }
-    data = data.copyWith(available: true);
-
-    ProductDetailsResponse productDetailResponse =
-        await _connection.queryProductDetails(_productIds);
-
-    if (productDetailResponse.error == null) {
-      products = productDetailResponse.productDetails;
-      // здесь нет статусов покупки, поэтому нельзя заполнить данные
-    } else {
-      data = data.copyWith(error: productDetailResponse.error!.message);
-    }
-
-    return PurshaseRepository._(
-      connection,
-      subscription,
-      products,
-      purchaseErrorHandler,
-      purchasePendingHandler,
-      purchaseCompleteHandler,
-      data,
-    );
+    _storeData = _storeData.copyWith(available: isConfigured);
+    return isConfigured;
   }
 
-  buyFreeAdSubscription() {
-    if (!available) return;
-    ProductDetails? product = _findProduct(adFreeID);
-    if (product != null) {
-      _buyProduct(product);
-    }
-  }
-
-  buyAdditionalFonts() {
-    if (!available) return;
-    ProductDetails? product = _findProduct(additionalFontsID);
-    if (product != null) {
-      _buyProduct(product);
-    }
-  }
-
-  void restorePurchases() async {
-    if (!available) return;
-    await InAppPurchase.instance.restorePurchases();
-  }
-
-  ProductDetails? _findProduct(String id) {
-    final products = _products.where((element) => (element.id == id)).toList();
-    if (products.isEmpty) {
-      print('products not loaded');
-      return null;
-    }
-    return products[0];
-  }
-
-  _buyProduct(ProductDetails productDetails) {
-    final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: productDetails);
-    _connection.buyNonConsumable(purchaseParam: purchaseParam);
-  }
-
-  _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if (purchaseDetails.productID == adFreeID) {
-        data = data.copyWith(
-          adFree: storeDataPurchaseStatus(purchaseDetails),
-        );
+  @override
+  Future<StoreData> readStatus() async {
+    //offerings
+    try {
+      var isAvalable = await available();
+      if (isAvalable) {
+        Offerings offerings = await Purchases.getOfferings();
+        if (offerings.current != null &&
+            offerings.current!.availablePackages.isNotEmpty) {
+          var offer = offerings.current!;
+          for (var package in offer.availablePackages) {
+            packages[package.identifier] = package;
+            if (package.identifier == adFreeID) {
+              _storeData = _storeData.copyWith(
+                adFree: StoreDataPurchaseStatus.purchasable,
+              );
+            }
+            if (package.identifier == additionalFontsID) {
+              _storeData = _storeData.copyWith(
+                fonts: StoreDataPurchaseStatus.purchasable,
+              );
+            }
+          }
+        }
+      } else {
+        return StoreData.empty();
       }
-      if (purchaseDetails.productID == additionalFontsID) {
-        data = data.copyWith(
-          fonts: storeDataPurchaseStatus(purchaseDetails),
-        );
-      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
 
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        purchasePendingHandler(purchaseDetails);
-      } else if (purchaseDetails.status == PurchaseStatus.error) {
-        // show error message or failure icon
-        purchaseErrorHandler(purchaseDetails);
-      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        // show success message and deliver the product.
-        purchaseCompleteHandler(purchaseDetails);
-        _connection.completePurchase(purchaseDetails);
-      } else if (purchaseDetails.status == PurchaseStatus.restored) {
-        // show success message and deliver the product.
-        purchaseCompleteHandler(purchaseDetails);
-        _connection.completePurchase(purchaseDetails);
-      }
-    });
+    //getCustomerInfo
+    CustomerInfo info = await Purchases.getCustomerInfo();
+    final adFreeInfo = info.entitlements.all[adFreeID];
+    final additionalFontsInfo = info.entitlements.all[additionalFontsID];
+    if ((adFreeInfo != null) && (adFreeInfo.isActive)) {
+      _storeData = _storeData.copyWith(
+        adFree: StoreDataPurchaseStatus.purchased,
+      );
+    }
+    if ((additionalFontsInfo != null) && (additionalFontsInfo.isActive)) {
+      _storeData = _storeData.copyWith(
+        fonts: StoreDataPurchaseStatus.purchased,
+      );
+    }
+
+    return _storeData;
   }
 
-  StoreDataPurchaseStatus storeDataPurchaseStatus(
-      PurchaseDetails purchaseDetails) {
-    return (purchaseDetails.status == PurchaseStatus.pending)
-        ? StoreDataPurchaseStatus.pending
-        : (purchaseDetails.status == PurchaseStatus.purchased)
-            ? StoreDataPurchaseStatus.purchased
-            : StoreDataPurchaseStatus.unavalable;
+  @override
+  Future<bool> buy(String itemID) async {
+    try {
+      if (packages[itemID] == null) return false;
+      CustomerInfo customerInfo =
+          await Purchases.purchasePackage(packages[itemID]!);
+      if (customerInfo.entitlements.all[itemID] == null) return false;
+      return customerInfo.entitlements.all[itemID]!.isActive;
+    } on PlatformException catch (e) {
+      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+      if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+        print(e);
+      }
+      return false;
+    }
   }
 }

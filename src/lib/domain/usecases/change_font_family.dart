@@ -1,6 +1,5 @@
-import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:alpha_reader/features/fonts/repository.dart';
 
 class ChangeFontFamily {
   final IUserDataRepository repository;

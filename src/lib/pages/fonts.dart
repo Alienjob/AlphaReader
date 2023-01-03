@@ -1,5 +1,7 @@
 import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
 import 'package:alpha_reader/features/fonts/repository.dart';
+import 'package:alpha_reader/features/purchase/store_data.dart';
+import 'package:alpha_reader/features/purchase/widgets/go_to_shop_card.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,11 +29,18 @@ class FontsForm extends StatelessWidget {
     return SingleChildScrollView(
       child: BlocBuilder<FontBloc, FontState>(
         builder: (context, state) {
+          final bool additionalFontsAcceseble =
+              (state.storeData.fonts == StoreDataPurchaseStatus.purchased);
           return Column(
             children: [
+              const GoToShopCard(),
               ...state.fonts
                   .map((e) => FontTile(
                         desc: e,
+                        additionalFontsAcceseble: additionalFontsAcceseble,
+                        tapHandler: () {
+                          Navigator.of(context).pop(e);
+                        },
                       ))
                   .toList()
             ],
@@ -43,55 +52,39 @@ class FontsForm extends StatelessWidget {
 }
 
 class FontTile extends StatelessWidget {
-  const FontTile({super.key, required this.desc});
+  const FontTile(
+      {super.key,
+      required this.desc,
+      required this.additionalFontsAcceseble,
+      required this.tapHandler});
   final FontDescription desc;
+  final bool additionalFontsAcceseble;
+  final void Function() tapHandler;
   static const String exampleText =
       'фбв abc აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵჶჷჸჹჺ';
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(
-                color: (desc.embedded)
-                    ? Colors.grey
-                    : Theme.of(context).dialogBackgroundColor)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(desc.family),
-                  Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<FontBloc>(context)
-                          .add(FontEventSelect(desc.family));
-                    },
-                    icon: Icon(
-                      Icons.done,
-                      color: desc.select ? Colors.green : Colors.grey,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<FontBloc>(context)
-                          .add(FontEventBuy(desc.family));
-                    },
-                    icon: Icon(
-                      Icons.star,
-                      color: desc.buy ? Colors.yellow : Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                exampleText,
-                style: TextStyle(fontFamily: desc.family),
-              )
-            ],
+      child: GestureDetector(
+        onTap: tapHandler,
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: ((desc.embedded) || (additionalFontsAcceseble))
+                      ? Colors.green
+                      : Theme.of(context).dialogBackgroundColor)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(desc.family),
+                Text(
+                  exampleText,
+                  style: TextStyle(fontFamily: desc.family),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -27,7 +27,11 @@ class ReaderEventChoosePage implements ReaderEvent {
 
 class ReaderEventNextSet implements ReaderEvent {}
 
-class ReaderEventNextFont implements ReaderEvent {}
+class ReaderEventSelectFont implements ReaderEvent {
+  final FontDescription font;
+
+  ReaderEventSelectFont(this.font);
+}
 
 class ReaderEventIncreaseFontSize implements ReaderEvent {}
 
