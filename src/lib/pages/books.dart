@@ -1,4 +1,5 @@
 import 'package:alpha_reader/domain/entities/book_list.dart';
+import 'package:alpha_reader/features/admob/banner_tile.dart';
 import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_card.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_description.dart';
@@ -136,6 +137,7 @@ class BooksPage extends StatelessWidget {
                               const SizedBox(
                                 height: 16,
                               ),
+                              const BannerTile(),
                             ],
                           )
                         : const Center(child: Text('Ошибка')),
@@ -164,7 +166,7 @@ class BooksPage extends StatelessWidget {
         ...(bookList.books.map((e) => BookCard(
               image: e.imageObject,
               bookKey: e.key,
-            )))
+            ))),
       ],
     );
   }
