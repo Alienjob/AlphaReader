@@ -1,4 +1,7 @@
+import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
+import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerTile extends StatefulWidget {
@@ -14,7 +17,7 @@ class _BannerTileState extends State<BannerTile> {
   @override
   void initState() {
     super.initState();
-    _createBanner();
+    _createBanner(true);
   }
 
   @override
@@ -24,7 +27,11 @@ class _BannerTileState extends State<BannerTile> {
     _bannerAd = null;
   }
 
-  void _createBanner() {
+  void _createBanner(bool adFree) {
+    _bannerAd?.dispose();
+
+    if (adFree) return;
+
     BannerAd(
       adUnitId: 'ca-app-pub-4148631727469736/9523526443',
       request: const AdRequest(),
@@ -51,9 +58,35 @@ class _BannerTileState extends State<BannerTile> {
     final Widget adWidget =
         (_bannerAd == null) ? (Container()) : AdWidget(ad: _bannerAd!);
 
-    return Container(
-      alignment: Alignment.center,
-      child: adWidget,
+    return BlocProvider(
+      create: (context) => sl<AdMobBloc>(),
+      child: BlocConsumer<AdMobBloc, AdMobState>(
+        listener: (context, state) {
+          setState(() {
+            _createBanner(state.adFree);
+          });
+        },
+        builder: (context, state) {
+          return Row(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    height: (_bannerAd == null)
+                        ? 0
+                        : _bannerAd!.size.height.toDouble(),
+                    width: (_bannerAd == null)
+                        ? 0
+                        : _bannerAd!.size.height.toDouble(),
+                    alignment: Alignment.center,
+                    child: adWidget,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

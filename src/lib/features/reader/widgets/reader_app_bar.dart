@@ -22,6 +22,12 @@ class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
               },
               icon: const Icon(Icons.settings),
             ),
+            IconButton(
+              onPressed: () {
+                sl<ReaderBloc>().add(ReaderEventSaveOffset());
+              },
+              icon: const Icon(Icons.bookmark),
+            ),
           ],
         );
       } else {

@@ -1,9 +1,11 @@
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/domain/usecases/change_font_size.dart';
+import 'package:alpha_reader/domain/usecases/change_font_family.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
+import 'package:alpha_reader/domain/usecases/save_offset.dart';
 import 'package:alpha_reader/features/fonts/repository.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
@@ -29,6 +31,8 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventIncreaseFontSize>(_onReaderEventIncreaseFontSize);
     on<ReaderEventDecreaseFontSize>(_onReaderEventDecreaseFontSize);
     on<ReaderEventSetBookmark>(_onReaderEventSetBookmark);
+    on<ReaderEventSetOffset>(_onReaderEventSetOffset);
+    on<ReaderEventSaveOffset>(_onReaderEventSaveOffset);
     on<ReaderEventSelectFont>(_onReaderEventSelectFont);
   }
 
@@ -45,6 +49,8 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     Substitutions sub = await sl<IUserDataRepository>().substitutions();
     String bookmark =
         await sl<IUserDataRepository>().bookMark(book.key, pageIndex);
+    double offset = await sl<IUserDataRepository>().offset(book.key, pageIndex);
+    //double offset = 0;
     String displayText = Mixer(sub).mix(book.pageText(pageIndex));
     var newState = ReaderLoaded(
       sub: sub,
@@ -58,6 +64,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       fontSize: fontSize,
       set: SubstitutionSet.ru,
       bookmark: bookmark,
+      offset: offset,
     );
 
     emit(newState);
@@ -215,6 +222,31 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     }
   }
 
+  void _onReaderEventSaveOffset(
+    ReaderEventSaveOffset event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      await sl<SaveOffset>()(
+        bookKey: (state as ReaderLoaded).book.key,
+        pageIndex: (state as ReaderLoaded).pageIndex,
+        offset: (state as ReaderLoaded).offset,
+      );
+    }
+  }
+
+  void _onReaderEventSetOffset(
+    ReaderEventSetOffset event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      var newState = (state as ReaderLoaded).copyWith(
+        offset: event.offset,
+      );
+      emit(newState);
+    }
+  }
+
   void _onReaderEventSelectFont(
     ReaderEventSelectFont event,
     Emitter<ReaderState> emit,
@@ -223,6 +255,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       var newState = (state as ReaderLoaded).copyWith(
         font: AlphaReaderFont(event.font.family),
       );
+      ChangeFontFamily(alphaReaderFont: newState.font, repository: sl())();
       emit(newState);
     }
   }

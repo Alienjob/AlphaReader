@@ -52,3 +52,11 @@ class ReaderEventSetBookmark implements ReaderEvent {
 
   ReaderEventSetBookmark(this.bookmark);
 }
+
+class ReaderEventSetOffset implements ReaderEvent {
+  final double offset;
+
+  ReaderEventSetOffset(this.offset);
+}
+
+class ReaderEventSaveOffset implements ReaderEvent {}

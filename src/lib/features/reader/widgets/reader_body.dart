@@ -1,6 +1,6 @@
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:alpha_reader/features/reader/widgets/reader_html_view.dart';
-import 'package:alpha_reader/pages/read.dart';
+import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,10 +17,16 @@ class ReaderBody extends StatefulWidget {
 
 class _ReaderBodyState extends State<ReaderBody> {
   late ScrollController _controller;
+  late ReaderBloc _bloc;
 
   @override
   void initState() {
-    _controller = ScrollController();
+    double _initialOffset = 0;
+    _bloc = sl<ReaderBloc>();
+    if (_bloc.state is ReaderLoaded) {
+      _initialOffset = (_bloc.state as ReaderLoaded).offset;
+    }
+    _controller = ScrollController(initialScrollOffset: _initialOffset);
     _controller.addListener(_scrollListener);
     super.initState();
   }
@@ -28,6 +34,16 @@ class _ReaderBodyState extends State<ReaderBody> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReaderBloc, ReaderState>(
+      buildWhen: (previous, current) {
+        if (current is! ReaderLoaded) return false;
+        if (previous is! ReaderLoaded) return true;
+        if ((current.pageText.hashCode == previous.pageText.hashCode) &&
+            (current.font == previous.font) &&
+            (current.fontSize == previous.fontSize)) {
+          return false;
+        }
+        return true;
+      },
       builder: (context, state) {
         return (state is ReaderLoaded)
             ? SingleChildScrollView(
@@ -43,13 +59,6 @@ class _ReaderBodyState extends State<ReaderBody> {
   }
 
   _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {});
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {});
-    }
+    _bloc.add(ReaderEventSetOffset(_controller.offset));
   }
 }

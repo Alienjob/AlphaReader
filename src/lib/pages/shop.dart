@@ -1,3 +1,4 @@
+import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
 import 'package:alpha_reader/features/purchase/bloc/shop_bloc.dart';
 import 'package:alpha_reader/features/purchase/purchase_repository.dart';
 import 'package:alpha_reader/features/purchase/store_data.dart';
@@ -44,6 +45,7 @@ class ShopForm extends StatelessWidget {
               title: 'Дополнительные шрифты',
               handler: () => bloc.add(ShopEventBuy(additionalFontsID)),
             ),
+            const BannerTile(),
           ]),
         );
       },

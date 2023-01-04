@@ -11,14 +11,55 @@ const adFreeID = 'ad_free';
 const _productIds = {additionalFontsID, adFreeID};
 
 abstract class IPurshaseRepository {
+  Future<void> init();
+  Future<void> dispose();
   Future<bool> available();
   Future<StoreData> readStatus();
   Future<bool> buy(String itemID);
+  StreamController<StoreData> streamController();
 }
 
 class RevenueCatPurshaseRepository implements IPurshaseRepository {
   StoreData _storeData = StoreData.empty();
   Map<String, Package> packages = {};
+  List<StreamController<StoreData>> listeners = [];
+
+  @override
+  Future<void> init() async {
+    await readStatus();
+    Purchases.addCustomerInfoUpdateListener(
+      (customerInfo) => _updateListeners(customerInfo),
+    );
+  }
+
+  @override
+  Future<void> dispose() async {
+    for (var l in listeners) {
+      await l.close();
+    }
+  }
+
+  void _updateListeners(CustomerInfo info) {
+    _updateStoreData(info);
+    for (var l in listeners) {
+      l.add(_storeData);
+    }
+  }
+
+  void _updateStoreData(CustomerInfo info) {
+    final adFreeInfo = info.entitlements.all[adFreeID];
+    final additionalFontsInfo = info.entitlements.all[additionalFontsID];
+    if ((adFreeInfo != null) && (adFreeInfo.isActive)) {
+      _storeData = _storeData.copyWith(
+        adFree: StoreDataPurchaseStatus.purchased,
+      );
+    }
+    if ((additionalFontsInfo != null) && (additionalFontsInfo.isActive)) {
+      _storeData = _storeData.copyWith(
+        fonts: StoreDataPurchaseStatus.purchased,
+      );
+    }
+  }
 
   @override
   Future<bool> available() async {
@@ -65,19 +106,7 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
 
     //getCustomerInfo
     CustomerInfo info = await Purchases.getCustomerInfo();
-    final adFreeInfo = info.entitlements.all[adFreeID];
-    final additionalFontsInfo = info.entitlements.all[additionalFontsID];
-    if ((adFreeInfo != null) && (adFreeInfo.isActive)) {
-      _storeData = _storeData.copyWith(
-        adFree: StoreDataPurchaseStatus.purchased,
-      );
-    }
-    if ((additionalFontsInfo != null) && (additionalFontsInfo.isActive)) {
-      _storeData = _storeData.copyWith(
-        fonts: StoreDataPurchaseStatus.purchased,
-      );
-    }
-
+    _updateStoreData(info);
     return _storeData;
   }
 
@@ -96,5 +125,12 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
       }
       return false;
     }
+  }
+
+  @override
+  StreamController<StoreData> streamController() {
+    final c = StreamController<StoreData>();
+    listeners.add(c);
+    return c;
   }
 }

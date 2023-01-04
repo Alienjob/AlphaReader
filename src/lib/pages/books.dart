@@ -1,5 +1,5 @@
 import 'package:alpha_reader/domain/entities/book_list.dart';
-import 'package:alpha_reader/features/admob/banner_tile.dart';
+import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
 import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_card.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_description.dart';

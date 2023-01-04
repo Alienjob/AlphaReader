@@ -6,8 +6,10 @@ import 'package:alpha_reader/domain/usecases/choose_book.dart';
 import 'package:alpha_reader/domain/usecases/get_books.dart';
 import 'package:alpha_reader/domain/usecases/open_book.dart';
 import 'package:alpha_reader/domain/usecases/remove_book.dart';
+import 'package:alpha_reader/domain/usecases/save_offset.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
+import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
 import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
 import 'package:alpha_reader/features/book_list/data/repositories/books_repository.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
@@ -58,10 +60,16 @@ Future<void> init() async {
   sl.registerLazySingleton<FontRepositary>(() => FontRepositary());
 
   //! DATA SOURCE - Store
+  var revenueCatPurshaseRepository = RevenueCatPurshaseRepository();
+  await revenueCatPurshaseRepository.init();
   sl.registerLazySingleton<IPurshaseRepository>(
-      () => RevenueCatPurshaseRepository());
+      () => revenueCatPurshaseRepository);
 
   //! BLOC
+
+  sl.registerFactory<AdMobBloc>(() => AdMobBloc(
+        sl(),
+      )..add(AdMobEventInit()));
   sl.registerFactory<ShopBloc>(() => ShopBloc(
         sl(),
       ));
@@ -103,6 +111,9 @@ Future<void> init() async {
         repository: sl(),
       ));
   sl.registerLazySingleton<SetBookMark>(() => SetBookMark(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<SaveOffset>(() => SaveOffset(
         repository: sl(),
       ));
 }

@@ -26,6 +26,7 @@ class ReaderLoaded extends ReaderState {
   final Substitutions sub;
   final IBook book;
   final String bookmark;
+  final double offset;
 
   ReaderLoaded({
     required this.font,
@@ -39,6 +40,7 @@ class ReaderLoaded extends ReaderState {
     required this.sub,
     required this.book,
     required this.bookmark,
+    required this.offset,
   });
 
   ReaderLoaded copyWith({
@@ -53,6 +55,7 @@ class ReaderLoaded extends ReaderState {
     Substitutions? sub,
     IBook? book,
     String? bookmark,
+    double? offset,
   }) {
     return ReaderLoaded(
       showUI: showUI ?? this.showUI,
@@ -66,6 +69,7 @@ class ReaderLoaded extends ReaderState {
       fontSize: fontSize ?? this.fontSize,
       set: set ?? this.set,
       bookmark: bookmark ?? this.bookmark,
+      offset: offset ?? this.offset,
     );
   }
 
@@ -82,5 +86,6 @@ class ReaderLoaded extends ReaderState {
         sub,
         book,
         bookmark,
+        offset,
       ];
 }

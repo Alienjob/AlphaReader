@@ -15,6 +15,10 @@ abstract class IUserDataRepository {
   Future<void> setBookMark(String bookKey, int pageIndex, String bookMark);
   Future<String> bookMark(String bookKey, int pageIndex);
 
+  //bookMark
+  Future<void> saveOffset(String bookKey, int pageIndex, double offset);
+  Future<double> offset(String bookKey, int pageIndex);
+
   //substitution
   Future<Substitutions> substitutions();
   Future<void> setSubstitutions({required Substitutions sub});
@@ -107,5 +111,20 @@ class UserDataRepository implements IUserDataRepository {
       String bookKey, int pageIndex, String bookMark) async {
     sharedPreferences.setString(
         'BOOKMARKbookKey${bookKey}pageIndex$pageIndex', bookMark);
+  }
+
+  @override
+  Future<double> offset(String bookKey, int pageIndex) async {
+    double offset = sharedPreferences
+            .getDouble('OFFSETbookKey${bookKey}pageIndex$pageIndex') ??
+        0;
+
+    return offset;
+  }
+
+  @override
+  Future<void> saveOffset(String bookKey, int pageIndex, double offset) async {
+    sharedPreferences.setDouble(
+        'OFFSETbookKey${bookKey}pageIndex$pageIndex', offset);
   }
 }
