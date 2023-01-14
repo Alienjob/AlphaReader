@@ -4,3 +4,7 @@ part of 'ad_mob_bloc.dart';
 abstract class AdMobEvent {}
 
 class AdMobEventInit implements AdMobEvent {}
+
+class AdMobEventTrue implements AdMobEvent {}
+
+class AdMobEventFalse implements AdMobEvent {}

@@ -30,44 +30,6 @@ class ReadPage extends StatelessWidget {
               },
               child: ReaderBody(htmlAncor: htmlAncor),
             ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: GestureDetector(
-            //         behavior: HitTestBehavior.translucent,
-            //         onTap: (() {
-            //           sl<ReaderBloc>().add(
-            //             ReaderEventPreviousPage(),
-            //           );
-            //         }),
-            //         child: Container(),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       flex: 4,
-            //       child: GestureDetector(
-            //         behavior: HitTestBehavior.translucent,
-            //         onTap: (() {
-            //           sl<ReaderBloc>().add(
-            //             ReaderEventShowHideUI(),
-            //           );
-            //         }),
-            //         child: Container(),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       child: GestureDetector(
-            //         behavior: HitTestBehavior.translucent,
-            //         onTap: (() {
-            //           sl<ReaderBloc>().add(
-            //             ReaderEventNextPage(),
-            //           );
-            //         }),
-            //         child: Container(),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             ...([const ReadPageUI()]),
           ],
         ),

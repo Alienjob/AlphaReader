@@ -106,7 +106,7 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
 
     //getCustomerInfo
     CustomerInfo info = await Purchases.getCustomerInfo();
-    _updateStoreData(info);
+    _updateListeners(info);
     return _storeData;
   }
 
@@ -117,6 +117,7 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
       CustomerInfo customerInfo =
           await Purchases.purchasePackage(packages[itemID]!);
       if (customerInfo.entitlements.all[itemID] == null) return false;
+      _updateListeners(customerInfo);
       return customerInfo.entitlements.all[itemID]!.isActive;
     } on PlatformException catch (e) {
       var errorCode = PurchasesErrorHelper.getErrorCode(e);

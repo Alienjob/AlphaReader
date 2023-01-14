@@ -1,3 +1,4 @@
+import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
 import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
 import 'package:alpha_reader/features/reader/widgets/reader_html_view.dart';
 import 'package:alpha_reader/injection_container.dart';
@@ -33,28 +34,35 @@ class _ReaderBodyState extends State<ReaderBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReaderBloc, ReaderState>(
-      buildWhen: (previous, current) {
-        if (current is! ReaderLoaded) return false;
-        if (previous is! ReaderLoaded) return true;
-        if ((current.pageText.hashCode == previous.pageText.hashCode) &&
-            (current.font == previous.font) &&
-            (current.fontSize == previous.fontSize)) {
-          return false;
-        }
-        return true;
-      },
-      builder: (context, state) {
-        return (state is ReaderLoaded)
-            ? SingleChildScrollView(
-                controller: _controller,
-                child: ReaderHtmlView(
-                  htmlAncor: widget.htmlAncor,
-                  state: state,
-                ),
-              )
-            : Container();
-      },
+    return Column(
+      children: [
+        Flexible(
+          child: BlocBuilder<ReaderBloc, ReaderState>(
+            buildWhen: (previous, current) {
+              if (current is! ReaderLoaded) return false;
+              if (previous is! ReaderLoaded) return true;
+              if ((current.pageText.hashCode == previous.pageText.hashCode) &&
+                  (current.font == previous.font) &&
+                  (current.fontSize == previous.fontSize)) {
+                return false;
+              }
+              return true;
+            },
+            builder: (context, state) {
+              return (state is ReaderLoaded)
+                  ? SingleChildScrollView(
+                      controller: _controller,
+                      child: ReaderHtmlView(
+                        htmlAncor: widget.htmlAncor,
+                        state: state,
+                      ),
+                    )
+                  : Container();
+            },
+          ),
+        ),
+        const BannerTile(),
+      ],
     );
   }
 

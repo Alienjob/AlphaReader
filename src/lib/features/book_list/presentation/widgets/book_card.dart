@@ -19,7 +19,7 @@ class BookCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(30.0),
         child: GestureDetector(
           onTap: () {
             sl<BookListBloc>().add(BookListEventOpenBook(

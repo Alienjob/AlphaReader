@@ -15,7 +15,7 @@ class BookDescription extends StatelessWidget {
           Flexible(
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(30),
                   color: Theme.of(context).backgroundColor),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
