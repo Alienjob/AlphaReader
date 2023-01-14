@@ -22,7 +22,7 @@ class AdMobBloc extends Bloc<AdMobEvent, AdMobState> {
     if (status.available == true) {
       emit(AdMobState(status.adFree == StoreDataPurchaseStatus.purchased));
     } else {
-      emit(const AdMobState(true));
+      emit(const AdMobState(false));
     }
   }
 }

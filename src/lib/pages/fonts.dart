@@ -1,8 +1,10 @@
 import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
-import 'package:alpha_reader/features/fonts/repository.dart';
+import 'package:alpha_reader/features/fonts/widgets/font_list_welcome.dart';
+import 'package:alpha_reader/features/fonts/widgets/font_tile.dart';
 import 'package:alpha_reader/features/purchase/store_data.dart';
 import 'package:alpha_reader/features/purchase/widgets/go_to_shop_card.dart';
 import 'package:alpha_reader/injection_container.dart';
+import 'package:alpha_reader/pages/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,62 +33,35 @@ class FontsForm extends StatelessWidget {
         builder: (context, state) {
           final bool additionalFontsAcceseble =
               (state.storeData.fonts == StoreDataPurchaseStatus.purchased);
-          return Column(
-            children: [
-              const GoToShopCard(),
-              ...state.fonts
-                  .map((e) => FontTile(
-                        desc: e,
-                        additionalFontsAcceseble: additionalFontsAcceseble,
-                        tapHandler: () {
-                          Navigator.of(context).pop(e);
-                        },
-                      ))
-                  .toList()
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class FontTile extends StatelessWidget {
-  const FontTile(
-      {super.key,
-      required this.desc,
-      required this.additionalFontsAcceseble,
-      required this.tapHandler});
-  final FontDescription desc;
-  final bool additionalFontsAcceseble;
-  final void Function() tapHandler;
-  static const String exampleText =
-      'фбв abc აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵჶჷჸჹჺ';
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GestureDetector(
-        onTap: tapHandler,
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: ((desc.embedded) || (additionalFontsAcceseble))
-                      ? Colors.green
-                      : Theme.of(context).dialogBackgroundColor)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          return Container(
+            color: Theme.of(context).dialogBackgroundColor,
             child: Column(
               children: [
-                Text(desc.family),
-                Text(
-                  exampleText,
-                  style: TextStyle(fontFamily: desc.family),
-                )
+                const FontListWelcome(),
+                const GoToShopCard(),
+                ...state.fonts
+                    .map((e) => FontTile(
+                          desc: e,
+                          additionalFontsAcceseble: additionalFontsAcceseble,
+                          tapHandler: () {
+                            if (additionalFontsAcceseble || e.embedded) {
+                              Navigator.of(context).pop(e);
+                            } else {
+                              // в магазин
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ShopPage(),
+                                ),
+                              );
+                            }
+                          },
+                        ))
+                    .toList()
               ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

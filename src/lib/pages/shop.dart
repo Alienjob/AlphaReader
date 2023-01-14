@@ -2,6 +2,7 @@ import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
 import 'package:alpha_reader/features/purchase/bloc/shop_bloc.dart';
 import 'package:alpha_reader/features/purchase/purchase_repository.dart';
 import 'package:alpha_reader/features/purchase/store_data.dart';
+import 'package:alpha_reader/features/purchase/widgets/shop_item_tile.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,66 +38,22 @@ class ShopForm extends StatelessWidget {
           child: Column(children: [
             ShopItemTile(
               status: state.data.adFree,
-              title: 'Без рекламы',
+              title: 'Отсутствие рекламы в приложении',
+              price: '1\$',
+              priceDescription: 'в месяц',
               handler: () => bloc.add(ShopEventBuy(adFreeID)),
             ),
             ShopItemTile(
               status: state.data.fonts,
-              title: 'Дополнительные шрифты',
+              title: 'Множество шрифтов с различными начертаниями букв',
+              price: '1\$',
+              priceDescription: 'навсегда',
               handler: () => bloc.add(ShopEventBuy(additionalFontsID)),
             ),
             const BannerTile(),
           ]),
         );
       },
-    );
-  }
-}
-
-class ShopItemTile extends StatelessWidget {
-  const ShopItemTile({
-    Key? key,
-    required this.status,
-    required this.title,
-    required this.handler,
-  }) : super(key: key);
-
-  final StoreDataPurchaseStatus status;
-  final String title;
-  final void Function() handler;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: handler,
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent),
-                ),
-                child: Column(
-                  children: [
-                    Text(title),
-                    (status == StoreDataPurchaseStatus.unavalable)
-                        ? const Text('недоступен')
-                        : (status == StoreDataPurchaseStatus.purchasable)
-                            ? const Text('1\$')
-                            : (status == StoreDataPurchaseStatus.pending)
-                                ? const CircularProgressIndicator()
-                                : (status == StoreDataPurchaseStatus.purchased)
-                                    ? const Text('Куплено')
-                                    : const Text('Ошибка'),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

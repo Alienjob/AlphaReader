@@ -126,22 +126,27 @@ class LiquidTheme {
   ThemeData darkSchemeData() {
     MaterialColor darkColor = MaterialColor(0xff3c4c69, mDark);
     return ThemeData(
-        dialogBackgroundColor: darkColor.shade900,
-        backgroundColor: darkColor.shade600,
-        primaryColor: darkColor.shade500,
-        cardColor: darkColor.shade400,
-        textTheme: TextTheme(
-          bodyMedium: TextStyle(
-            color: darkColor.shade400,
-          ),
-          bodyLarge: TextStyle(
-            color: darkColor.shade200,
-          ),
+      dialogBackgroundColor: darkColor.shade900,
+      backgroundColor: darkColor.shade600,
+      primaryColor: darkColor.shade500,
+      cardColor: darkColor.shade400,
+      textTheme: TextTheme(
+        bodyMedium: TextStyle(
+          color: darkColor.shade400,
         ),
-        primarySwatch: MaterialColor(darkColor.shade500.value, mDark),
-        scaffoldBackgroundColor: darkColor.shade800,
-        shadowColor: darkColor.shade700,
-        highlightColor: darkColor.shade100,
-        focusColor: mFocus[500]);
+        bodyLarge: TextStyle(
+          color: darkColor.shade200,
+        ),
+      ),
+      primarySwatch: MaterialColor(darkColor.shade500.value, mDark),
+      scaffoldBackgroundColor: darkColor.shade800,
+      shadowColor: darkColor.shade700,
+      highlightColor: darkColor.shade100,
+      focusColor: mFocus[500],
+      hintColor: Color(0xffDB9800), //  Colors.orange,
+      // hintColor: Color(0xff99C5FF), //  Colors.orange,
+      // hintColor: Color(0xff99C5FF), //  Colors.orange,
+      // hintColor: Color(0xffFEAA0A), //  Colors.orange,
+    );
   }
 }

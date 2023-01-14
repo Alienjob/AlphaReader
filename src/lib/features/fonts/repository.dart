@@ -21,6 +21,7 @@ class FontRepositary {
   }
 
   Future<void> init() async {
+    _fonts.clear();
     for (var family in embedded) {
       _fonts.add(FontDescription(
         true,
