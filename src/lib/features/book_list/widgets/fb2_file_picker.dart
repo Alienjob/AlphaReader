@@ -12,6 +12,7 @@ Future<String?> pickFile() async {
     allowedExtensions: ['fb2', 'zip'],
     type: FileType.custom,
     lockParentWindow: true,
+    initialDirectory: '/storage/emulated/0/Download',
   );
   if (result == null) return null;
   if (result.files.first.extension != 'fb2' &&
@@ -52,7 +53,8 @@ class FB2FilePicker extends StatelessWidget {
       onPressed: () async {
         String? path = await pickFile();
         if (path == null) {
-          print("pick file error");
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Книга не добавлена')));
         } else {
           sl<BookListBloc>().add(BookListEventAddFB2Book(path: path));
         }

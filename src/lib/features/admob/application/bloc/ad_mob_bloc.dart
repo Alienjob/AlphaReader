@@ -15,28 +15,20 @@ class AdMobBloc extends Bloc<AdMobEvent, AdMobState> {
 
   AdMobBloc(this._repository) : super(const AdMobInitial()) {
     on<AdMobEventInit>((event, emit) async {
-      print('ad log init admob $key');
-
       sController = _repository.streamController();
       sController!.stream.listen(((repositoryEvent) async {
-        print('ad log stream listener $key');
         await _handler(repositoryEvent, emit);
       }));
 
       var status = await _repository.readStatus();
       var adFree = (status.adFree == StoreDataPurchaseStatus.purchased);
       emit(AdMobState(adFree));
-      print('ad log _handler emit $adFree $key');
     });
     on<AdMobEventTrue>((event, emit) async {
-      print('ad log AdMobEventTrue admob $key');
       emit(const AdMobState(true));
-      print('ad log _handler emit true $key');
     });
     on<AdMobEventFalse>((event, emit) async {
-      print('ad log AdMobEventTrue admob $key');
       emit(const AdMobState(false));
-      print('ad log _handler emit false $key');
     });
   }
 
@@ -44,6 +36,5 @@ class AdMobBloc extends Bloc<AdMobEvent, AdMobState> {
     var adFree = (status.available == true) &&
         (status.adFree == StoreDataPurchaseStatus.purchased);
     add(adFree ? AdMobEventTrue() : AdMobEventFalse());
-    print('ad log add event $adFree $key');
   }
 }

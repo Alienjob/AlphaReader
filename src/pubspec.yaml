@@ -53,6 +53,9 @@ dependencies:
   freezed_annotation: ^2.2.0
   purchases_flutter: ^4.5.2
   google_mobile_ads: ^2.3.0
+  filesystem_picker: ^3.1.0
+  path: ^1.8.2
+  permission_handler: ^10.2.0
 
 
   

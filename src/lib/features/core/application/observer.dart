@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 
 class MyBlocObserver extends BlocObserver {
   @override

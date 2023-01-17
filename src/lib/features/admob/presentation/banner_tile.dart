@@ -44,12 +44,11 @@ class _BannerTileState extends State<BannerTile> {
             });
           },
           onAdFailedToLoad: (ad, err) {
-            print('Failed to load a banner ad: ${err.message}');
             ad.dispose();
           },
-          onAdOpened: (Ad ad) => print('$BannerAd onAdOpened.'),
-          onAdClosed: (Ad ad) => print('$BannerAd onAdClosed.'),
-          onAdClicked: (Ad ad) => print('$BannerAd onAdClicked.'),
+          onAdOpened: (Ad ad) {},
+          onAdClosed: (Ad ad) {},
+          onAdClicked: (Ad ad) {},
         ),
       ).load();
     }

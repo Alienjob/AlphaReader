@@ -1,5 +1,6 @@
 import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
+import 'package:alpha_reader/features/book_list/widgets/fb2_document_picker.dart';
 import 'package:alpha_reader/features/book_list/widgets/fb2_file_picker.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: <Widget>[
         const FB2FilePicker(),
+        const FB2DocumentPicker(),
         IconButton(
           icon: const Icon(Icons.delete),
           tooltip: 'Delete fb2 book',

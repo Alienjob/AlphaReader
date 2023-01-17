@@ -359,8 +359,6 @@ class _TextSource {
 — Странный народ эти взрослые, — сказал себе Маленький принц, продолжая путь.
 ''';
 
-  static int length = 10;
-
   static String getText(int page) {
     var pages = [
       text1,

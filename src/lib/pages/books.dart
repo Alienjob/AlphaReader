@@ -1,9 +1,11 @@
+// ignore_for_file: unnecessary_cast
+
 import 'package:alpha_reader/domain/entities/book_list.dart';
 import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_card.dart';
 import 'package:alpha_reader/features/book_list/presentation/widgets/book_description.dart';
 import 'package:alpha_reader/features/book_list/widgets/animated_app_bar.dart';
-import 'package:alpha_reader/features/core/presentation/Loading.dart';
+import 'package:alpha_reader/features/core/presentation/loading.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:flutter/material.dart';

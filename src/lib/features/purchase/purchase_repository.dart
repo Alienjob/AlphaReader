@@ -8,7 +8,6 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 const additionalFontsID = 'additional_fonts';
 const adFreeID = 'ad_free';
-const _productIds = {additionalFontsID, adFreeID};
 
 abstract class IPurshaseRepository {
   Future<void> init();
@@ -101,6 +100,8 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
         return StoreData.empty();
       }
     } on PlatformException catch (e) {
+      print(e);
+    } catch (e) {
       print(e);
     }
 

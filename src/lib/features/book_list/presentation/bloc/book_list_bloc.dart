@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/entities/book_list.dart';
 import 'package:alpha_reader/domain/usecases/add_fb2_book.dart';
