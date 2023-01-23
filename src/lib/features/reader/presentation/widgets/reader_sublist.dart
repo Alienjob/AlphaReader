@@ -42,8 +42,8 @@ class ReaderSubList extends StatelessWidget {
                           )
                         : ButtonStyle(
                             elevation: MaterialStateProperty.all(0),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(0)),
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsets.all(0)),
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).dialogBackgroundColor),
                           ),

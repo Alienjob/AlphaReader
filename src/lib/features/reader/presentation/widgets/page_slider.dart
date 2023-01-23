@@ -106,7 +106,7 @@ class _PageSliderState extends State<PageSlider> {
               setLabel = ((state as ReaderLoaded).set == SubstitutionSet.en)
                   ? 'EN'
                   : 'RU';
-              pageIndex = (state as ReaderLoaded).pageIndex;
+              pageIndex = state.pageIndex;
             });
           },
           child: Slider(

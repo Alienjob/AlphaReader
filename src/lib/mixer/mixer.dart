@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
@@ -81,6 +83,13 @@ class Mixer {
   ) {
     if ((node.nodeType == 3) && ((node as dom.Text).data != '')) {
       node.data = _mix(node.data);
+    }
+    if ((node.nodeType == 1) && ((node as dom.Element).localName == 'img')) {
+      node.attributes = LinkedHashMap.from(node.attributes.map((key, value) {
+        if (key != 'src') return MapEntry(key, value);
+        return MapEntry(key, value.replaceAll('\n', ''));
+      }));
+      //print(node.attributes);
     }
 
     for (var child in node.nodes) {

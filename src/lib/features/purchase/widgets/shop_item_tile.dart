@@ -48,7 +48,7 @@ class ShopItemTile extends StatelessWidget {
                         child: Text(
                           title,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
@@ -70,7 +70,7 @@ class ShopItemTile extends StatelessWidget {
                                 horizontal: 16, vertical: 8),
                             child: Text(
                               purchased ? 'КУПЛЕНО' : 'КУПИТЬ',
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ),

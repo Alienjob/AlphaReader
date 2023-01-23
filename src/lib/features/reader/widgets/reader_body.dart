@@ -22,12 +22,12 @@ class _ReaderBodyState extends State<ReaderBody> {
 
   @override
   void initState() {
-    double _initialOffset = 0;
+    double initialOffset = 0;
     _bloc = sl<ReaderBloc>();
     if (_bloc.state is ReaderLoaded) {
-      _initialOffset = (_bloc.state as ReaderLoaded).offset;
+      initialOffset = (_bloc.state as ReaderLoaded).offset;
     }
-    _controller = ScrollController(initialScrollOffset: _initialOffset);
+    _controller = ScrollController(initialScrollOffset: initialOffset);
     _controller.addListener(_scrollListener);
     super.initState();
   }
@@ -43,21 +43,35 @@ class _ReaderBodyState extends State<ReaderBody> {
               if (previous is! ReaderLoaded) return true;
               if ((current.pageText.hashCode == previous.pageText.hashCode) &&
                   (current.font == previous.font) &&
+                  (current.bookmark == previous.bookmark) &&
                   (current.fontSize == previous.fontSize)) {
                 return false;
               }
+              setState(() {
+                _controller.jumpTo(current.offset);
+              });
               return true;
             },
             builder: (context, state) {
-              return (state is ReaderLoaded)
-                  ? SingleChildScrollView(
-                      controller: _controller,
-                      child: ReaderHtmlView(
-                        htmlAncor: widget.htmlAncor,
-                        state: state,
-                      ),
-                    )
-                  : Container();
+              try {
+                //_controller.jumpTo((state is ReaderLoaded) ? state.offset : 0)
+                return (state is ReaderLoaded)
+                    ? Scrollbar(
+                        controller: _controller,
+                        child: SingleChildScrollView(
+                          controller: _controller,
+                          child: ReaderHtmlView(
+                            //htmlAncor: widget.htmlAncor,
+                            state: state,
+                          ),
+                        ),
+                      )
+                    : Container();
+              } catch (e) {
+                var map = {'state': state, 'error': e};
+                print(map);
+                return Text('Ошибка при отображении страницы \n $map');
+              }
             },
           ),
         ),

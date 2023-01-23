@@ -6,17 +6,17 @@ import 'package:flutter_html/flutter_html.dart';
 class ReaderHtmlView extends StatelessWidget {
   const ReaderHtmlView({
     Key? key,
-    required this.htmlAncor,
+    //required this.htmlAncor,
     required this.state,
   }) : super(key: key);
 
-  final GlobalKey<State<StatefulWidget>> htmlAncor;
+  //final GlobalKey<State<StatefulWidget>> htmlAncor;
   final ReaderLoaded state;
 
   @override
   Widget build(BuildContext context) {
     return Html(
-      anchorKey: htmlAncor,
+      //anchorKey: htmlAncor,
       onAnchorTap: (ancor, htmlContext, map, el) {
         // scrollIntoView  final data = htmlContext.parser;
         String id = map['id'] ?? 'empty';

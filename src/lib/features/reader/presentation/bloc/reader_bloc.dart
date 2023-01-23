@@ -91,10 +91,12 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       ).mix((state as ReaderLoaded).book.pageText(
             event.pageIndex,
           ));
-
+      double offset = await sl<IUserDataRepository>()
+          .offset((state as ReaderLoaded).book.key, event.pageIndex);
       var newState = (state as ReaderLoaded).copyWith(
         pageIndex: event.pageIndex,
         pageText: displayText,
+        offset: offset,
       );
       emit(newState);
       sl<SelectPage>()(
@@ -133,29 +135,11 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
   ) async {
     if (state is ReaderLoaded) {
       int newPageIndex = (state as ReaderLoaded).pageIndex + 1;
-
       // last page assert
       if (newPageIndex == (state as ReaderLoaded).pageCount) {
         return;
       }
-
-      String displayText = Mixer(
-        (state as ReaderLoaded).sub,
-      ).mix((state as ReaderLoaded).book.pageText(
-            newPageIndex,
-          ));
-
-      var newState = (state as ReaderLoaded).copyWith(
-        pageIndex: newPageIndex,
-        pageText: displayText,
-      );
-
-      sl<SelectPage>()(
-        bookKey: newState.book.key,
-        pageIndex: newState.pageIndex,
-      );
-
-      emit(newState);
+      add(ReaderEventChoosePage(pageIndex: newPageIndex));
     }
   }
 
@@ -170,24 +154,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       if (newPageIndex < 0) {
         return;
       }
-
-      String displayText = Mixer(
-        (state as ReaderLoaded).sub,
-      ).mix((state as ReaderLoaded).book.pageText(
-            newPageIndex,
-          ));
-
-      var newState = (state as ReaderLoaded).copyWith(
-        pageIndex: newPageIndex,
-        pageText: displayText,
-      );
-
-      sl<SelectPage>()(
-        bookKey: newState.book.key,
-        pageIndex: newState.pageIndex,
-      );
-
-      emit(newState);
+      add(ReaderEventChoosePage(pageIndex: newPageIndex));
     }
   }
 

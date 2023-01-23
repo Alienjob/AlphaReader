@@ -58,6 +58,7 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
         fonts: StoreDataPurchaseStatus.purchased,
       );
     }
+    _storeData = _debugMode();
   }
 
   @override
@@ -134,5 +135,25 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
     final c = StreamController<StoreData>();
     listeners.add(c);
     return c;
+  }
+
+  bool debugMode() {
+    // Отключаем рекламу до релиза.
+    if (DateTime.now().compareTo(DateTime.parse('2023-02-01')) > 0) {
+      return false;
+    }
+    return true;
+  }
+
+  StoreData _debugMode() {
+    // Отключаем рекламу до релиза.
+    if (debugMode()) {
+      return _storeData.copyWith(
+        adFree: StoreDataPurchaseStatus.purchased,
+        fonts: StoreDataPurchaseStatus.purchased,
+      );
+    } else {
+      return _storeData;
+    }
   }
 }

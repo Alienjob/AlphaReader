@@ -16,7 +16,9 @@ class ReadPage extends StatelessWidget {
       child: SizedBox(
         child: Stack(
           children: <Widget>[
+            //ReaderBody(htmlAncor: htmlAncor),
             GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onHorizontalDragEnd: (details) {
                 if (details.velocity.pixelsPerSecond.dx > 100) {
                   sl<ReaderBloc>().add(
