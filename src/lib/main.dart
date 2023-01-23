@@ -8,9 +8,11 @@ import 'package:alpha_reader/pages/books.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:worker_manager/worker_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Executor().warmUp(log: true);
   await di.init();
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([

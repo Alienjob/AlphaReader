@@ -55,6 +55,7 @@ dependencies:
   google_mobile_ads: ^2.3.0
   path: ^1.8.2
   permission_handler: ^10.2.0
+  worker_manager: ^4.5.1
 
 
   
