@@ -1,6 +1,6 @@
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_observer.dart';
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:alpha_reader/injection_container.dart' as di;
 import 'package:alpha_reader/theme.dart';
 import 'package:flutter/material.dart';

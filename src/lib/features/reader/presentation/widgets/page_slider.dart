@@ -1,5 +1,5 @@
 import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:alpha_reader/pages/fonts.dart';
 import 'package:flutter/material.dart';

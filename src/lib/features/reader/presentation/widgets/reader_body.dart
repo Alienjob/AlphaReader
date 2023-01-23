@@ -1,6 +1,6 @@
 import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
-import 'package:alpha_reader/features/reader/widgets/reader_html_view.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/presentation/widgets/reader_html_view.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

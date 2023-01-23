@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
 
 class OpenBook {

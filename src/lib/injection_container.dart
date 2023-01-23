@@ -19,7 +19,7 @@ import 'package:alpha_reader/features/fonts/repository.dart';
 import 'package:alpha_reader/features/purchase/bloc/shop_bloc.dart';
 import 'package:alpha_reader/features/purchase/purchase_repository.dart';
 import 'package:alpha_reader/features/reader/data/reader_repository.dart';
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

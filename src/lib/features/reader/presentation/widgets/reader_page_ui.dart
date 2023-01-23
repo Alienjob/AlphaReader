@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_bottom_panel.dart';
 import 'package:alpha_reader/features/reader/presentation/widgets/reader_ui_top_panel.dart';
 

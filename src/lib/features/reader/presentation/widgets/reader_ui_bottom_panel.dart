@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/reader/presentation/bloc/reader_bloc.dart';
+import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
 import 'package:alpha_reader/features/reader/presentation/widgets/reader_sublist.dart';
 
 import 'package:flutter/material.dart';
