@@ -3,6 +3,7 @@ import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/domain/usecases/change_font_size.dart';
 import 'package:alpha_reader/domain/usecases/change_font_family.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
+import 'package:alpha_reader/domain/usecases/mix_done.dart';
 import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
 import 'package:alpha_reader/domain/usecases/save_offset.dart';
@@ -34,6 +35,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     on<ReaderEventSetOffset>(_onReaderEventSetOffset);
     on<ReaderEventSaveOffset>(_onReaderEventSaveOffset);
     on<ReaderEventSelectFont>(_onReaderEventSelectFont);
+    on<ReaderEventMixDone>(_onReaderEventMixDone);
   }
 
   void _onReaderEventOpenBook(
@@ -118,17 +120,15 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
       var newState = (state as ReaderLoaded).copyWith(
         sub: newSub,
       );
+      emit(newState);
+
       String displayText = await MixerExecutor.mix(
           newSub,
           (state as ReaderLoaded).book.pageText(
                 (state as ReaderLoaded).pageIndex,
               ));
 
-      newState = (state as ReaderLoaded).copyWith(
-        sub: newSub,
-        pageText: displayText,
-      );
-      emit(newState);
+      add(ReaderEventMixDone(substitutions: newSub, displayText: displayText));
     }
   }
 
@@ -143,6 +143,23 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         return;
       }
       add(ReaderEventChoosePage(pageIndex: newPageIndex));
+    }
+  }
+
+  void _onReaderEventMixDone(
+    ReaderEventMixDone event,
+    Emitter<ReaderState> emit,
+  ) async {
+    if (state is ReaderLoaded) {
+      if (event.substitutions != (state as ReaderLoaded).sub) return;
+      var newSub = await sl<MixDone>()(
+        subs: (state as ReaderLoaded).sub,
+      );
+      var newState = (state as ReaderLoaded).copyWith(
+        sub: event.substitutions,
+        pageText: event.displayText,
+      );
+      emit(newState);
     }
   }
 

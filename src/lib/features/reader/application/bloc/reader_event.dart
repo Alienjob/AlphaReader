@@ -60,3 +60,13 @@ class ReaderEventSetOffset implements ReaderEvent {
 }
 
 class ReaderEventSaveOffset implements ReaderEvent {}
+
+class ReaderEventMixDone implements ReaderEvent {
+  final Substitutions substitutions;
+  final String displayText;
+
+  ReaderEventMixDone({
+    required this.substitutions,
+    required this.displayText,
+  });
+}

@@ -11,8 +11,11 @@ class MixerExecutor {
   static MixerExecutor? _instance;
 
   final Map<String, String> cache;
+  final Set<Cancelable> tasks;
 
-  MixerExecutor._() : cache = {};
+  MixerExecutor._()
+      : cache = {},
+        tasks = {};
 
   factory MixerExecutor.instance() {
     _instance ??= MixerExecutor._();
@@ -23,6 +26,10 @@ class MixerExecutor {
     String? result;
     try {
       MixerExecutor i = MixerExecutor.instance();
+      for (var task in i.tasks) {
+        task.cancel();
+        i.tasks.remove(task);
+      }
       var mSubs = Substitutions.toStringMap(sub.pairs);
       String key = '${mSubs.hashCode} ${text.hashCode}';
       result = i.cache[key];

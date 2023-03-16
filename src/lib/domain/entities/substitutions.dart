@@ -8,9 +8,11 @@ class Substitution {
   final String from;
   final String to;
   bool active;
+  bool inProgress;
   final SubstitutionSet set;
 
-  Substitution(this.from, this.to, this.active, this.set);
+  Substitution(this.from, this.to, this.active, this.set,
+      {this.inProgress = false});
 
   String get key {
     return 'key${utf8.encode('${from}_$to')}';

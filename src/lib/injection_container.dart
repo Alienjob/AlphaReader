@@ -4,6 +4,7 @@ import 'package:alpha_reader/domain/usecases/add_fb2_book.dart';
 import 'package:alpha_reader/domain/usecases/change_sub.dart';
 import 'package:alpha_reader/domain/usecases/choose_book.dart';
 import 'package:alpha_reader/domain/usecases/get_books.dart';
+import 'package:alpha_reader/domain/usecases/mix_done.dart';
 import 'package:alpha_reader/domain/usecases/open_book.dart';
 import 'package:alpha_reader/domain/usecases/remove_book.dart';
 import 'package:alpha_reader/domain/usecases/save_offset.dart';
@@ -114,6 +115,9 @@ Future<void> init() async {
         repository: sl(),
       ));
   sl.registerLazySingleton<SaveOffset>(() => SaveOffset(
+        repository: sl(),
+      ));
+  sl.registerLazySingleton<MixDone>(() => MixDone(
         repository: sl(),
       ));
 }
