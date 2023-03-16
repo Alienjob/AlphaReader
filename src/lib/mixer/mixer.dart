@@ -5,6 +5,60 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 import 'dart:math';
 
+import 'package:worker_manager/worker_manager.dart';
+
+class MixerExecutor {
+  static MixerExecutor? _instance;
+
+  final Map<String, String> cache;
+
+  MixerExecutor._() : cache = {};
+
+  factory MixerExecutor.instance() {
+    _instance ??= MixerExecutor._();
+    return _instance!;
+  }
+
+  static Future<String> mix(Substitutions sub, String text) async {
+    String? result;
+    try {
+      MixerExecutor i = MixerExecutor.instance();
+      var mSubs = Substitutions.toStringMap(sub.pairs);
+      String key = '${mSubs.hashCode} ${text.hashCode}';
+      result = i.cache[key];
+      if (result == null) {
+        Cancelable task = Executor().execute(
+            arg1: Substitutions.toStringMap(sub.pairs), arg2: text, fun2: _mix);
+        result = await task;
+        i.cache[key] = result!;
+      }
+    } catch (e) {
+      return e.toString();
+    }
+    return result;
+  }
+
+  static Future<int> fibonacci(int input) async {
+    int result = await Executor().execute(arg1: 43, fun1: _fib);
+    return result;
+  }
+
+  static String _mix(String subMap, String text, TypeSendPort port) {
+    try {
+      return Mixer(Substitutions.fromString(subMap)).mix(text);
+    } catch (e) {
+      return text;
+    }
+  }
+
+  static int _fib(int n, TypeSendPort port) {
+    if (n < 2) {
+      return n;
+    }
+    return _fib(n - 2, port) + _fib(n - 1, port);
+  }
+}
+
 class AnchorGenerator {
   int current = 0;
   String get next {

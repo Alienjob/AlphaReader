@@ -17,7 +17,6 @@ void main() async {
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitUp,
   ]);
 
   Bloc.observer = BookListObserver();

@@ -51,7 +51,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         await sl<IUserDataRepository>().bookMark(book.key, pageIndex);
     double offset = await sl<IUserDataRepository>().offset(book.key, pageIndex);
     //double offset = 0;
-    String displayText = Mixer(sub).mix(book.pageText(pageIndex));
+    String displayText = await MixerExecutor.mix(sub, book.pageText(pageIndex));
     var newState = ReaderLoaded(
       sub: sub,
       book: book,
@@ -86,11 +86,11 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     Emitter<ReaderState> emit,
   ) async {
     if (state is ReaderLoaded) {
-      String displayText = Mixer(
-        (state as ReaderLoaded).sub,
-      ).mix((state as ReaderLoaded).book.pageText(
-            event.pageIndex,
-          ));
+      String displayText = await MixerExecutor.mix(
+          (state as ReaderLoaded).sub,
+          (state as ReaderLoaded).book.pageText(
+                event.pageIndex,
+              ));
       double offset = await sl<IUserDataRepository>()
           .offset((state as ReaderLoaded).book.key, event.pageIndex);
       var newState = (state as ReaderLoaded).copyWith(
@@ -115,13 +115,16 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         subs: (state as ReaderLoaded).sub,
         substitution: event.substitution,
       );
-      String displayText = Mixer(
-        newSub,
-      ).mix((state as ReaderLoaded).book.pageText(
-            (state as ReaderLoaded).pageIndex,
-          ));
-
       var newState = (state as ReaderLoaded).copyWith(
+        sub: newSub,
+      );
+      String displayText = await MixerExecutor.mix(
+          newSub,
+          (state as ReaderLoaded).book.pageText(
+                (state as ReaderLoaded).pageIndex,
+              ));
+
+      newState = (state as ReaderLoaded).copyWith(
         sub: newSub,
         pageText: displayText,
       );
