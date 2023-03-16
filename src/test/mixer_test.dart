@@ -125,4 +125,51 @@ void main() {
 
     expect(result, equals(etalon));
   });
+
+  test('divide little input', () {
+    var html = '<html><head></head><body>a b c</body></html>';
+    var etalon = [
+      '<html><head></head><body>a b c</body></html>',
+    ];
+
+    var result = Mixer.divide(html, 10);
+    expect(result.length, equals(etalon.length));
+    for (int i = 0; i < result.length; i++) {
+      expect(result[i], equals(etalon[i]));
+    }
+  });
+
+  test('divide big input', () {
+    var html = '<html><head></head><body>a b c d e f g i</body></html>';
+    var etalon = [
+      '<html><head></head><body>a b c</body></html>',
+      '<html><body> d e</body></html>',
+      '<html><body> f g</body></html>',
+      '<html><body> i</body></html>',
+    ];
+
+    var result = Mixer.divide(html, 5);
+    expect(result.length, equals(etalon.length));
+    for (int i = 0; i < result.length; i++) {
+      expect(result[i], equals(etalon[i]));
+    }
+  });
+
+  test('divide middle input', () {
+    var html = '<html><head></head><body>'
+        '<p>abc def</p>'
+        '<p>abc def</p>'
+        '<p>abc def</p>'
+        '</body></html>';
+    var etalon = [
+      '<html><head></head><body><p>abc def</p><p>abc </p></body></html>',
+      '<html><body><p>def</p><p>abc def</p></body></html>',
+    ];
+
+    var result = Mixer.divide(html, 5);
+    expect(result.length, equals(etalon.length));
+    for (int i = 0; i < result.length; i++) {
+      expect(result[i], equals(etalon[i]));
+    }
+  });
 }

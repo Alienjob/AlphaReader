@@ -93,6 +93,82 @@ class Mixer {
       }
     }
   }
+  static List<String> divide(String? text, int partLength) {
+    if (text == null) return [];
+
+    var document = parse(text);
+    int currentLength = 0;
+    List<String> result = [];
+    while (document.nodes.isNotEmpty) {
+      dom.Node current = document.clone(false);
+      var partData =
+          _getPart(PartData(document, partLength, current, currentLength));
+      result.add((partData.current as dom.Document).outerHtml);
+      document = partData.source as dom.Document;
+    }
+
+    return result;
+  }
+
+  static PartData _getPart(PartData data) {
+    final iterator = [...data.source.nodes];
+
+    for (var child in iterator) {
+      if ((child.nodeType == 3) && ((child as dom.Text).data != '')) {
+        final linesList = child.data.split('\n');
+        final wordList = <String>[];
+        for (var line in linesList) {
+          var currentWordList = line.split(' ');
+          for (var word in currentWordList) {
+            wordList.add(word);
+            wordList.add(' ');
+          }
+          wordList.removeLast();
+          wordList.add('\n');
+        }
+        wordList.removeLast();
+
+        String currentText = '';
+        String nextText = '';
+        for (var word in wordList) {
+          if (data.currentLength < data.partLength) {
+            currentText += word;
+            data.currentLength++;
+          } else {
+            nextText += word;
+          }
+        }
+
+        var currentChild = child.clone(true);
+        if (nextText == '') {
+          data.source.nodes.remove(child);
+        } else {
+          currentChild.data = currentText;
+          child.data = nextText;
+        }
+        data.current.nodes.add(currentChild);
+
+        if (data.currentLength >= data.partLength) break;
+      } else if (child.nodes.isEmpty) {
+        data.current.nodes.add(child.clone(true));
+        data.source.nodes.remove(child);
+      } else {
+        var currentChild = child.clone(false);
+        var partData = _getPart(
+            PartData(child, data.partLength, currentChild, data.currentLength));
+        data.current.nodes.add(partData.current);
+        data.currentLength = partData.currentLength;
+        if (data.currentLength < data.partLength) {
+          data.source.nodes.remove(child);
+        } else {
+          child = partData.source;
+          break;
+        }
+      }
+    }
+
+    return data;
+  }
 
   String mix(String text) {
     var document = parse(text);
@@ -183,4 +259,13 @@ class Mixer {
     String result = (to.isNotEmpty) ? to[r] : from;
     return result;
   }
+}
+
+class PartData {
+  dom.Node source;
+  int partLength;
+  dom.Node current;
+  int currentLength;
+
+  PartData(this.source, this.partLength, this.current, this.currentLength);
 }
