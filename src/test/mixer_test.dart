@@ -143,9 +143,8 @@ void main() {
     var html = '<html><head></head><body>a b c d e f g i</body></html>';
     var etalon = [
       '<html><head></head><body>a b c</body></html>',
-      '<html><body> d e</body></html>',
-      '<html><body> f g</body></html>',
-      '<html><body> i</body></html>',
+      '<html><body>d e f</body></html>',
+      '<html><body> g i</body></html>',
     ];
 
     var result = Mixer.divide(html, 5);
@@ -164,6 +163,41 @@ void main() {
     var etalon = [
       '<html><head></head><body><p>abc def</p><p>abc </p></body></html>',
       '<html><body><p>def</p><p>abc def</p></body></html>',
+    ];
+
+    var result = Mixer.divide(html, 5);
+    expect(result.length, equals(etalon.length));
+    for (int i = 0; i < result.length; i++) {
+      expect(result[i], equals(etalon[i]));
+    }
+  });
+
+  test('divide mixed input', () {
+    var html = '<html><head></head><body>'
+        '<p>abc <b>def</b></p>'
+        '<p>abc <b>def</b></p>'
+        '<p>abc <b>def</b></p>'
+        '</body></html>';
+    var etalon = [
+      '<html><head></head><body><p>abc <b>def</b></p><p>abc <b>def</b></p><p>abc </p></body></html>',
+      '<html><body><p><b>def</b></p></body></html>',
+    ];
+
+    var result = Mixer.divide(html, 5);
+    expect(result.length, equals(etalon.length));
+    for (int i = 0; i < result.length; i++) {
+      expect(result[i], equals(etalon[i]));
+    }
+  });
+  test('divide change emphasis', () {
+    var html = '<html><head></head><body>'
+        '<p>abc <emphasis>def</emphasis></p>'
+        '<p>abc <emphasis>def</emphasis></p>'
+        '<p>abc <emphasis>def</emphasis></p>'
+        '</body></html>';
+    var etalon = [
+      '<html><head></head><body><p>abc <em>def</em></p><p>abc <em>def</em></p><p>abc </p></body></html>',
+      '<html><body><p><em>def</em></p></body></html>',
     ];
 
     var result = Mixer.divide(html, 5);

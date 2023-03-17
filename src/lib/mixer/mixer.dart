@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:alpha_reader/domain/entities/substitutions.dart';
+import 'package:flutter/material.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 import 'dart:math';
@@ -78,7 +79,7 @@ class Mixer {
   Map<String, List<String>> subMap = {};
   Random rand = Random();
   bool useRandom = true;
-  bool useAncors = true;
+  bool useAncors = false;
   var uuid = AnchorGenerator();
 
   Mixer(Substitutions substitutions) {
@@ -120,10 +121,11 @@ class Mixer {
         for (var line in linesList) {
           var currentWordList = line.split(' ');
           for (var word in currentWordList) {
+            if (word == '') continue;
             wordList.add(word);
             wordList.add(' ');
           }
-          wordList.removeLast();
+          if (wordList.isNotEmpty) wordList.removeLast();
           wordList.add('\n');
         }
         wordList.removeLast();
@@ -156,7 +158,7 @@ class Mixer {
         var currentChild = child.clone(false);
         var partData = _getPart(
             PartData(child, data.partLength, currentChild, data.currentLength));
-        data.current.nodes.add(partData.current);
+        data.current.nodes.add(changeEmphasis(partData.current));
         data.currentLength = partData.currentLength;
         if (data.currentLength < data.partLength) {
           data.source.nodes.remove(child);
@@ -168,6 +170,23 @@ class Mixer {
     }
 
     return data;
+  }
+
+  static dom.Node changeEmphasis(dom.Node source) {
+    if (source is dom.Element) {
+      if (source.localName == 'emphasis') {
+        var outerHTML = source.outerHtml
+            .replaceAll('<emphasis>', '<em>')
+            .replaceAll('</emphasis>', '</em>');
+
+        var result = dom.Element.html(outerHTML);
+        return result;
+      } else {
+        return source;
+      }
+    } else {
+      return source;
+    }
   }
 
   String mix(String text) {

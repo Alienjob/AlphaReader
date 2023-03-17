@@ -28,6 +28,16 @@ class ReaderHtmlView extends StatelessWidget {
             fontFamily: state.font.family,
             color: Theme.of(context).textTheme.bodyMedium!.color,
             textDecoration: TextDecoration.none),
+        "em": Style(
+            fontSize: state.fontSize,
+            fontFamily: state.font.family,
+            color: Theme.of(context).textTheme.bodyMedium!.color,
+            textDecoration: TextDecoration.underline),
+        "emphasis": Style(
+            fontSize: state.fontSize,
+            fontFamily: state.font.family,
+            color: Theme.of(context).textTheme.bodyMedium!.color,
+            textDecoration: TextDecoration.underline),
         '#${state.bookmark}': Style(
             fontSize: state.fontSize,
             fontFamily: state.font.family,
