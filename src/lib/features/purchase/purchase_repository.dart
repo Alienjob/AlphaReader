@@ -139,7 +139,7 @@ class RevenueCatPurshaseRepository implements IPurshaseRepository {
 
   bool debugMode() {
     // Отключаем рекламу до релиза.
-    if (DateTime.now().compareTo(DateTime.parse('2023-02-01')) > 0) {
+    if (DateTime.now().compareTo(DateTime.parse('2023-06-01')) > 0) {
       return false;
     }
     return true;
