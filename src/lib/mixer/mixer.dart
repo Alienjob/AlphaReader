@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:flutter/material.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 import 'dart:math';
@@ -79,7 +78,7 @@ class Mixer {
   Map<String, List<String>> subMap = {};
   Random rand = Random();
   bool useRandom = true;
-  bool useAncors = false;
+  bool useAncors = true;
   var uuid = AnchorGenerator();
 
   Mixer(Substitutions substitutions) {

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:alpha_reader/domain/entities/book.dart';
 import 'package:alpha_reader/domain/entities/page.dart' as d;
 import 'package:alpha_reader/injection_container.dart';
