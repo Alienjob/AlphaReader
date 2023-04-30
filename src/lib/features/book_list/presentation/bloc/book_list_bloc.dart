@@ -56,27 +56,28 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEventChangeBook event,
     Emitter<BookListState> emit,
   ) async {
-    assert(state is BookListLoaded);
-    BookListLoaded castState = (state as BookListLoaded);
+    if (state is BookListLoaded) {
+      BookListLoaded castState = (state as BookListLoaded);
 
-    emit(
-      BookListSwich(
+      emit(
+        BookListSwich(
+          bookList: BookList(
+            books: castState.bookList.books,
+            current: event.bookIndex,
+          ),
+          oldBookIndex: castState.bookList.current,
+        ),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      emit(BookListLoaded(
         bookList: BookList(
           books: castState.bookList.books,
           current: event.bookIndex,
         ),
-        oldBookIndex: castState.bookList.current,
-      ),
-    );
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    emit(BookListLoaded(
-      bookList: BookList(
-        books: castState.bookList.books,
-        current: event.bookIndex,
-      ),
-    ));
+      ));
+    }
   }
 
   void _onBookListEventOpenBook(
