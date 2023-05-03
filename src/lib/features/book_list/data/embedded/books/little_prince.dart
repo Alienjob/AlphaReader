@@ -53,8 +53,13 @@ class LittlePrinceBook implements IBook {
   }
 
   @override
-  String pageText(int pageIndex) {
+  Future<String> pageText(int pageIndex) async {
     return _TextSource.getText(pageIndex);
+  }
+
+  @override
+  bool get ready {
+    return true;
   }
 }
 

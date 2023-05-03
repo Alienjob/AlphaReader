@@ -12,6 +12,7 @@ import 'package:alpha_reader/domain/usecases/select_page.dart';
 import 'package:alpha_reader/domain/usecases/set_book_mark.dart';
 import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
 import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
+import 'package:alpha_reader/features/book_list/data/fb2/fb2_buffer.dart';
 import 'package:alpha_reader/features/book_list/data/repositories/books_repository.dart';
 import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
 import 'package:alpha_reader/features/core/data/user_data_repository.dart';
@@ -33,6 +34,9 @@ Future<void> init() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
+  sl.registerLazySingleton<FB2Buffer>(
+      () => FB2Buffer(sharedPreferences: sharedPreferences));
 
   //! DATA SOURCE
 

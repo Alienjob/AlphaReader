@@ -44,8 +44,8 @@ class _PageSliderState extends State<PageSlider> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            FontSelector(),
-            FontSizeSelector(),
+            const FontSelector(),
+            const FontSizeSelector(),
             LanguageSelector(setLabel: setLabel),
           ],
         ),

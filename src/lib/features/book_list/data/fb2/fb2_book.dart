@@ -1,46 +1,42 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/domain/entities/page.dart' as d;
+import 'package:alpha_reader/features/book_list/data/fb2/fb2_buffer.dart';
+import 'package:alpha_reader/features/book_list/data/fb2/fb2_executor.dart';
 import 'package:alpha_reader/injection_container.dart';
-import 'package:alpha_reader/mixer/mixer.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:alpha_reader/alpha_image_cache.dart';
 
 import 'package:flutter/material.dart';
 
-const PAGE_LENGHT = 500;
-const SMART_PAGES = true;
-
 class FB2Book implements IBook {
-  final fb2_parse.FB2Book _souce;
-  final List<d.Page> pages = [];
+  static const PAGE_LENGHT = 500;
+  static const SMART_PAGES = true;
 
-  FB2Book._(this._souce) {
-    int start = DateTime.now().millisecondsSinceEpoch;
-    if (!SMART_PAGES) return;
-    for (var section in _souce.body.sections!) {
-      List<String> divided = Mixer.divide(section.content, PAGE_LENGHT);
-      int number = 1;
-      for (var part in divided) {
-        final title = (divided.length > 1)
-            ? '($number)${section.title ?? 'untitled'}'
-            : (section.title ?? 'untitled');
-        pages.add(d.Page(title: title, body: part));
-        number++;
-      }
-    }
-    int end = DateTime.now().millisecondsSinceEpoch;
-    print('parse time ${end - start}');
+  final fb2_parse.FB2Book _souce;
+  int _lenght;
+  bool buffered;
+  //final List<d.Page> pages = [];
+
+  FB2Book._(this._souce, String path)
+      : buffered = false,
+        _lenght = 0 {
+    FB2Executor.buffering(key, path, FB2Executor.instance().token)
+        .then((value) {
+      buffered = true;
+      _lenght = value;
+    });
   }
 
   static Future<FB2Book> ofPath({required String path}) async {
+    int start = DateTime.now().millisecondsSinceEpoch;
     var fb2souce = fb2_parse.FB2Book(path);
     await fb2souce.parse();
-    return FB2Book._(fb2souce);
+    int end = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('parse time ${end - start}');
+    return FB2Book._(fb2souce, path);
   }
 
   @override
@@ -78,16 +74,16 @@ class FB2Book implements IBook {
   @override
   int get length {
     if (SMART_PAGES) {
-      return pages.length;
+      return _lenght;
     } else {
       return _souce.body.sections?.length ?? 0;
     }
   }
 
   @override
-  String pageText(int pageIndex) {
+  Future<String> pageText(int pageIndex) async {
     if (SMART_PAGES) {
-      return pages[pageIndex].body;
+      return await (sl<FB2Buffer>().get(key, pageIndex));
     } else {
       return _souce.body.sections![pageIndex].content ?? '';
     }
@@ -100,4 +96,7 @@ class FB2Book implements IBook {
   String base64String(Uint8List data) {
     return base64Encode(data);
   }
+
+  @override
+  bool get ready => buffered;
 }

@@ -67,7 +67,12 @@ class TheCausalAngelBook extends IBook {
   }
 
   @override
-  String pageText(int pageIndex) {
+  Future<String> pageText(int pageIndex) {
     return _book.pageText(pageIndex);
+  }
+
+  @override
+  bool get ready {
+    return _book.buffered;
   }
 }

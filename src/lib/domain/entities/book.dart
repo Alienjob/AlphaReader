@@ -9,6 +9,7 @@ abstract class IBook {
   Image get imageObject;
 
   int get length;
+  bool get ready;
 
-  String pageText(int pageIndex);
+  Future<String> pageText(int pageIndex);
 }

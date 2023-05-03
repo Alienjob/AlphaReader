@@ -21,6 +21,7 @@ part 'reader_event.dart';
 part 'reader_state.dart';
 
 class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
+  static const int MAX_AWAITING_SECONDS = 10;
   ReaderBloc() : super(ReaderInitial()) {
     on<ReaderEventOpenBook>(_onReaderEventOpenBook);
     on<ReaderEventChoosePage>(_onReaderEventChoosePage);
@@ -53,7 +54,31 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
         await sl<IUserDataRepository>().bookMark(book.key, pageIndex);
     double offset = await sl<IUserDataRepository>().offset(book.key, pageIndex);
     //double offset = 0;
-    String displayText = await MixerExecutor.mix(sub, book.pageText(pageIndex));
+
+    int start = DateTime.now().millisecondsSinceEpoch;
+    while (!book.ready) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      if ((DateTime.now().millisecondsSinceEpoch - start) / 1000 >
+          MAX_AWAITING_SECONDS) {
+        emit(ReaderLoaded(
+          sub: sub,
+          book: book,
+          showUI: false,
+          title: book.title,
+          pageIndex: pageIndex,
+          pageCount: book.length,
+          pageText: 'Не удалось загрузить данные книги',
+          font: AlphaReaderFont(fontFamily),
+          fontSize: fontSize,
+          set: SubstitutionSet.ru,
+          bookmark: bookmark,
+          offset: offset,
+        ));
+        return;
+      }
+    }
+    String displayText =
+        await MixerExecutor.mix(sub, await book.pageText(pageIndex));
     var newState = ReaderLoaded(
       sub: sub,
       book: book,
@@ -90,7 +115,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
     if (state is ReaderLoaded) {
       String displayText = await MixerExecutor.mix(
           (state as ReaderLoaded).sub,
-          (state as ReaderLoaded).book.pageText(
+          await (state as ReaderLoaded).book.pageText(
                 event.pageIndex,
               ));
       double offset = await sl<IUserDataRepository>()
@@ -124,7 +149,7 @@ class ReaderBloc extends Bloc<ReaderEvent, ReaderState> {
 
       String displayText = await MixerExecutor.mix(
           newSub,
-          (state as ReaderLoaded).book.pageText(
+          await (state as ReaderLoaded).book.pageText(
                 (state as ReaderLoaded).pageIndex,
               ));
 

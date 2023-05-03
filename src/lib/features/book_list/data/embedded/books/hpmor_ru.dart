@@ -67,7 +67,12 @@ class HPMOR extends IBook {
   }
 
   @override
-  String pageText(int pageIndex) {
+  bool get ready {
+    return _book.buffered;
+  }
+
+  @override
+  Future<String> pageText(int pageIndex) {
     return _book.pageText(pageIndex);
   }
 }
