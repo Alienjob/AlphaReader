@@ -1,4 +1,5 @@
 import 'package:alpha_reader/domain/entities/book.dart';
+import 'package:alpha_reader/domain/entities/font_size.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
 import 'package:alpha_reader/domain/usecases/change_font_size.dart';
 import 'package:alpha_reader/domain/usecases/change_font_family.dart';
@@ -11,7 +12,6 @@ import 'package:alpha_reader/features/fonts/repository.dart';
 import 'package:alpha_reader/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:meta/meta.dart';
 import 'package:alpha_reader/features/reader/data/reader_repository.dart';
 import 'package:alpha_reader/mixer/mixer.dart';

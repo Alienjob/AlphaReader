@@ -1,5 +1,5 @@
+import 'package:alpha_reader/domain/entities/font_size.dart';
 import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IUserDataRepository {
@@ -89,7 +89,7 @@ class UserDataRepository implements IUserDataRepository {
   Future<FontSize> fontSize() async {
     double size = sharedPreferences.getDouble('FONTSIZE') ?? 0.0;
 
-    return (size == 0) ? (FontSize.medium) : FontSize(size);
+    return (size == 0) ? (FontSize.medium) : (FontSize.medium);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:alpha_reader/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ReaderAppBar extends StatelessWidget with PreferredSizeWidget {
+class ReaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ReaderAppBar({super.key});
 
   @override

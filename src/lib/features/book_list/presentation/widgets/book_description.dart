@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class BookDescription extends StatelessWidget {
   const BookDescription({super.key, required this.description});
@@ -20,8 +20,8 @@ class BookDescription extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
-                  child: Html(
-                    data: description,
+                  child: HtmlWidget(
+                    description,
                     //style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
