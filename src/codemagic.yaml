@@ -1,0 +1,27 @@
+workflows:
+  android-workflow:
+    name: Android Release
+    instance_type: mac_mini_m1
+    environment:
+      vars:
+        JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+      flutter: stable
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > android/local.properties
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build AAB
+        script: |
+          flutter build appbundle --release
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
