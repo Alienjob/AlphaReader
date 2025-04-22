@@ -22,6 +22,11 @@
 
 ## Play Core
 -keep class com.google.android.play.core.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+-keep class com.google.android.play.core.install.** { *; }
 -keep class com.google.android.play.core.splitcompat.** { *; }
--keep class * extends com.google.android.play.core.splitcompat.SplitCompatApplication { *; }
+-keep class com.google.android.play.core.review.** { *; }
+-keep class com.google.android.play.core.appupdate.** { *; }
+-keep interface com.google.android.play.core.** { *; }
 -dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.**
