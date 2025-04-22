@@ -37,7 +37,10 @@ dependencies:
   equatable: ^2.0.5
   shared_preferences: ^2.0.15
   carousel_slider: ^5.0.0
-  fb2_parse: ^1.0.1
+  fb2_parse:
+    git:
+      url: https://github.com/Alienjob/fb2_parse
+      ref: 0e60b27
   file_picker: ^10.1.2
   archive: ^3.3.1
   path_provider: ^2.0.11

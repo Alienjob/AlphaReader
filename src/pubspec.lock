@@ -292,10 +292,11 @@ packages:
   fb2_parse:
     dependency: "direct main"
     description:
-      name: fb2_parse
-      sha256: "0d6589d2d6837f6c346bb9bf3006a58dc5e4b1343c19facb4c4fbdc3a82f44a4"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "0e60b27"
+      resolved-ref: "0e60b27e65ee04f517a40b8e5deba7b0c715dc40"
+      url: "https://github.com/Alienjob/fb2_parse"
+    source: git
     version: "1.0.1"
   ffi:
     dependency: transitive
