@@ -4,11 +4,10 @@ workflows:
     instance_type: mac_mini_m1
     working_directory: src
     environment:
+      groups:
+        - Default
       vars:
         JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-        STORE_PASSWORD: alphareader
-        KEY_PASSWORD: alphareader
-        KEY_ALIAS: upload
       flutter: stable
     scripts:
       - name: Set up local.properties
@@ -29,9 +28,6 @@ workflows:
           keyAlias=$KEY_ALIAS
           keyPassword=$KEY_PASSWORD
           EOF
-      - name: Set up Google Play credentials
-        script: |
-          echo $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS > $CM_BUILD_DIR/google-play.json
       - name: Build AAB
         script: |
           flutter build appbundle --release
@@ -41,6 +37,6 @@ workflows:
       - flutter_drive.log
     publishing:
       google_play:
-        credentials: $CM_BUILD_DIR/google-play.json
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: internal
         submit_as_draft: true
