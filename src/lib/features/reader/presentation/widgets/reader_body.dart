@@ -17,19 +17,33 @@ class ReaderBody extends StatefulWidget {
 }
 
 class _ReaderBodyState extends State<ReaderBody> {
-  late ScrollController _controller;
+  late PageController _pageController;
+  late ScrollController _scrollController;
   late ReaderBloc _bloc;
 
   @override
   void initState() {
-    double initialOffset = 0;
     _bloc = sl<ReaderBloc>();
+    double initialOffset = 0;
     if (_bloc.state is ReaderLoaded) {
       initialOffset = (_bloc.state as ReaderLoaded).offset;
     }
-    _controller = ScrollController(initialScrollOffset: initialOffset);
-    _controller.addListener(_scrollListener);
+    _scrollController = ScrollController(initialScrollOffset: initialOffset);
+    _scrollController.addListener(_scrollListener);
+
+    int initialPage = 0;
+    if (_bloc.state is ReaderLoaded) {
+      initialPage = (_bloc.state as ReaderLoaded).pageIndex;
+    }
+    _pageController = PageController(initialPage: initialPage);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,37 +55,47 @@ class _ReaderBodyState extends State<ReaderBody> {
             buildWhen: (previous, current) {
               if (current is! ReaderLoaded) return false;
               if (previous is! ReaderLoaded) return true;
-              if ((current.pageText.hashCode == previous.pageText.hashCode) &&
-                  (current.font == previous.font) &&
-                  (current.bookmark == previous.bookmark) &&
-                  (current.fontSize == previous.fontSize)) {
-                return false;
+
+              bool shouldRebuild = current.pageText != previous.pageText ||
+                  current.font != previous.font ||
+                  current.bookmark != previous.bookmark ||
+                  current.fontSize != previous.fontSize ||
+                  current.pageIndex != previous.pageIndex;
+
+              if (shouldRebuild) {
+                setState(() {
+                  _scrollController.jumpTo(current.offset);
+                });
+
+                if (current.pageIndex != previous.pageIndex) {
+                  _pageController.jumpToPage(current.pageIndex);
+                }
               }
-              setState(() {
-                _controller.jumpTo(current.offset);
-              });
-              return true;
+
+              return shouldRebuild;
             },
             builder: (context, state) {
-              try {
-                //_controller.jumpTo((state is ReaderLoaded) ? state.offset : 0)
-                return (state is ReaderLoaded)
-                    ? Scrollbar(
-                        controller: _controller,
-                        child: SingleChildScrollView(
-                          controller: _controller,
-                          child: ReaderHtmlView(
-                            //htmlAncor: widget.htmlAncor,
-                            state: state,
-                          ),
-                        ),
-                      )
-                    : Container();
-              } catch (e) {
-                var map = {'state': state, 'error': e};
-                print(map);
-                return Text('Ошибка при отображении страницы \n $map');
-              }
+              if (state is! ReaderLoaded) return Container();
+
+              return PageView.builder(
+                controller: _pageController,
+                physics: const PageScrollPhysics(),
+                onPageChanged: (index) {
+                  _bloc.add(ReaderEventChoosePage(pageIndex: index));
+                },
+                itemCount: state.pageCount,
+                itemBuilder: (context, index) {
+                  return Scrollbar(
+                    controller: _scrollController,
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      child: ReaderHtmlView(
+                        state: state.copyWith(pageIndex: index),
+                      ),
+                    ),
+                  );
+                },
+              );
             },
           ),
         ),
@@ -81,6 +105,6 @@ class _ReaderBodyState extends State<ReaderBody> {
   }
 
   _scrollListener() {
-    _bloc.add(ReaderEventSetOffset(_controller.offset));
+    _bloc.add(ReaderEventSetOffset(_scrollController.offset));
   }
 }
