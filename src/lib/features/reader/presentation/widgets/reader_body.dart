@@ -18,19 +18,22 @@ class ReaderBody extends StatefulWidget {
 
 class _ReaderBodyState extends State<ReaderBody> {
   late PageController _pageController;
-  late ScrollController _scrollController;
+  final Map<int, ScrollController> _scrollControllers = {};
   late ReaderBloc _bloc;
+
+  ScrollController _getScrollController(int pageIndex) {
+    if (!_scrollControllers.containsKey(pageIndex)) {
+      _scrollControllers[pageIndex] = ScrollController();
+      _scrollControllers[pageIndex]!.addListener(() {
+        _bloc.add(ReaderEventSetOffset(_scrollControllers[pageIndex]!.offset));
+      });
+    }
+    return _scrollControllers[pageIndex]!;
+  }
 
   @override
   void initState() {
     _bloc = sl<ReaderBloc>();
-    double initialOffset = 0;
-    if (_bloc.state is ReaderLoaded) {
-      initialOffset = (_bloc.state as ReaderLoaded).offset;
-    }
-    _scrollController = ScrollController(initialScrollOffset: initialOffset);
-    _scrollController.addListener(_scrollListener);
-
     int initialPage = 0;
     if (_bloc.state is ReaderLoaded) {
       initialPage = (_bloc.state as ReaderLoaded).pageIndex;
@@ -42,7 +45,10 @@ class _ReaderBodyState extends State<ReaderBody> {
   @override
   void dispose() {
     _pageController.dispose();
-    _scrollController.dispose();
+    for (var controller in _scrollControllers.values) {
+      controller.dispose();
+    }
+    _scrollControllers.clear();
     super.dispose();
   }
 
@@ -53,26 +59,33 @@ class _ReaderBodyState extends State<ReaderBody> {
         Flexible(
           child: BlocBuilder<ReaderBloc, ReaderState>(
             buildWhen: (previous, current) {
+              // Always rebuild for initial load with content
               if (current is! ReaderLoaded) return false;
-              if (previous is! ReaderLoaded) return true;
+              final curr = current as ReaderLoaded;
 
-              bool shouldRebuild = current.pageText != previous.pageText ||
-                  current.font != previous.font ||
-                  current.bookmark != previous.bookmark ||
-                  current.fontSize != previous.fontSize ||
-                  current.pageIndex != previous.pageIndex;
+              // Always rebuild for initial load with content
+              if (previous is! ReaderLoaded) {
+                return curr.pageText.isNotEmpty;
+              }
+              final prev = previous as ReaderLoaded;
+
+              bool shouldRebuild = curr.pageText != prev.pageText ||
+                  curr.font != prev.font ||
+                  curr.bookmark != prev.bookmark ||
+                  curr.fontSize != prev.fontSize ||
+                  curr.pageIndex != prev.pageIndex;
 
               if (shouldRebuild) {
-                setState(() {
-                  _scrollController.jumpTo(current.offset);
-                });
-
-                if (current.pageIndex != previous.pageIndex) {
-                  _pageController.jumpToPage(current.pageIndex);
+                if (curr.pageIndex != prev.pageIndex) {
+                  _pageController.jumpToPage(curr.pageIndex);
+                } else if (_scrollControllers.containsKey(curr.pageIndex)) {
+                  setState(() {
+                    _scrollControllers[curr.pageIndex]!.jumpTo(curr.offset);
+                  });
                 }
               }
 
-              return shouldRebuild;
+              return shouldRebuild || curr.pageText.isNotEmpty;
             },
             builder: (context, state) {
               if (state is! ReaderLoaded) return Container();
@@ -85,13 +98,33 @@ class _ReaderBodyState extends State<ReaderBody> {
                 },
                 itemCount: state.pageCount,
                 itemBuilder: (context, index) {
-                  return Scrollbar(
-                    controller: _scrollController,
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: ReaderHtmlView(
-                        state: state.copyWith(pageIndex: index),
+                  final readerState = state as ReaderLoaded;
+
+                  // Only show content for current page when it's ready
+                  if (index == readerState.pageIndex) {
+                    if (readerState.pageText.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                        ),
+                      );
+                    }
+
+                    return Scrollbar(
+                      controller: _getScrollController(index),
+                      child: SingleChildScrollView(
+                        controller: _getScrollController(index),
+                        child: ReaderHtmlView(
+                          state: readerState.copyWith(pageIndex: index),
+                        ),
                       ),
+                    );
+                  }
+
+                  // Show placeholder for other pages
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
                     ),
                   );
                 },
@@ -104,7 +137,5 @@ class _ReaderBodyState extends State<ReaderBody> {
     );
   }
 
-  _scrollListener() {
-    _bloc.add(ReaderEventSetOffset(_scrollController.offset));
-  }
+  // Scroll listener is now handled in _getScrollController
 }
