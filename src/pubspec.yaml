@@ -46,7 +46,8 @@ dependencies:
   path_provider: ^2.0.11
   html: ^0.15.0
   flutter_widget_from_html : ^0.15.2
-  # flutter_html: 3.0.0-alpha.5
+  webview_flutter: ^4.7.0
+  webview_flutter_android: ^3.15.0
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -248,7 +249,7 @@ flutter:
       fonts:
         - asset: assets/fonts/ar-archy-regular.ttf
 
-    - family: 	BolnisiMtavruli
+    - family: BolnisiMtavruli
       fonts:
         - asset: assets/fonts/bolnisi_mtavruli.ttf
 
@@ -525,4 +526,3 @@ flutter:
         - asset: assets/fonts_pay/weblysleekuisbi.ttf
         - asset: assets/fonts_pay/weblysleekuisl.ttf
         - asset: assets/fonts_pay/weblysleekuisli.ttf
-
