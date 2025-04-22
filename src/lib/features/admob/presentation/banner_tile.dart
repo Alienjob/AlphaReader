@@ -1,6 +1,6 @@
-import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
-import 'package:alpha_reader/features/purchase/widgets/go_to_shop_card.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/features/admob/application/bloc/ad_mob_bloc.dart';
+import '/features/purchase/widgets/go_to_shop_card.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

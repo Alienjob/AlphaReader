@@ -1,8 +1,8 @@
-import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
-import 'package:alpha_reader/features/purchase/bloc/shop_bloc.dart';
-import 'package:alpha_reader/features/purchase/purchase_repository.dart';
-import 'package:alpha_reader/features/purchase/widgets/shop_item_tile.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/features/admob/presentation/banner_tile.dart';
+import '/features/purchase/bloc/shop_bloc.dart';
+import '/features/purchase/purchase_repository.dart';
+import '/features/purchase/widgets/shop_item_tile.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

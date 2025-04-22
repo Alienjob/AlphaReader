@@ -1,7 +1,7 @@
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/domain/repositories/books_repository.dart';
-import 'package:alpha_reader/features/book_list/data/datasources/book_source.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
+import '/domain/entities/book.dart';
+import '/domain/repositories/books_repository.dart';
+import '/features/book_list/data/datasources/book_source.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
 
 class BooksRepository implements IBooksRepository {
   final BookSourceEmbedded bookSourceEmbedded;

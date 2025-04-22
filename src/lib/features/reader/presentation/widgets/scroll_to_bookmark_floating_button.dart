@@ -1,5 +1,5 @@
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
 
 class ScrollToBookmarkFloatingButton extends StatelessWidget {

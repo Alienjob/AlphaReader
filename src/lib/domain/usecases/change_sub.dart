@@ -1,5 +1,5 @@
-import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:alpha_reader/features/core/data/user_data_repository.dart';
+import '/domain/entities/substitutions.dart';
+import '/features/core/data/user_data_repository.dart';
 
 class ChangeSub {
   final IUserDataRepository repository;

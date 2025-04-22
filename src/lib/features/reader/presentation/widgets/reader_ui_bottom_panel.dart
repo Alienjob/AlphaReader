@@ -1,5 +1,5 @@
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/features/reader/presentation/widgets/reader_sublist.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/features/reader/presentation/widgets/reader_sublist.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -95,7 +95,7 @@ class LiquidTheme {
     MaterialColor darkColor = MaterialColor(0xff3c4c69, mDark);
     return ThemeData(
       dialogBackgroundColor: darkColor.shade900,
-      backgroundColor: darkColor.shade600,
+      canvasColor: darkColor.shade600,
       primaryColor: darkColor.shade500,
       cardColor: darkColor.shade400,
       textTheme: TextTheme(

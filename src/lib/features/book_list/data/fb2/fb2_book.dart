@@ -1,13 +1,13 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_buffer.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_executor.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/domain/entities/book.dart';
+import '/features/book_list/data/fb2/fb2_buffer.dart';
+import '/features/book_list/data/fb2/fb2_executor.dart';
+import '/injection_container.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
-import 'package:alpha_reader/alpha_image_cache.dart';
+import '/alpha_image_cache.dart';
 
 import 'package:flutter/material.dart';
 

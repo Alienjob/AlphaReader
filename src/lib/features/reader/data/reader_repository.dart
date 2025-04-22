@@ -1,5 +1,5 @@
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/domain/repositories/books_repository.dart';
+import '/domain/entities/book.dart';
+import '/domain/repositories/books_repository.dart';
 
 abstract class IReaderRepository {
   Future<IBook> getBook(String key);

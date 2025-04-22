@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/fonts/font_lists.dart';
+import '/features/fonts/font_lists.dart';
 
 class AlphaReaderFont {
   final String family;

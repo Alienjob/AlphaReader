@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/core/data/user_data_repository.dart';
+import '/features/core/data/user_data_repository.dart';
 
 class SelectPage {
   final IUserDataRepository repository;

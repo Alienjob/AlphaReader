@@ -1,5 +1,5 @@
-import 'package:alpha_reader/features/fonts/repository.dart';
-import 'package:alpha_reader/features/fonts/widgets/font_text_example.dart';
+import '/features/fonts/repository.dart';
+import '/features/fonts/widgets/font_text_example.dart';
 
 import 'package:flutter/material.dart';
 

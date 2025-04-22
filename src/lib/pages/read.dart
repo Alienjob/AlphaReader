@@ -1,8 +1,8 @@
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/features/reader/presentation/widgets/reader_page_ui.dart';
-import 'package:alpha_reader/features/reader/presentation/widgets/reader_app_bar.dart';
-import 'package:alpha_reader/features/reader/presentation/widgets/reader_body.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/features/reader/presentation/widgets/reader_page_ui.dart';
+import '/features/reader/presentation/widgets/reader_app_bar.dart';
+import '/features/reader/presentation/widgets/reader_body.dart';
+import '/injection_container.dart';
 
 import 'package:flutter/material.dart';
 

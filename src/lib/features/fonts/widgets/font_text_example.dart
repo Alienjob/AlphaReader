@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/fonts/repository.dart';
+import '/features/fonts/repository.dart';
 import 'package:flutter/material.dart';
 
 class TextExample extends StatelessWidget {

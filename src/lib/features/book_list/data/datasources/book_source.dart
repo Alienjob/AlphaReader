@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/features/book_list/data/embedded/books/hpmor_ru.dart';
-import 'package:alpha_reader/features/book_list/data/embedded/books/little_prince.dart';
-import 'package:alpha_reader/features/book_list/data/embedded/books/the_causal_angel.dart';
-import 'package:alpha_reader/features/book_list/data/embedded/books/the_seven_madmen_book.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
-import 'package:alpha_reader/features/book_list/data/models/book_list_model.dart';
+import '/domain/entities/book.dart';
+import '/features/book_list/data/embedded/books/hpmor_ru.dart';
+import '/features/book_list/data/embedded/books/little_prince.dart';
+import '/features/book_list/data/embedded/books/the_causal_angel.dart';
+import '/features/book_list/data/embedded/books/the_seven_madmen_book.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
+import '/features/book_list/data/models/book_list_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IBookSource {

@@ -1,7 +1,7 @@
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/domain/repositories/books_repository.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
-import 'package:alpha_reader/features/core/data/user_data_repository.dart';
+import '/domain/entities/book.dart';
+import '/domain/repositories/books_repository.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
+import '/features/core/data/user_data_repository.dart';
 
 class AddFB2Book {
   final IBooksRepository bookRepository;

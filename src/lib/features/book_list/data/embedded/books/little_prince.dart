@@ -1,9 +1,9 @@
-import 'package:alpha_reader/injection_container.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:alpha_reader/domain/entities/book.dart';
+import '/domain/entities/book.dart';
 import 'package:flutter/foundation.dart';
-import 'package:alpha_reader/alpha_image_cache.dart';
+import '/alpha_image_cache.dart';
 
 class LittlePrinceBook implements IBook {
   final Uint8List _imageData;

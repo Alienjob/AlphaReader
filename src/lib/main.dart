@@ -1,10 +1,10 @@
-import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
-import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_observer.dart';
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/injection_container.dart' as di;
-import 'package:alpha_reader/theme.dart';
+import '/features/book_list/presentation/bloc/book_list_bloc.dart';
+import '/features/book_list/presentation/bloc/book_list_observer.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/injection_container.dart' as di;
+import '/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:alpha_reader/pages/books.dart';
+import '/pages/books.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

@@ -1,8 +1,8 @@
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
-import 'package:alpha_reader/mixer/mixer.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
+import '/mixer/mixer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fb2_parse/fb2_parse.dart' as fb2_parse;
-import 'package:alpha_reader/domain/entities/page.dart' as d;
+import '/domain/entities/page.dart' as d;
 
 class FB2Buffer {
   final SharedPreferences sharedPreferences;

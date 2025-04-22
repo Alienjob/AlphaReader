@@ -1,10 +1,10 @@
-import 'package:alpha_reader/features/fonts/bloc/font_bloc.dart';
-import 'package:alpha_reader/features/fonts/widgets/font_list_welcome.dart';
-import 'package:alpha_reader/features/fonts/widgets/font_tile.dart';
-import 'package:alpha_reader/features/purchase/store_data.dart';
-import 'package:alpha_reader/features/purchase/widgets/go_to_shop_card.dart';
-import 'package:alpha_reader/injection_container.dart';
-import 'package:alpha_reader/pages/shop.dart';
+import '/features/fonts/bloc/font_bloc.dart';
+import '/features/fonts/widgets/font_list_welcome.dart';
+import '/features/fonts/widgets/font_tile.dart';
+import '/features/purchase/store_data.dart';
+import '/features/purchase/widgets/go_to_shop_card.dart';
+import '/injection_container.dart';
+import '/pages/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

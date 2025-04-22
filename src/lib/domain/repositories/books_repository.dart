@@ -1,4 +1,4 @@
-import 'package:alpha_reader/domain/entities/book.dart';
+import '/domain/entities/book.dart';
 
 abstract class IBooksRepository {
   Future<Map<String, IBook>> getBooks();

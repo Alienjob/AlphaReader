@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:alpha_reader/features/admob/application/bloc/ad_mob_bloc.dart';
+import '/features/admob/application/bloc/ad_mob_bloc.dart';
 import 'package:bloc/bloc.dart';
 
 class MyBlocObserver extends BlocObserver {

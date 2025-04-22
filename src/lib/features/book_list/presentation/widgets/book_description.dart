@@ -16,7 +16,7 @@ class BookDescription extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).backgroundColor),
+                  color: Theme.of(context).canvasColor),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(

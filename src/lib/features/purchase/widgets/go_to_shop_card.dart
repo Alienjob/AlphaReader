@@ -1,4 +1,4 @@
-import 'package:alpha_reader/pages/shop.dart';
+import '/pages/shop.dart';
 import 'package:flutter/material.dart';
 
 class GoToShopCard extends StatelessWidget {

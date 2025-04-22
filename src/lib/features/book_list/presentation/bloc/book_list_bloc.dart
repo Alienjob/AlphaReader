@@ -1,17 +1,17 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/domain/entities/book_list.dart';
-import 'package:alpha_reader/domain/usecases/add_fb2_book.dart';
-import 'package:alpha_reader/domain/usecases/get_books.dart';
-import 'package:alpha_reader/domain/usecases/open_book.dart';
-import 'package:alpha_reader/domain/usecases/remove_book.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/domain/entities/book.dart';
+import '/domain/entities/book_list.dart';
+import '/domain/usecases/add_fb2_book.dart';
+import '/domain/usecases/get_books.dart';
+import '/domain/usecases/open_book.dart';
+import '/domain/usecases/remove_book.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
+import '/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:alpha_reader/alpha_image_cache.dart';
+import '/alpha_image_cache.dart';
 import 'package:flutter/material.dart' as m;
 
 part 'book_list_event.dart';

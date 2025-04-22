@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:alpha_reader/domain/entities/book.dart';
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_book.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/domain/entities/book.dart';
+import '/features/book_list/data/fb2/fb2_book.dart';
+import '/injection_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:alpha_reader/alpha_image_cache.dart';
+import '/alpha_image_cache.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 

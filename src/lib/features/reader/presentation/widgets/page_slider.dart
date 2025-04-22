@@ -1,7 +1,7 @@
-import 'package:alpha_reader/domain/entities/substitutions.dart';
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/injection_container.dart';
-import 'package:alpha_reader/pages/fonts.dart';
+import '/domain/entities/substitutions.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/injection_container.dart';
+import '/pages/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

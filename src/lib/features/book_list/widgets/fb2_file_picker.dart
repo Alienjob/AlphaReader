@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:alpha_reader/injection_container.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
+import '/features/book_list/presentation/bloc/book_list_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:archive/archive.dart';
 import 'package:archive/archive_io.dart';

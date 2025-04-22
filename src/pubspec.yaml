@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.7+8
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.4 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,7 +38,7 @@ dependencies:
   shared_preferences: ^2.0.15
   carousel_slider: ^5.0.0
   fb2_parse: ^1.0.1
-  file_picker: ^8.0.5
+  file_picker: ^10.1.2
   archive: ^3.3.1
   path_provider: ^2.0.11
   html: ^0.15.0
@@ -57,7 +57,7 @@ dependencies:
   worker_manager: ^4.5.1
   shared_preferences_android: ^2.1.4
   shared_preferences_ios: ^2.1.1
-
+  
 
   
 dev_dependencies:

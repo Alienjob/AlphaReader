@@ -1,18 +1,18 @@
 // ignore_for_file: unnecessary_cast
 
-import 'package:alpha_reader/domain/entities/book_list.dart';
-import 'package:alpha_reader/features/admob/presentation/banner_tile.dart';
-import 'package:alpha_reader/features/book_list/presentation/widgets/book_card.dart';
-import 'package:alpha_reader/features/book_list/presentation/widgets/book_description.dart';
-import 'package:alpha_reader/features/book_list/widgets/animated_app_bar.dart';
-import 'package:alpha_reader/features/core/presentation/loading.dart';
-import 'package:alpha_reader/injection_container.dart';
-import 'package:alpha_reader/domain/entities/substitutions.dart';
+import '/domain/entities/book_list.dart';
+import '/features/admob/presentation/banner_tile.dart';
+import '/features/book_list/presentation/widgets/book_card.dart';
+import '/features/book_list/presentation/widgets/book_description.dart';
+import '/features/book_list/widgets/animated_app_bar.dart';
+import '/features/core/presentation/loading.dart';
+import '/injection_container.dart';
+import '/domain/entities/substitutions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:alpha_reader/features/book_list/presentation/bloc/book_list_bloc.dart';
+import '/features/book_list/presentation/bloc/book_list_bloc.dart';
 
 class BooksPage extends StatelessWidget {
   const BooksPage({super.key});

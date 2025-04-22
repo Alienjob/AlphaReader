@@ -1,5 +1,5 @@
-import 'package:alpha_reader/domain/entities/font_size.dart';
-import 'package:alpha_reader/domain/entities/substitutions.dart';
+import '/domain/entities/font_size.dart';
+import '/domain/entities/substitutions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IUserDataRepository {

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:alpha_reader/features/book_list/data/fb2/fb2_buffer.dart';
+import '/features/book_list/data/fb2/fb2_buffer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

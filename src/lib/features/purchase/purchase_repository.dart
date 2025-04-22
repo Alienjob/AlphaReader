@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:alpha_reader/features/purchase/bloc/purchases_configuration.dart';
-import 'package:alpha_reader/features/purchase/store_data.dart';
+import '/features/purchase/bloc/purchases_configuration.dart';
+import '/features/purchase/store_data.dart';
 import 'package:flutter/services.dart';
 
 import 'package:purchases_flutter/purchases_flutter.dart';

@@ -1,4 +1,4 @@
-import 'package:alpha_reader/features/purchase/store_data.dart';
+import '/features/purchase/store_data.dart';
 import 'package:flutter/material.dart';
 
 class ShopItemTile extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:alpha_reader/features/core/presentation/loading.dart';
-import 'package:alpha_reader/features/reader/application/bloc/reader_bloc.dart';
-import 'package:alpha_reader/injection_container.dart';
+import '/features/core/presentation/loading.dart';
+import '/features/reader/application/bloc/reader_bloc.dart';
+import '/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,4 +1,4 @@
-import 'package:alpha_reader/domain/entities/book.dart';
+import '/domain/entities/book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 

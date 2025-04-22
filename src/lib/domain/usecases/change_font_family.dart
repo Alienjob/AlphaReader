@@ -1,5 +1,5 @@
-import 'package:alpha_reader/features/core/data/user_data_repository.dart';
-import 'package:alpha_reader/features/fonts/repository.dart';
+import '/features/core/data/user_data_repository.dart';
+import '/features/fonts/repository.dart';
 
 class ChangeFontFamily {
   final IUserDataRepository repository;

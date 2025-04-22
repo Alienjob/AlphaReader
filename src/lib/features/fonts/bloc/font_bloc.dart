@@ -1,6 +1,6 @@
-import 'package:alpha_reader/features/fonts/repository.dart';
-import 'package:alpha_reader/features/purchase/purchase_repository.dart';
-import 'package:alpha_reader/features/purchase/store_data.dart';
+import '/features/fonts/repository.dart';
+import '/features/purchase/purchase_repository.dart';
+import '/features/purchase/store_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
