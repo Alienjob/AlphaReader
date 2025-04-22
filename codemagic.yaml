@@ -37,7 +37,7 @@ workflows:
           cd android
           ./gradlew clean
           cd ..
-          flutter build appbundle --release --verbose
+          flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
