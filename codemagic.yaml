@@ -9,7 +9,6 @@ workflows:
         STORE_PASSWORD: alphareader
         KEY_PASSWORD: alphareader
         KEY_ALIAS: upload
-        GCLOUD_SERVICE_ACCOUNT_CREDENTIALS: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       flutter: stable
     scripts:
       - name: Set up local.properties
@@ -30,6 +29,9 @@ workflows:
           keyAlias=$KEY_ALIAS
           keyPassword=$KEY_PASSWORD
           EOF
+      - name: Set up Google Play credentials
+        script: |
+          echo $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS > $CM_BUILD_DIR/google-play.json
       - name: Build AAB
         script: |
           flutter build appbundle --release
@@ -39,6 +41,6 @@ workflows:
       - flutter_drive.log
     publishing:
       google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        credentials: $CM_BUILD_DIR/google-play.json
         track: internal
         submit_as_draft: true
