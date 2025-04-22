@@ -5,6 +5,10 @@ workflows:
     environment:
       vars:
         JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+        STORE_PASSWORD: alphareader
+        KEY_PASSWORD: alphareader
+        KEY_ALIAS: upload
+        GCLOUD_SERVICE_ACCOUNT_CREDENTIALS: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
       flutter: stable
     scripts:
       - name: Set up local.properties
@@ -13,6 +17,18 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
+      - name: Set up keystore
+        script: |
+          echo $KEYSTORE | base64 --decode > $CM_BUILD_DIR/keystore.jks
+          cp $CM_BUILD_DIR/keystore.jks android/app/keystore.jks
+      - name: Set up key.properties
+        script: |
+          cat >> android/key.properties << EOF
+          storeFile=keystore.jks
+          storePassword=$STORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=$KEY_PASSWORD
+          EOF
       - name: Build AAB
         script: |
           flutter build appbundle --release
