@@ -19,3 +19,9 @@
 ## RevenueCat Rules
 -keep class com.revenuecat.purchases.** { *; }
 -keep class com.android.vending.billing.** { *; }
+
+## Play Core
+-keep class com.google.android.play.core.** { *; }
+-keep class com.google.android.play.core.splitcompat.** { *; }
+-keep class * extends com.google.android.play.core.splitcompat.SplitCompatApplication { *; }
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication

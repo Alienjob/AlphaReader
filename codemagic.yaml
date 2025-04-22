@@ -8,11 +8,14 @@ workflows:
         - Default
       vars:
         JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+        ANDROID_NDK_HOME: /Users/builder/programs/android-ndk-r25c
       flutter: 3.27.2
     scripts:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$HOME/programs/flutter" > android/local.properties
+          echo "sdk.dir=$ANDROID_SDK_ROOT" >> android/local.properties
+          echo "ndk.dir=$ANDROID_NDK_HOME" >> android/local.properties
       - name: Clean and Get Packages
         script: |
           flutter clean
@@ -29,19 +32,15 @@ workflows:
           keyAlias=$KEY_ALIAS
           keyPassword=$KEY_PASSWORD
           EOF
-      - name: Set Android SDK location
-        script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
       - name: Build AAB
         script: |
           cd android
           ./gradlew clean
           cd ..
-          flutter build appbundle --release
+          flutter build appbundle --release --verbose
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
     publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
