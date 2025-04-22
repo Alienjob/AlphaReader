@@ -2,6 +2,7 @@ workflows:
   android-workflow:
     name: Android Release
     instance_type: mac_mini_m1
+    working_directory: src
     environment:
       vars:
         JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
