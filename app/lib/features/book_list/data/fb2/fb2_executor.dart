@@ -34,8 +34,8 @@ class FB2Executor {
     try {
       FB2Executor i = FB2Executor.instance();
 
-      Cancelable task = Executor()
-          .execute(arg1: bookId, arg2: path, arg3: token, fun3: _buffering);
+      Cancelable task =
+          workerManager.execute<int>(() => _buffering(bookId, path, token));
       result = await task;
     } catch (e) {
       debugPrint(e.toString());
@@ -48,7 +48,6 @@ class FB2Executor {
     String bookId,
     String path,
     RootIsolateToken token,
-    TypeSendPort port,
   ) async {
     try {
       BackgroundIsolateBinaryMessenger.ensureInitialized(token);

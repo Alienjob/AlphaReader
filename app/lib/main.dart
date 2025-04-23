@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import '/features/book_list/presentation/bloc/book_list_bloc.dart';
 import '/features/book_list/presentation/bloc/book_list_observer.dart';
 import '/features/reader/application/bloc/reader_bloc.dart';
@@ -12,7 +14,6 @@ import 'package:worker_manager/worker_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Executor().warmUp(log: true);
   await di.init();
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([

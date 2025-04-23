@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:isolate';
 
 import '/domain/entities/substitutions.dart';
 import 'package:html/parser.dart' show parse;
@@ -34,8 +35,9 @@ class MixerExecutor {
       String key = '${mSubs.hashCode} ${text.hashCode}';
       result = i.cache[key];
       if (result == null) {
-        Cancelable task = Executor().execute(
-            arg1: Substitutions.toStringMap(sub.pairs), arg2: text, fun2: _mix);
+        Cancelable task = workerManager.execute<String>(
+            () => _mix(Substitutions.toStringMap(sub.pairs), text),
+            priority: WorkPriority.high);
         result = await task;
         i.cache[key] = result!;
       }
@@ -46,11 +48,12 @@ class MixerExecutor {
   }
 
   static Future<int> fibonacci(int input) async {
-    int result = await Executor().execute(arg1: 43, fun1: _fib);
+    int result = await workerManager.execute<int>(() => _fib(43),
+        priority: WorkPriority.high);
     return result;
   }
 
-  static String _mix(String subMap, String text, TypeSendPort port) {
+  static String _mix(String subMap, String text) {
     try {
       return Mixer(Substitutions.fromString(subMap)).mix(text);
     } catch (e) {
@@ -58,11 +61,11 @@ class MixerExecutor {
     }
   }
 
-  static int _fib(int n, TypeSendPort port) {
+  static int _fib(int n) {
     if (n < 2) {
       return n;
     }
-    return _fib(n - 2, port) + _fib(n - 1, port);
+    return _fib(n - 2) + _fib(n - 1);
   }
 }
 
