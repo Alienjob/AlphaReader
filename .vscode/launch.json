@@ -8,7 +8,15 @@
             "name": "src",
             "cwd": "src",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "app",
+            "cwd": "app",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart"
         },
         {
             "name": "src (profile mode)",
