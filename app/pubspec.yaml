@@ -26,15 +26,19 @@ dependencies:
   webview_flutter: ^4.11.0
   webview_flutter_android: ^4.4.1
   uuid: ^4.5.1
-  freezed_annotation: ^3.0.0
-  purchases_flutter: ^3.8.0
+  freezed_annotation: ^2.0.1 
+  purchases_flutter: ^8.7.3
   google_mobile_ads: ^6.0.0
   path: ^1.9.0
   permission_handler: ^12.0.0+1
   worker_manager: ^7.2.3
   shared_preferences_android: ^2.4.10
   shared_preferences_ios: ^2.1.1
-
+  fb2_parse:
+    git:
+      url: https://github.com/Alienjob/fb2_parse
+      ref: 0e60b27
+      
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,7 +46,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.3
   build_runner: ^2.4.15
-  freezed: ^3.0.6
+  freezed: ^2.0.1 
 
 flutter:
   uses-material-design: true

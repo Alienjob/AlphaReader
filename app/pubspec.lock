@@ -289,6 +289,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fb2_parse:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "0e60b27"
+      resolved-ref: "0e60b27e65ee04f517a40b8e5deba7b0c715dc40"
+      url: "https://github.com/Alienjob/fb2_parse"
+    source: git
+    version: "1.0.1"
   ffi:
     dependency: transitive
     description:
@@ -404,18 +413,18 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "6022db4c7bfa626841b2a10f34dd1e1b68e8f8f9650db6112dcdeeca45ca793c"
+      sha256: "59a584c24b3acdc5250bb856d0d3e9c0b798ed14a4af1ddb7dc1c7b41df91c9c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.6"
+    version: "2.5.8"
   freezed_annotation:
     dependency: "direct main"
     description:
       name: freezed_annotation
-      sha256: c87ff004c8aa6af2d531668b46a4ea379f7191dc6dfa066acd53d506da6e044b
+      sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "2.4.4"
   frontend_server_client:
     dependency: transitive
     description:
@@ -884,10 +893,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: b72592f7d6b1d4f52a8ea8fbb79f1ffe268a021d12ce01439f3c059c42b31498
+      sha256: "6492f3a13ab7462d6d89a7e67d032fc1d73cc963b541c4800c3b89fe2337a28d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.0"
+    version: "8.7.3"
   rxdart:
     dependency: transitive
     description:
