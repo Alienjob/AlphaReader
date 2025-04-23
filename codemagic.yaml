@@ -2,23 +2,14 @@ workflows:
   android-workflow:
     name: Android Release
     instance_type: mac_mini_m1
-    working_directory: src
+    working_directory: app
     environment:
       groups:
         - Default
-      vars:
-        JAVA_HOME: /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-        ANDROID_NDK_HOME: /Users/builder/programs/android-ndk-r25c
       flutter: 3.27.2
     scripts:
-      - name: Set up local.properties
+      - name: Get Flutter packages
         script: |
-          echo "flutter.sdk=$HOME/programs/flutter" > android/local.properties
-          echo "sdk.dir=$ANDROID_SDK_ROOT" >> android/local.properties
-          echo "ndk.dir=$ANDROID_NDK_HOME" >> android/local.properties
-      - name: Clean and Get Packages
-        script: |
-          flutter clean
           flutter pub get
       - name: Set up keystore
         script: |
@@ -34,19 +25,11 @@ workflows:
           EOF
       - name: Build AAB
         script: |
-          cd android
-          ./gradlew clean
-          cd ..
-          flutter build appbundle --release --verbose
+          flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
-      - build/**/outputs/**/mapping.txt
     publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: internal
         submit_as_draft: true
-    cache:
-      cache_paths:
-        - $HOME/.gradle/caches
-        - $HOME/.pub-cache
