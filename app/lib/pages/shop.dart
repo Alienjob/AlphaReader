@@ -3,6 +3,7 @@ import '/features/purchase/bloc/shop_bloc.dart';
 import '/features/purchase/purchase_repository.dart';
 import '/features/purchase/widgets/shop_item_tile.dart';
 import '/injection_container.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,19 +34,23 @@ class ShopForm extends StatelessWidget {
         final bloc = BlocProvider.of<ShopBloc>(context);
         if (state.isProcessing) return const CircularProgressIndicator();
         if (!state.data.available) return const Text('Магазин не доступен');
+        final repo = sl<IPurshaseRepository>() as RevenueCatPurshaseRepository;
+        final adFreePackage = repo.packages[adFreeID];
+        final fontsPackage = repo.packages[additionalFontsID];
+
         return SingleChildScrollView(
           child: Column(children: [
             ShopItemTile(
               status: state.data.adFree,
               title: 'Отсутствие рекламы в приложении',
-              price: '1\$',
+              price: adFreePackage?.storeProduct.priceString ?? '\$0.99',
               priceDescription: 'в месяц',
               handler: () => bloc.add(ShopEventBuy(adFreeID)),
             ),
             ShopItemTile(
               status: state.data.fonts,
               title: 'Множество шрифтов с различными начертаниями букв',
-              price: '1\$',
+              price: fontsPackage?.storeProduct.priceString ?? '\$1.99',
               priceDescription: 'навсегда',
               handler: () => bloc.add(ShopEventBuy(additionalFontsID)),
             ),

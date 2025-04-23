@@ -19,6 +19,11 @@ abstract class IPurshaseRepository {
 }
 
 class RevenueCatPurshaseRepository implements IPurshaseRepository {
+  String _formatPriceString(String? priceString) {
+    if (priceString == null) return '';
+    return priceString.replaceAll(' ', '');
+  }
+
   StoreData _storeData = StoreData.empty();
   Map<String, Package> packages = {};
   List<StreamController<StoreData>> listeners = [];

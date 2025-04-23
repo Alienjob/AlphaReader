@@ -112,21 +112,31 @@ class _PriceRow extends StatelessWidget {
   final String price;
   final String priceDescription;
 
+  String _formatDisplayPrice() {
+    if (price == '-.-') return price;
+
+    // Handle cases where currency symbol is before or after the number
+    final beforeMatch = RegExp(r'([¥€$£₹])\s*([\d.]+)').firstMatch(price);
+    final afterMatch = RegExp(r'([\d.]+)\s*([¥€$£₹])').firstMatch(price);
+
+    if (beforeMatch != null) {
+      return '${beforeMatch.group(1)} ${beforeMatch.group(2)}';
+    }
+    if (afterMatch != null) {
+      return '${afterMatch.group(1)} ${afterMatch.group(2)}';
+    }
+
+    // For placeholder prices with description
+    return '$price ${priceDescription.trim()}';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          price,
-          style: priceStyle,
-        ),
-        const SizedBox(width: 5),
-        Text(
-          priceDescription,
-          style: priceStyle,
-        ),
-      ],
+    return Center(
+      child: Text(
+        _formatDisplayPrice(),
+        style: priceStyle,
+      ),
     );
   }
 }
